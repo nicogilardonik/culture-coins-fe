@@ -27,11 +27,6 @@
                 </CButtonGroup>
               </CCol>
             </CRow>
-            <CRow>
-              <MainChartExample
-                style="height: 300px; max-height: 300px; margin-top: 40px"
-              />
-            </CRow>
           </CCardBody>
           <CCardFooter>
             <CRow :xs="{ cols: 1 }" :md="{ cols: 5 }" class="text-center">
@@ -275,14 +270,12 @@ import avatar3 from '@/assets/images/avatars/3.jpg'
 import avatar4 from '@/assets/images/avatars/4.jpg'
 import avatar5 from '@/assets/images/avatars/5.jpg'
 import avatar6 from '@/assets/images/avatars/6.jpg'
-import MainChartExample from './charts/MainChartExample'
 import WidgetsStatsA from './widgets/WidgetsStatsTypeA.vue'
 import WidgetsStatsD from './widgets/WidgetsStatsTypeD.vue'
 
 export default {
   name: 'Dashboard',
   components: {
-    MainChartExample,
     WidgetsStatsA,
     WidgetsStatsD,
   },
