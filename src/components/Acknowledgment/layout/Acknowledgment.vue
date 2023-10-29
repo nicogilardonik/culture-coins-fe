@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <h2>CREAR RECONOCIMIENTO</h2>
+    <h2>{{ title }}</h2>
   </div>
   
   
@@ -23,7 +23,7 @@ export default {
 
   data() {
     return {
-     
+      title:'New Acknowledgment' 
     };
   },
   mounted(){
