@@ -1,10 +1,10 @@
 <template>
-  <div class="recognition-form">
-    <h2>RECONOCIMIENTO</h2>
+  <div class="d-flex">
+    <h2>CREAR RECONOCIMIENTO</h2>
   </div>
   
-  <QuillEditor theme="snow" />
-
+  
+  <QuillEditor :toolbar="[ { size: [  false, 'large', ]},'bold', 'italic', 'underline'] " />
 
 </template>
 
