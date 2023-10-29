@@ -2,7 +2,7 @@ import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
-import Acknowledgment from '@/components/Acknowledgment/Acknowledgment.vue'
+import Acknowledgment from '@/components/Acknowledgment/layout/Acknowledgment.vue'
 
 const routes = [
   {
@@ -10,7 +10,7 @@ const routes = [
     name: 'Home',
     component: DefaultLayout,
     redirect: '/dashboard',
-    children: [
+    children: [ 
       {
         path: '/dashboard',
         name: 'Dashboard',

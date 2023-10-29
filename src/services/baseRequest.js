@@ -37,16 +37,6 @@ function createRequest(){
 
 let axiosInstance = createRequest();
 
-var reqConfig = {
-  // headers: {
-  //   'Content-Type': 'text/plain;charset=UTF-8'
-  // }
-};
-
-// axiosInstance.interceptors.request.use(async reqConfig => {
-
-//   return reqConfig;
-// });
 
 function armarUrl(controller, action, params) {
   let url = '/' + controller

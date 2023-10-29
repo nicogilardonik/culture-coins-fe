@@ -12,6 +12,7 @@
 
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import  AcknowledgmentService  from '@/components/Acknowledgment/services/acknowledgmentService.js';
 
 export default {
   name: 'Acknowledgment',
@@ -25,6 +26,10 @@ export default {
      
     };
   },
+  mounted(){
+    console.log(AcknowledgmentService);
+  },
+  
 }
 </script>
 
