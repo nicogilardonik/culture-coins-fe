@@ -1,25 +1,15 @@
 import axios from 'axios'
 
-const APP_SUB_PATH = process.env.VUE_APP_SUB_PATH;
+//const APP_SUB_PATH = process.env.VUE_APP_SUB_PATH;
 
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-function isBehindProxy(){
-  if(APP_SUB_PATH){
-    return true;
-  }
-  return false;
-}
 
 function createRequest(){
-  let baseURL = 'http://localhost:7090/api';
+  //let baseURL = 'http://localhost:7090/api';
+  let baseURL = 'http://localhost:3000/api/';
 
-  if(isBehindProxy()){
-    //baseURL = 'http://ute-roc-dev.apps.cap01.corp.ute.com.uy/iris/api';
-    //baseURL = `./${APP_SUB_PATH}/api`;
-    baseURL = `/${APP_SUB_PATH}/api`;
-  }
 
   let axiosObj = axios.create({
     //baseURL: API_BASE_URL,

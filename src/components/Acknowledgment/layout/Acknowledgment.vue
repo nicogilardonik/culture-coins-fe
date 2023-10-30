@@ -35,7 +35,7 @@ export default {
     };
   },
   mounted(){
-    console.log(AcknowledgmentService);
+    AcknowledgmentService.getAcknowledgment();
   },
   
 }
