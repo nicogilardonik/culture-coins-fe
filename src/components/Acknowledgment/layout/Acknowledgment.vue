@@ -4,7 +4,15 @@
   </div>
   
   
-  <QuillEditor :toolbar="[ { size: [  false, 'large', ]},'bold', 'italic', 'underline'] " />
+<QuillEditor :toolbar="[
+  { size: [  false, 'large', ]},
+  'bold',
+  'italic',
+  'underline',
+  { 'list': 'ordered'},
+  { 'list': 'bullet'},
+  //{ align: ['left', 'center', 'right'] },
+]" />
 
 </template>
 
