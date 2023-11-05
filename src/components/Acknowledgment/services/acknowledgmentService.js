@@ -1,14 +1,12 @@
-import Api from '@/services/baseRequest'
+//import Api from '@/services/baseRequest'
 
 class AcknowledgmentService {
 
-    async getAcknowledgment() {
+    async addAcknowledgment(data) {
         try {
-            
+            let x = data 
             //let test = await Api.get(`acknowledgment`)
-            let test = await Api.get(`reconocimineto`)
-            console.log(test);
-            return '';
+            return x;
         } catch (error) {
             console.error('Error al hacer test')
             throw error
