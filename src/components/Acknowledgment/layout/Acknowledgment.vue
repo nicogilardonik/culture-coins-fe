@@ -19,8 +19,10 @@
       'underline',
       { list: 'ordered' },
       { list: 'bullet' },
-      //{ align: ['left', 'center', 'right'] },
-    ]"  @update:content="updateContent" @editorChange="editorChange"
+    ]"
+    @update:content="updateContent"
+    @ready="onQuillReady"
+    ref="quillEditor"
   />
 
   <div v-if="isMobile" class="d-flex justify-content-center mt-4">
@@ -31,8 +33,8 @@
 <script>
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import  AcknowledgmentService  from '@/components/Acknowledgment/services/acknowledgmentService.js';
-import {Acknowledgment} from '@/components/Acknowledgment/model/Acknowledgment'
+import AcknowledgmentService from '@/components/Acknowledgment/services/acknowledgmentService.js';
+import { Acknowledgment } from '@/components/Acknowledgment/model/Acknowledgment';
 
 export default {
   name: 'Acknowledgment',
@@ -45,29 +47,35 @@ export default {
     return {
       title: 'New Acknowledgment',
       isMobile: window.innerWidth <= 768,
-      message: ''
-    }
+      message: '',
+      quillEditor: null, 
+    };
   },
   mounted() {
-    window.addEventListener('resize', this.checkWindowSize)
-    this.checkWindowSize()
+    window.addEventListener('resize', this.checkWindowSize);
+    this.checkWindowSize();
   },
   methods: {
     checkWindowSize() {
-      this.isMobile = window.innerWidth <= 768
+      this.isMobile = window.innerWidth <= 768;
     },
-    create(){
-      let model = new Acknowledgment(this.message);
-      AcknowledgmentService.addAcknowledgment(model);
+    create() {
+      if (this.quillEditor && this.quillEditor.root) {
+        const contentHTML = this.quillEditor.root.innerHTML;
+        let model = new Acknowledgment(contentHTML);
+        AcknowledgmentService.addAcknowledgment(model);
+      } else {
+        console.log('El editor Quill no está completamente cargado.');
+      }
     },
-    updateContent(data){
-        this.message = data.ops.shift().insert;
+    updateContent(data) {
+      this.message = data.ops.shift().insert;
     },
-    editorChange(data){
-      console.log(data)
-    }
+    onQuillReady(quill) {
+      this.quillEditor = quill;
+    },
   },
-}
+};
 </script>
 
 <style scoped></style>
