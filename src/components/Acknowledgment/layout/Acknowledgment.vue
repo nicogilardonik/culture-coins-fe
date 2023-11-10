@@ -11,6 +11,8 @@
     </div>
   </CRow>
 
+  <Multiselector ref="multiSelectorValues" @selected-values="selectedValues"/>
+
   <QuillEditor
     :toolbar="[
       { size: [false, 'large'] },
@@ -33,19 +35,22 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import  AcknowledgmentService  from '@/components/Acknowledgment/services/acknowledgmentService.js';
 import {Acknowledgment} from '@/components/Acknowledgment/model/Acknowledgment'
+import Multiselector from '@/components/Multiselector.vue'
 
 export default {
   name: 'Acknowledgment',
 
   components: {
     QuillEditor,
+    Multiselector
   },
 
   data() {
     return {
       title: 'New Acknowledgment',
       isMobile: window.innerWidth <= 768,
-      message: ''
+      message: '',
+      selectedValue:{}
     }
   },
   mounted() {
@@ -53,18 +58,56 @@ export default {
     this.checkWindowSize()
   },
   methods: {
+    validate(){
+        if(this.selectedValue.type == undefined || !this.selectedValue.values.length){
+          throw "Please select a group and values"
+        }
+    },
     checkWindowSize() {
       this.isMobile = window.innerWidth <= 768
     },
     create(){
-      let model = new Acknowledgment(this.message);
-      AcknowledgmentService.addAcknowledgment(model);
+      try {
+        this.getData()
+        this.validate();
+        let model = new Acknowledgment(this.message);
+        AcknowledgmentService.addAcknowledgment(model);
+        this.showSuccess("Acknowledgment created successfully");
+
+      } catch (error) {
+        this.showError(error);
+      }
+    },
+    getData(){ 
+      this.$refs.multiSelectorValues.emitSelectedValues();
     },
     updateContent(data){
         this.message = data.ops.shift().insert;
     },
     editorChange(data){
       console.log(data)
+    },
+    selectedValues(group,selectedValues){
+      this.selectedValue={
+        type:group,
+        values:selectedValues
+      }
+    },
+    showSuccess(text){
+      this.$swal.fire({
+        title: 'Success!',
+        text: text,
+        icon: 'success',
+        confirmButtonText: 'Ok'
+        });
+    },
+    showError(text){
+      this.$swal.fire({
+        title: 'Error!',
+        text: text,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+        });
     }
   },
 }
