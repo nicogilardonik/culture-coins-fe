@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     validate() {
-      if (this.message == '') {
+      if (this.message == '<p><br></p>') {
         throw 'Please enter a message'
       }
       if (this.selectedValue.type == undefined || !this.selectedValue.values.length ) {
