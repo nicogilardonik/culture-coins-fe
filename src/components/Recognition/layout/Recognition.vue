@@ -31,19 +31,19 @@
   />
 
   <div v-if="isMobile" class="d-flex justify-content-center mt-4">
-    <CButton color="primary" size="lg" @click="create">Create</CButton>
+    <CButton color="primary" size="sm" @click="create">Create</CButton>
   </div>
 </template>
 
 <script>
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import AcknowledgmentService from '@/components/Acknowledgment/services/acknowledgmentService.js'
-import { Acknowledgment } from '@/components/Acknowledgment/model/Acknowledgment'
+import RecognitionService from '@/components/Recognition/services/recognitionService'
+import { Recognition } from '@/components/Recognition/model/Recognition'
 import Multiselector from '@/components/Multiselector.vue'
 
 export default {
-  name: 'Acknowledgment',
+  name: 'Recognition',
 
   components: {
     QuillEditor,
@@ -52,7 +52,7 @@ export default {
 
   data() {
     return {
-      title: 'New Acknowledgment',
+      title: 'New Recognition',
       isMobile: window.innerWidth <= 768,
       message: '',
       quillEditor: null,
@@ -79,9 +79,9 @@ export default {
       try {
         this.getData()
         this.validate()
-        let model = new Acknowledgment(this.message)
-        AcknowledgmentService.addAcknowledgment(model)
-        this.showSuccess('Acknowledgment created successfully')
+        let model = new Recognition(this.message)
+        RecognitionService.addRecognition(model)
+        this.showSuccess('Recognition created successfully')
       } catch (error) {
         this.showError(error)
       }

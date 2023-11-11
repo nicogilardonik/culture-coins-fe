@@ -2,7 +2,7 @@ import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
-import Acknowledgment from '@/components/Acknowledgment/layout/Acknowledgment.vue'
+import Recognition from '@/components/Recognition/layout/Recognition.vue'
 
 const routes = [
   {
@@ -18,9 +18,9 @@ const routes = [
           import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
       },
       {
-        path: '/acknowledgment',
-        name: 'Acknowledgment',
-        component: Acknowledgment,
+        path: '/recognition',
+        name: 'Recognition',
+        component: Recognition,
       },
       {
         path: '/base',

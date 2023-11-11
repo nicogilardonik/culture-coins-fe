@@ -1,8 +1,8 @@
 //import Api from '@/services/baseRequest'
 
-class AcknowledgmentService {
+class RecognitionService {
 
-    async addAcknowledgment(data) {
+    async addRecognition(data) {
         try {
             let x = data 
             //let test = await Api.get(`acknowledgment`)
@@ -15,4 +15,4 @@ class AcknowledgmentService {
 
 }
 
-export default new AcknowledgmentService()
+export default new RecognitionService()

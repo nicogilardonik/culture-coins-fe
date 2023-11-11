@@ -1,4 +1,4 @@
-export class Acknowledgment {
+export class Recognition {
     constructor(message) {
       this.message = message,
       this.userTo = "nicolas",
@@ -6,7 +6,7 @@ export class Acknowledgment {
     }
   
     static fromJSON(json) {
-      return new Acknowledgment(json)
+      return new Recognition(json)
     }
   }
 

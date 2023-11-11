@@ -12,8 +12,8 @@ export default [
 
   {
     component: 'CNavItem',
-    name: 'Acknowledgment',
-    to: '/acknowledgment',
+    name: 'Recognition',
+    to: '/recognition',
     icon: 'cil-speedometer',
   },
 
