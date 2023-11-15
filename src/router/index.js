@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
 import Recognition from '@/components/Recognition/layout/Recognition.vue'
+import AskForHelp from '@/components/AskForHelp/layout/AskForHelp.vue'
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
         path: '/recognition',
         name: 'Recognition',
         component: Recognition,
+      },
+      {
+        path: '/ask-for-help',
+        name: 'Ask For Help',
+        component: AskForHelp,
       },
       {
         path: '/base',

@@ -16,6 +16,12 @@ export default [
     to: '/recognition',
     icon: 'cil-speedometer',
   },
+  {
+    component: 'CNavItem',
+    name: 'Ask for help',
+    to: '/ask-for-help',
+    icon: 'cil-speedometer',
+  },
 
   {
     component: 'CNavTitle',
