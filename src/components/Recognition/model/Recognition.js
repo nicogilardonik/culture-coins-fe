@@ -1,8 +1,10 @@
 export class Recognition {
-    constructor(message) {
-      this.message = message,
+    constructor(message, category, subCategory) {
       this.userTo = "nicolas",
-      this.userFrom = "joaquin"
+      this.userFrom = "joaquin",
+      this.message = message,
+      this.category = category,
+      this.subCategory = subCategory
     }
   
     static fromJSON(json) {

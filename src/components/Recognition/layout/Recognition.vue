@@ -79,7 +79,7 @@ export default {
       try {
         this.getData()
         this.validate()
-        let model = new Recognition(this.message)
+        let model = new Recognition(this.message, this.selectedValue.type, this.selectedValue.values)
         RecognitionService.addRecognition(model)
         this.showSuccess('Recognition created successfully')
       } catch (error) {
