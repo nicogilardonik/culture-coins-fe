@@ -82,7 +82,6 @@ export default {
     },
 
     getMessage(data) {
-      debugger
       this.message = data;
     },
 
