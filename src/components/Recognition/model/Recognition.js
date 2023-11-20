@@ -1,7 +1,7 @@
 export class Recognition {
     constructor(message, category, subCategory) {
-      this.userTo = "nicolas",
-      this.userFrom = "joaquin",
+      this.userTo = "joaquinbanchero610@hotmail.com",
+      this.userFrom = "nicolas",
       this.message = message,
       this.category = category,
       this.subCategory = subCategory

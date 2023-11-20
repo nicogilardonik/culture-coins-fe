@@ -1,12 +1,11 @@
-//import Api from '@/services/baseRequest'
+import Api from '@/services/baseRequest'
 
 class RecognitionService {
 
     async addRecognition(data) {
         try {
-            let x = data 
-            //let test = await Api.get(`acknowledgment`)
-            return x;
+            const recognition = await Api.post(`recognition`, data)
+            return recognition;
         } catch (error) {
             console.error('Error al hacer test')
             throw error
