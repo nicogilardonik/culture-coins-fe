@@ -18,8 +18,8 @@ export default [
   },
   {
     component: 'CNavItem',
-    name: 'Ask for help',
-    to: '/ask-for-help',
+    name: 'Ask your community',
+    to: '/ask-your-community',
     icon: 'cil-speedometer',
   },
 

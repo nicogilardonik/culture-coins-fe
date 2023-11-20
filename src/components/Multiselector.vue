@@ -108,7 +108,7 @@
   }
   
   .checkbox-label {
-    user-select: none; /* Esto mejora la experiencia del usuario al evitar selecciones accidentales de texto al hacer clic */
+    user-select: none; 
   }
   </style>
   
