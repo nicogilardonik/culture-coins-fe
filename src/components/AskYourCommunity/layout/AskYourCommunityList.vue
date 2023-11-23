@@ -48,12 +48,8 @@ export default {
     return {
       title: 'Requests',
       isMobile: window.innerWidth <= 768,
-      requests: [{_id: 1, title: 'test',message:'<p><span class="ql-size-large">HOLA</span></p><p><br></p><p><strong>Esta es una prueba para saber si funciona bien.</strong></p>', createdAt: '2021-05-05T12:00:00.000Z', updatedAt: '2021-05-05T12:00:00.000Z'}
-      ,{_id: 2, title: 'test',message:'<p>test 2</p>', createdAt: '2021-05-05T12:00:00.000Z', updatedAt: '2021-05-05T12:00:00.000Z'}
-      ,{_id: 3, title: 'test',message:'<p>test 3</p>', createdAt: '2021-05-05T12:00:00.000Z', updatedAt: '2021-05-05T12:00:00.000Z'}
-      ,{_id: 4, title: 'test',message:'<p>test 4</p>', createdAt: '2021-05-05T12:00:00.000Z', updatedAt: '2021-05-05T12:00:00.000Z'}
-    ],
-    user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' } //TODO agregarlo en el store
+      requests: [],
+      user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' } //TODO agregarlo en el store
     }
   },
 

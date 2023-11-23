@@ -77,7 +77,7 @@ export default {
       try {
         this.getData();
         this.validate();
-        let model = new AskYourCommunity(this.title, this.message,this.selectedPriority,this.user.email);
+        let model = new AskYourCommunity(this.titleSupport, this.message,this.selectedPriority,this.user.email);
         await AskYourCommunityService.addRequest(model);
         this.showSuccess('Request created successfully');
       } catch (error) {
