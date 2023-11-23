@@ -1,5 +1,6 @@
 export class AskYourCommunity {
-    constructor(message,priority,user) {
+    constructor(title, message, priority, user) {
+      this.title= title;
       this.message = message,
       this.priority = priority,
       this.userFrom = user

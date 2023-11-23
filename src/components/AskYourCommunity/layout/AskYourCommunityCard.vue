@@ -53,7 +53,7 @@
 
                     <CCol sm="6" md="6" lg="4" xl="2" class="">
                         <div>
-                            <strong>Status: </strong> {{ getStatus() }}
+                            <strong>Status: </strong> {{ getStatus() }} 
                         </div>
                     </CCol>
 
@@ -64,7 +64,7 @@
                 <CRow>
                     <CCol sm="12" md="6" class="custom-font-size">
                         <div v-if="data.updatedBy"><strong>Apdated at : </strong> {{ data.updatedAt }}</div>
-                        <div v-else ><strong>Created at : </strong> {{ data.createdAt }}</div>
+                        <div v-else ><strong>Created at : </strong> {{ formatDate(data.createdAt) }}</div>
                     </CCol>
                 </CRow>
             </CCardFooter>
@@ -198,9 +198,7 @@ export default {
             const day = d.getDate().toString().padStart(2, '0');
             const month = (d.getMonth() + 1).toString().padStart(2, '0');
             const year = d.getFullYear();
-            const hours = d.getHours().toString().padStart(2, '0');
-            const minutes = d.getMinutes().toString().padStart(2, '0');
-            return `${day}/${month}/${year} ${hours}:${minutes}`;
+            return `${day}/${month}/${year}`;
         },
         getStatus() {
             if (this.data.status === 'active') {
@@ -208,7 +206,7 @@ export default {
             } else if (this.data.status === 'inactive') {
                 return 'Completed';
             } else {
-                return 'Deleted';
+                return 'Pending';
             }
         },
     },

@@ -64,7 +64,7 @@ export default {
         { value: 'within-week', label: 'Within a Week' },
       ],
       selectedPriority: '', 
-      user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' }
+      user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' } //TODO agregarlo en el store
     }
   },
   mounted() {
@@ -77,7 +77,7 @@ export default {
       try {
         this.getData();
         this.validate();
-        let model = new AskYourCommunity(this.message,this.selectedPriority,this.user.email);
+        let model = new AskYourCommunity(this.title, this.message,this.selectedPriority,this.user.email);
         await AskYourCommunityService.addRequest(model);
         this.showSuccess('Request created successfully');
       } catch (error) {
