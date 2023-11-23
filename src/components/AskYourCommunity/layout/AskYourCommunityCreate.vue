@@ -80,6 +80,10 @@ export default {
         let model = new AskYourCommunity(this.titleSupport, this.message,this.selectedPriority,this.user.email);
         await AskYourCommunityService.addRequest(model);
         this.showSuccess('Request created successfully');
+        let currentRoute = this.$router.currentRoute;
+        let currentPath = currentRoute.value.fullPath;
+        currentPath = currentPath.replace('/create', '');
+        this.$router.push(`${currentPath}/list`);
       } catch (error) {
         console.log(error);
         this.showError(error.error ?? error);
