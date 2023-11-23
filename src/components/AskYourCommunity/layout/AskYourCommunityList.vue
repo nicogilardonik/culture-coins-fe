@@ -46,7 +46,7 @@ export default {
 
   data() {
     return {
-      title: 'Requests',
+      title: 'Your Requests',
       isMobile: window.innerWidth <= 768,
       requests: [],
         user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' } //TODO agregarlo en el store
