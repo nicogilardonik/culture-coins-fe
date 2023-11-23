@@ -1,24 +1,31 @@
 <template>
   <QuillEditor
-    :toolbar="[
-      { size: [false, 'large'] },
-      'bold',
-      'italic',
-      'underline',
-      { list: 'ordered' },
-      { list: 'bullet' },
-    ]"
-    @update:content="updateContent"
-    @ready="onQuillReady"
-    ref="quillEditor"
-  />
+    :toolbar="readOnly ? []: [ { size: [false, 'large'] }, 'bold', 'italic','underline', { list: 'ordered' }, { list: 'bullet' },]"
+     @update:content="updateContent" @ready="onQuillReady"  :content="value" :contentType="readOnly || editing ? 'html' :'text'"  :readOnly="readOnly" ref="quillEditor"/>
 </template>
 <script>
 import { QuillEditor } from '@vueup/vue-quill'
 
 export default {
   name: 'CustomEditor',
-  emits: ['message'],
+  emits: ['get-message'],
+
+  props: {
+    value: {
+      type: String,
+      default: '',
+    },
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
+    editing: {
+      type: Boolean,
+      default: false,
+    },
+  },
+    
+
   components: {
     QuillEditor,
   },
@@ -32,7 +39,9 @@ export default {
 
   methods: {
     updateContent(data) {
-      this.message = data.ops.shift().insert;
+      if (data && data.ops && data.ops.length > 0) {
+    this.message = data.ops.shift().insert;
+  }
     },
     onQuillReady(quill) {
       this.quillEditor = quill;

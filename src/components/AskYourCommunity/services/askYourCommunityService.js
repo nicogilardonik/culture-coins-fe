@@ -12,6 +12,16 @@ class AskYourCommunityService {
         }
     }
 
+    async getRequests() {
+        try {
+            let response = await Api.get('SupportRequest');
+            return response;
+        } catch (error) {
+            console.error('Error al hacer test')
+            throw error
+        }
+    }
+
 }
 
 export default new AskYourCommunityService()
