@@ -19,7 +19,7 @@ export default [
   {
     component: 'CNavItem',
     name: 'Ask your community',
-    to: '/ask-your-community',
+    to: '/ask-your-community/list',
     icon: 'cil-speedometer',
   },
 

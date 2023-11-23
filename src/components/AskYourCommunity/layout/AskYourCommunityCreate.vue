@@ -9,7 +9,12 @@
     </div>
   </CRow>
   
-  <CCol xs="12" md="5">
+  <CRow class="">
+    <CCol xs="6">
+    <CFormInput v-model="titleSupport" type="text"  placeholder="Title" aria-label="lg input example"/>
+  </CCol>
+
+    <CCol xs="6">
     <!-- <label for="prioritySelect" class="form-label">Select Priority</label> -->
     <div class="select-wrapper">
       <select v-model="selectedPriority" class="custom-select">
@@ -20,6 +25,12 @@
       </select>
     </div>
   </CCol>
+
+  
+
+  </CRow>
+
+  
 
   <CustomEditor @get-message="getMessage" ref="customEditor" />
 
@@ -32,9 +43,10 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import  CustomEditor from '@/components/CustomEditor.vue';
 import {AskYourCommunity} from '@/components/AskYourCommunity/model/AskYourCommunity'
+import AskYourCommunityService from '@/components/AskYourCommunity/services/askYourCommunityService'
 
 export default {
-  name: 'AskYourCommunity',
+  name: 'AskYourCommunityCreate',
 
   components: {
     CustomEditor,
@@ -43,6 +55,7 @@ export default {
   data() {
     return {
       title: 'Ask Your Community',
+      titleSupport:'',
       message: null,
       isMobile: window.innerWidth <= 768,
       quillEditor: null,
@@ -53,7 +66,7 @@ export default {
         { value: 'within-week', label: 'Within a Week' },
       ],
       selectedPriority: '', 
-      user: {name: 'Nico'},
+      user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' }
     }
   },
   mounted() {
@@ -62,25 +75,34 @@ export default {
   },
   methods: {
 
-    create() {
+    async create() {
       try {
         this.getData();
         this.validate();
-        let model = new AskYourCommunity(this.message,this.selectedPriority,this.user.name);
-        console.log(model);
-        this.showSuccess('Recognition created successfully');
+        let model = new AskYourCommunity(this.message,this.selectedPriority,this.user.email);
+        await AskYourCommunityService.addRequest(model);
+        this.showSuccess('Request created successfully');
       } catch (error) {
-        this.showError(error);
+        console.log(error);
+        this.showError(error.error ?? error);
       }
     },
 
     validate() {
+
+      if(this.titleSupport==''){
+        throw 'Please enter a title';
+      }
+
+      if (!this.selectedPriority) {
+         throw 'Please select a priority';
+      }
+
       if (this.message == '<p><br></p>' || !this.message) {
         throw 'Please enter a message';
       }
-      if (!this.selectedPriority) {
-         throw 'Please select a priority';
-        }
+    
+      
     },
     checkWindowSize() {
       this.isMobile = window.innerWidth <= 768

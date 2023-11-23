@@ -3,7 +3,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
 import Recognition from '@/components/Recognition/layout/Recognition.vue'
-import AskYourCommunity from '@/components/AskYourCommunity/layout/AskYourCommunity.vue'
+import AskYourCommunityList from '@/components/AskYourCommunity/layout/AskYourCommunityList.vue'
+import AskYourCommunityCreate from '@/components/AskYourCommunity/layout/AskYourCommunityCreate.vue'
 
 const routes = [
   {
@@ -24,9 +25,19 @@ const routes = [
         component: Recognition,
       },
       {
-        path: '/ask-your-community',
-        name: 'Ask your community',
-        component: AskYourCommunity,
+        path: '/ask-your-community/list',
+        name: 'Ask your community list',
+        component: AskYourCommunityList,
+      },
+      {
+        path: '/ask-your-community/create',
+        name: 'Ask your community create',
+        component: AskYourCommunityCreate,
+      },
+      {
+        path: '/ask-your-community/edit/:id',
+        name: 'Ask your community edit',
+        component: AskYourCommunityCreate,
       },
       {
         path: '/base',

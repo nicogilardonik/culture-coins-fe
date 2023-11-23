@@ -29,7 +29,8 @@ let axiosInstance = createRequest();
 
 
 function armarUrl(controller, action, params) {
-  let url = '/' + controller
+  
+  let url =  '/' + controller
   if (action) url += '/' + action
   if (params) {
     if (Array.isArray(params)) {
