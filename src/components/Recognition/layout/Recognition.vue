@@ -7,7 +7,7 @@
       :fnButton="create"
       :textButton="'Create'"
       :requiredButton="true"
-      :action="editing ? 'save' : 'create'"
+      action='create'
       :requiredCancelButton="true"
       :fnCancelButton="fnCancelButton"
     />

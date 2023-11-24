@@ -14,7 +14,7 @@ class AskYourCommunityService {
 
     async getRequests(email) {
         try {
-            let response = await Api.get(`supportRequest/${email}`);
+            let response = await Api.get(`supportRequest/requests/${email}`);
             return response;
         } catch (error) {
             console.error('Error al hacer get')
@@ -24,7 +24,7 @@ class AskYourCommunityService {
 
     async getRequestById(id) {
         try {
-            let response = await Api.get(`supportRequest/${id}`);
+            let response = await Api.get(`supportRequest/request/${id}`);
             return response;
         } catch (error) {
             console.error('Error al hacer get por id')
@@ -32,7 +32,7 @@ class AskYourCommunityService {
         }
     }
 
-    async editRequest(id, data) {
+    async updateRequest(id, data) {
         try {
             let response = await Api.put(`supportRequest/edit/${id}`, data);
             return response;

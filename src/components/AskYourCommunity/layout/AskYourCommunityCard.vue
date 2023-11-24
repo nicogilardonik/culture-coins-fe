@@ -39,10 +39,10 @@
                 <CRow>
                     <CCol sm="6" md="6" lg="8" xl="10">
                         <div>                         
-                            <!-- <div class="custom-display">
+                            <div class="custom-display">
                                 <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
-                            </div> -->
-                            <div class="" ref="requestMessage"></div>
+                            </div>
+                            <!-- <div class="" ref="requestMessage"></div> -->
                             
                             <br>
                         </div>
@@ -60,8 +60,10 @@
             <CCardFooter class="pt-0 pb-0">
                 <CRow>
                     <CCol sm="12" md="6" class="custom-font-size">
-                        <div v-if="data.updatedBy"><strong>Apdated at : </strong> {{ data.updatedAt }}</div>
-                        <div v-else ><strong>Created at : </strong> {{ formatDate(data.createdAt) }}</div>
+                        <div><strong>Created at : </strong> {{ formatDate(data.createdAt) }}</div>
+                    </CCol>
+                    <CCol v-if="data.updatedAt" sm="12" md="6" class="custom-font-size d-flex justify-content-end">
+                        <div><strong>Apdated at : </strong> {{ formatDate(data.updatedAt) }}</div>
                     </CCol>
                 </CRow>
             </CCardFooter>
@@ -73,7 +75,7 @@
 import { IconPencil, IconTrash} from '@tabler/icons-vue';
 import { cilMediaPlay, cilPencil, cilTrash } from '@coreui/icons';
 import {IconX } from '@tabler/icons-vue';
-//import  CustomEditor from '@/components/CustomEditor.vue';
+import  CustomEditor from '@/components/CustomEditor.vue';
 
 export default {
 
@@ -85,7 +87,7 @@ export default {
         IconPencil,
         IconTrash,
         IconX,
-       // CustomEditor
+       CustomEditor
     },
     props: {
         data: {
@@ -107,7 +109,7 @@ export default {
     mounted() {
         this.adjustMaxLength();
         window.addEventListener('resize', this.adjustMaxLength);
-        this.$refs.requestMessage.innerHTML = this.data.message;
+       // this.$refs.requestMessage.innerHTML = this.data.message;
     },
 
 

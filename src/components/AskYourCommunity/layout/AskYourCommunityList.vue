@@ -85,11 +85,11 @@ export default {
       }
     },
 
-    handleRequestDeleted(id) {
+    async handleRequestDeleted(id) {
       try {
-        AskYourCommunityService.deleteRequest(id)
-        this.showSuccess('Request deleted successfully')
-        this.getRequests(this.user.email)
+       await AskYourCommunityService.deleteRequest(id);
+        this.showSuccess('Request deleted successfully');
+        this.getRequests(this.user.email);
       } catch (error) {
         console.log(error)
         this.showError(error.Error ?? error)

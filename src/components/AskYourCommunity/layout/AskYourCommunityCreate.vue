@@ -12,7 +12,7 @@
       :fnCancelButton="fnCancelButton"
     />
 
-      <!-- <div
+    <!-- <div
         v-if="!isMobile"
         class="d-flex justify-content-end position-absolute create-btn mb-3"
       >
@@ -52,7 +52,15 @@
     </CCol>
   </CRow>
 
-  <CustomEditor @get-message="getMessage" ref="customEditor" />
+  <!-- <div class="custom-display">
+                                <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
+                            </div> -->
+  <div v-if="editing">
+    <CustomEditor @get-message="getMessage" :value="message" :editing="true" ref="customEditor" />
+  </div>
+  <div v-else>
+    <CustomEditor @get-message="getMessage" ref="customEditor" />
+  </div>
 
   <div v-if="isMobile" class="d-flex justify-content-center mt-4">
     <CButton color="primary" size="sm" @click="editing ? update() : create()">{{
@@ -106,8 +114,7 @@ export default {
   methods: {
     async getRequest(requestId) {
       try {
-        let response = await AskYourCommunityService.getRequestById(requestId)
-        let request = response.data
+        let request = await AskYourCommunityService.getRequestById(requestId)
         this.titleSupport = request.title
         this.message = request.message
         this.selectedPriority = request.priority
@@ -127,11 +134,12 @@ export default {
           this.selectedPriority,
           this.user.email,
         )
-        await AskYourCommunityService.addRequest(model)
-        this.showSuccess('Request created successfully')
+        await AskYourCommunityService.addRequest(model);
+        this.showSuccess('Request created successfully');
+        this.redirectToList('create');
       } catch (error) {
-        console.log(error)
-        this.showError(error.error ?? error)
+        console.log(error);
+        this.showError(error.error ?? error);
       }
     },
     async update() {
@@ -148,8 +156,8 @@ export default {
           this.$route.params.requestId,
           model,
         )
-        this.showSuccess('Request updated successfully')
-        this.redirectToList('create')
+        this.showSuccess('Request updated successfully');
+        this.redirectToList('edit');
       } catch (error) {
         console.log(error)
         this.showError(error.error ?? error)
@@ -174,7 +182,7 @@ export default {
     },
 
     getData() {
-      this.$refs.customEditor.getMessage()
+      this.$refs.customEditor.getMessage();
     },
 
     getMessage(data) {
@@ -200,8 +208,12 @@ export default {
     redirectToList(from) {
       let currentRoute = this.$router.currentRoute
       let currentPath = currentRoute.value.fullPath
-      currentPath = currentPath.replace(`/${from}`, '')
-      this.$router.push(`${currentPath}/list`)
+      let index = currentPath.indexOf(`/${from}`)
+
+      if (index !== -1) {
+        currentPath = currentPath.substring(0, index)
+        this.$router.push(`${currentPath}/list`)
+      }
     },
     setTitle() {
       this.$store.commit('setPageTitle', this.title)
