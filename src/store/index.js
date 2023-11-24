@@ -4,6 +4,8 @@ export default createStore({
   state: {
     sidebarVisible: '',
     sidebarUnfoldable: false,
+    userProfile: {},
+    pageTitle: null
   },
   mutations: {
     toggleSidebar(state) {
@@ -15,6 +17,12 @@ export default createStore({
     updateSidebarVisible(state, payload) {
       state.sidebarVisible = payload.value
     },
+    setUserProfile(state, userProfile) {
+      state.userProfile = userProfile
+    },
+    setPageTitle(state, pageTitle){
+      state.pageTitle = pageTitle;
+    }
   },
   actions: {},
   modules: {},

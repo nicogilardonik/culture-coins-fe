@@ -35,7 +35,7 @@ const routes = [
         component: AskYourCommunityCreate,
       },
       {
-        path: '/ask-your-community/edit/:id',
+        path: '/ask-your-community/edit/:requestId',
         name: 'Ask your community edit',
         component: AskYourCommunityCreate,
       },

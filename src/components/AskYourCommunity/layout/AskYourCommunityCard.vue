@@ -22,13 +22,13 @@
                 <div class="justify-content-center align-self-center">
                     <CTooltip  content="Edit" placement="top">
                         <template #toggler="{ on }">
-                            <IconPencil color="#f39c12" @click="edit(data.id)" size="1.8rem" class="m-1 custom-cursor"
+                            <IconPencil color="#f39c12" @click="edit(data._id)" size="1.8rem" class="m-1 custom-cursor"
                                 data-toggle="tooltip" data-placement="top" title="Tooltip on top" v-on="on" />
                         </template>
                     </CTooltip>
                     <CTooltip  content="Delete" placement="top">
                         <template #toggler="{ on }">
-                            <IconTrash color="#e74c3c" @click="deleteTemplate(data.id, data.title)" size="1.8rem"
+                            <IconTrash color="#e74c3c" @click="deleteTemplate(data._id, data.title)" size="1.8rem"
                                 class="m-1 custom-cursor" data-toggle="tooltip" data-placement="top" title="Tooltip on top"
                                 v-on="on" />
                         </template>
@@ -38,14 +38,11 @@
             <CCardBody>
                 <CRow>
                     <CCol sm="6" md="6" lg="8" xl="10">
-                        <div>
-                            <strong>Message: </strong>
-                            <div class="custom-display">
-                            
+                        <div>                         
+                            <!-- <div class="custom-display">
                                 <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
-                                
-                                
-                            </div>
+                            </div> -->
+                            <div class="" ref="requestMessage"></div>
                             
                             <br>
                         </div>
@@ -76,7 +73,7 @@
 import { IconPencil, IconTrash} from '@tabler/icons-vue';
 import { cilMediaPlay, cilPencil, cilTrash } from '@coreui/icons';
 import {IconX } from '@tabler/icons-vue';
-import  CustomEditor from '@/components/CustomEditor.vue';
+//import  CustomEditor from '@/components/CustomEditor.vue';
 
 export default {
 
@@ -88,7 +85,7 @@ export default {
         IconPencil,
         IconTrash,
         IconX,
-        CustomEditor
+       // CustomEditor
     },
     props: {
         data: {
@@ -110,6 +107,7 @@ export default {
     mounted() {
         this.adjustMaxLength();
         window.addEventListener('resize', this.adjustMaxLength);
+        this.$refs.requestMessage.innerHTML = this.data.message;
     },
 
 

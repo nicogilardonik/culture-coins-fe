@@ -1,17 +1,16 @@
 <template>
   <CRow
-    class="m-4 d-flex justify-content-center align-items-center position-relative"
+    class="d-flex justify-content-center align-items-center position-relative"
   >
-    <CCol xs="12" class="d-flex justify-content-center">
-      <h1 class="text-center mb-4">{{ title }}</h1>
-    </CCol>
-
-    <div
-      v-if="!isMobile"
-      class="d-flex justify-content-end position-absolute create-btn"
-    >
-      <CButton color="primary" size="lg" @click="create"> Create</CButton>
-    </div>
+    <CustomHeader
+      class="mb-1"
+      :fnButton="create"
+      :textButton="'Create'"
+      :requiredButton="true"
+      :action="editing ? 'save' : 'create'"
+      :requiredCancelButton="true"
+      :fnCancelButton="fnCancelButton"
+    />
   </CRow>
 
   <Multiselector ref="multiSelectorValues" @selected-values="selectedValues" />
@@ -29,6 +28,7 @@ import RecognitionService from '@/components/Recognition/services/recognitionSer
 import { Recognition } from '@/components/Recognition/model/Recognition'
 import Multiselector from '@/components/Multiselector.vue'
 import CustomEditor from '@/components/CustomEditor.vue'
+import CustomHeader from '@/components/CustomHeader.vue'
 
 export default {
   name: 'Recognition',
@@ -36,6 +36,7 @@ export default {
   components: {
     CustomEditor,
     Multiselector,
+    CustomHeader,
   },
 
   data() {
@@ -49,6 +50,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.checkWindowSize)
     this.checkWindowSize()
+    this.setTitle()
   },
   methods: {
     validate() {
@@ -67,11 +69,11 @@ export default {
     },
     create() {
       try {
-        this.getData();
-        this.validate();    
-          let model = new Recognition(this.message);
-          RecognitionService.addRecognition(model);
-          this.showSuccess('Recognition created successfully');
+        this.getData()
+        this.validate()
+        let model = new Recognition(this.message)
+        RecognitionService.addRecognition(model)
+        this.showSuccess('Recognition created successfully')
       } catch (error) {
         this.showError(error)
       }
@@ -82,7 +84,7 @@ export default {
     },
 
     getMessage(data) {
-      this.message = data;
+      this.message = data
     },
 
     selectedValues(group, selectedValues) {
@@ -106,6 +108,14 @@ export default {
         icon: 'error',
         confirmButtonText: 'Ok',
       })
+    },
+    setTitle() {
+      this.$store.commit('setPageTitle', this.title)
+    },
+    fnCancelButton() {
+      this.$router.replace(
+        this.$route.path.replace(/(create|edit)($|\/.*)/i, 'list'),
+      )
     },
   },
 }

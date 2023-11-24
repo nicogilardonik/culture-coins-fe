@@ -1,16 +1,18 @@
 <template>
   <CRow
-    class="m-4 d-flex justify-content-center align-items-center position-relative"
+    class="d-flex justify-content-center align-items-center position-relative"
   >
-    <CCol xs="6" class="d-flex justify-content-end">
-      <h1 class="text-center mb-4">{{ title }}</h1>
-    </CCol>
-
-    <CCol xs="6" class="d-flex justify-content-end">
-      <CButton color="primary" :size="buttonSize" @click="create"
-        >Create</CButton
-      >
-    </CCol>
+    <CustomHeader
+      v-if="requests.length > 0"
+      :fnButton="create"
+      :filters="filters"
+      textButton="New Request"
+      :requiredButton="true"
+      :requiredFilter="requests.length > 0"
+      :items="requests"
+      @filter-changed="filterChanged"
+      action="create"
+    />
 
     <div v-if="requests.length">
       <CRow>
@@ -24,24 +26,22 @@
       </CRow>
     </div>
 
-    <div v-else class="campaign-img-section mt-2">
-      <div class="image-with-text">
-        <h2 class="image-text">NO HAY REQUEST</h2>
-      </div>
+    <div v-else class="d-flex justify-content-center">
+      <h2 class="image-text">You have no request created</h2>
     </div>
   </CRow>
 </template>
 <script>
-
 import AskYourCommunityCard from '@/components/AskYourCommunity/layout/AskYourCommunityCard.vue'
 import AskYourCommunityService from '@/components/AskYourCommunity/services/askYourCommunityService'
-
+import CustomHeader from '@/components/CustomHeader.vue'
 
 export default {
   name: 'AskYourCommunityList',
 
   components: {
     AskYourCommunityCard,
+    CustomHeader,
   },
 
   data() {
@@ -49,7 +49,11 @@ export default {
       title: 'Your Requests',
       isMobile: window.innerWidth <= 768,
       requests: [],
-        user: {  email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' } //TODO agregarlo en el store
+      filters: [
+                { name: 'By title', value: 'title' },
+                { name: 'By date', value: 'createdAt' }
+            ],
+      user: { email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' }, //TODO agregarlo en el store
     }
   },
 
@@ -60,34 +64,39 @@ export default {
   },
 
   mounted() {
-    this.getRequests(this.user.email);
+    this.getRequests(this.user.email)
+    this.setTitle()
   },
 
   methods: {
     create() {
-      let currentRoute = this.$router.currentRoute;
-      let currentPath = currentRoute.value.fullPath;
-      currentPath = currentPath.replace('/list', '');
-      this.$router.push(`${currentPath}/create`);
+      this.redirect('create')
     },
 
     async getRequests(email) {
       try {
-        let response = await AskYourCommunityService.getRequests(email);
-      if (response) {
-        this.requests = response;
-      }
+        let response = await AskYourCommunityService.getRequests(email)
+        if (response) {
+          this.requests = response
+        }
       } catch (error) {
-        console.log(error);
-        this.showError(error.Error ?? error);
+        console.log(error)
+        this.showError(error.Error ?? error)
       }
     },
 
-    handleRequestDeleted(id){
-      console.log('delete',id);
+    handleRequestDeleted(id) {
+      try {
+        AskYourCommunityService.deleteRequest(id)
+        this.showSuccess('Request deleted successfully')
+        this.getRequests(this.user.email)
+      } catch (error) {
+        console.log(error)
+        this.showError(error.Error ?? error)
+      }
     },
-    handleRequestEdit(id){
-      console.log('edit',id);
+    handleRequestEdit(id) {
+      this.redirect('edit', id)
     },
     showSuccess(text) {
       this.$swal.fire({
@@ -95,7 +104,7 @@ export default {
         text: text,
         icon: 'success',
         confirmButtonText: 'Ok',
-      });
+      })
     },
     showError(text) {
       this.$swal.fire({
@@ -103,8 +112,24 @@ export default {
         text: text,
         icon: 'error',
         confirmButtonText: 'Ok',
-      });
-    }
+      })
+    },
+    redirect(to, id) {
+      let currentRoute = this.$router.currentRoute
+      let currentPath = currentRoute.value.fullPath
+      currentPath = currentPath.replace('/list', '')
+      if (id) {
+        this.$router.push(`${currentPath}/${to}/${id}`)
+      } else {
+        this.$router.push(`${currentPath}/${to}`)
+      }
+    },
+    setTitle() {
+      this.$store.commit('setPageTitle', this.title)
+    },
+    filterChanged(sortedData) {
+      this.requests = sortedData;
+    },
   },
 }
 </script>
