@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import RecognitionService from '@/components/Recognition/services/recognitionService'
-import { Recognition } from '@/components/Recognition/model/Recognition'
-import Multiselector from '@/components/Multiselector.vue'
-import CustomEditor from '@/components/CustomEditor.vue'
-import CustomHeader from '@/components/CustomHeader.vue'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import RecognitionService from '@/components/Recognition/services/recognitionService';
+import { Recognition } from '@/components/Recognition/model/Recognition';
+import Multiselector from '@/components/Multiselector.vue';
+import CustomEditor from '@/components/CustomEditor.vue';
+import CustomHeader from '@/components/CustomHeader.vue';
 
 export default {
   name: 'Recognition',
@@ -36,7 +36,7 @@ export default {
       isMobile: window.innerWidth <= 768,
       message: '',
       selectedValue: {},
-    }
+    };
   },
   mounted() {
     window.addEventListener('resize', this.checkWindowSize);
@@ -103,10 +103,10 @@ export default {
     fnCancelButton() {
       this.$router.replace(
         this.$route.path.replace(/(create|edit)($|\/.*)/i, ''),
-      )
+      );
     },
   },
-}
+};
 </script>
 
 <style scoped></style>

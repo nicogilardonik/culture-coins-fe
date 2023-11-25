@@ -1,16 +1,8 @@
 <template>
-  <CRow
-    class="d-flex justify-content-center align-items-center position-relative"
-  >
-    <CustomHeader
-      class="mb-1"
-      :fnButton="editing ? update : create"
-      :textButton="editing ? 'Save' : 'Create'"
-      :requiredButton="true"
-      :action="editing ? 'save' : 'create'"
-      :requiredCancelButton="true"
-      :fnCancelButton="fnCancelButton"
-    />
+  <CRow class="d-flex justify-content-center align-items-center position-relative">
+    <CustomHeader class="mb-1" :fnButton="editing ? update : create" :textButton="editing ? 'Save' : 'Create'"
+      :requiredButton="true" :action="editing ? 'save' : 'create'" :requiredCancelButton="true"
+      :fnCancelButton="fnCancelButton" />
 
     <!-- <div
         v-if="!isMobile"
@@ -27,12 +19,7 @@
 
   <CRow class="">
     <CCol xs="6">
-      <CFormInput
-        v-model="titleSupport"
-        type="text"
-        placeholder="Title"
-        aria-label="lg input example"
-      />
+      <CFormInput v-model="titleSupport" type="text" placeholder="Title" aria-label="lg input example" />
     </CCol>
 
     <CCol xs="6">
@@ -40,11 +27,7 @@
       <div class="select-wrapper">
         <select v-model="selectedPriority" class="custom-select">
           <option disabled value="">Select priority</option>
-          <option
-            v-for="option in priorityOptions"
-            :key="option.value"
-            :value="option.value"
-          >
+          <option v-for="option in priorityOptions" :key="option.value" :value="option.value">
             {{ option.label }}
           </option>
         </select>
@@ -70,11 +53,11 @@
 </template>
 
 <script>
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import CustomEditor from '@/components/CustomEditor.vue'
-import { AskYourCommunity } from '@/components/AskYourCommunity/model/AskYourCommunity'
-import AskYourCommunityService from '@/components/AskYourCommunity/services/askYourCommunityService'
-import CustomHeader from '@/components/CustomHeader.vue'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import CustomEditor from '@/components/CustomEditor.vue';
+import { AskYourCommunity } from '@/components/AskYourCommunity/model/AskYourCommunity';
+import AskYourCommunityService from '@/components/AskYourCommunity/services/askYourCommunityService';
+import CustomHeader from '@/components/CustomHeader.vue';
 
 export default {
   name: 'AskYourCommunityCreate',
@@ -100,40 +83,40 @@ export default {
       ],
       selectedPriority: '',
       user: { email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' }, //TODO agregarlo en el store
-    }
+    };
   },
   mounted() {
-    window.addEventListener('resize', this.checkWindowSize)
-    this.checkWindowSize()
-    this.setTitle()
+    window.addEventListener('resize', this.checkWindowSize);
+    this.checkWindowSize();
+    this.setTitle();
     if (this.$route.params.requestId) {
-      this.editing = true
-      this.getRequest(this.$route.params.requestId)
+      this.editing = true;
+      this.getRequest(this.$route.params.requestId);
     }
   },
   methods: {
     async getRequest(requestId) {
       try {
-        let request = await AskYourCommunityService.getRequestById(requestId)
-        this.titleSupport = request.title
-        this.message = request.message
-        this.selectedPriority = request.priority
+        let request = await AskYourCommunityService.getRequestById(requestId);
+        this.titleSupport = request.title;
+        this.message = request.message;
+        this.selectedPriority = request.priority;
       } catch (error) {
-        console.log(error)
-        this.showError(error.error ?? error)
+        console.log(error);
+        this.showError(error.error ?? error);
       }
     },
 
     async create() {
       try {
-        this.getData()
-        this.validate()
+        this.getData();
+        this.validate();
         let model = new AskYourCommunity(
           this.titleSupport,
           this.message,
           this.selectedPriority,
           this.user.email,
-        )
+        );
         await AskYourCommunityService.addRequest(model);
         this.showSuccess('Request created successfully');
         this.redirectToList('create');
@@ -144,41 +127,41 @@ export default {
     },
     async update() {
       try {
-        this.getData()
-        this.validate()
+        this.getData();
+        this.validate();
         let model = new AskYourCommunity(
           this.titleSupport,
           this.message,
           this.selectedPriority,
           this.user.email,
-        )
+        );
         await AskYourCommunityService.updateRequest(
           this.$route.params.requestId,
           model,
-        )
+        );
         this.showSuccess('Request updated successfully');
         this.redirectToList('edit');
       } catch (error) {
-        console.log(error)
-        this.showError(error.error ?? error)
+        console.log(error);
+        this.showError(error.error ?? error);
       }
     },
 
     validate() {
       if (this.titleSupport == '') {
-        throw 'Please enter a title'
+        throw 'Please enter a title';
       }
 
       if (!this.selectedPriority) {
-        throw 'Please select a priority'
+        throw 'Please select a priority';
       }
 
       if (this.message == '<p><br></p>' || !this.message) {
-        throw 'Please enter a message'
+        throw 'Please enter a message';
       }
     },
     checkWindowSize() {
-      this.isMobile = window.innerWidth <= 768
+      this.isMobile = window.innerWidth <= 768;
     },
 
     getData() {
@@ -186,7 +169,7 @@ export default {
     },
 
     getMessage(data) {
-      this.message = data
+      this.message = data;
     },
 
     showSuccess(text) {
@@ -195,7 +178,7 @@ export default {
         text: text,
         icon: 'success',
         confirmButtonText: 'Ok',
-      })
+      });
     },
     showError(text) {
       this.$swal.fire({
@@ -203,28 +186,28 @@ export default {
         text: text,
         icon: 'error',
         confirmButtonText: 'Ok',
-      })
+      });
     },
     redirectToList(from) {
-      let currentRoute = this.$router.currentRoute
-      let currentPath = currentRoute.value.fullPath
-      let index = currentPath.indexOf(`/${from}`)
+      let currentRoute = this.$router.currentRoute;
+      let currentPath = currentRoute.value.fullPath;
+      let index = currentPath.indexOf(`/${from}`);
 
       if (index !== -1) {
-        currentPath = currentPath.substring(0, index)
-        this.$router.push(`${currentPath}/list`)
+        currentPath = currentPath.substring(0, index);
+        this.$router.push(`${currentPath}/list`);
       }
     },
     setTitle() {
-      this.$store.commit('setPageTitle', this.title)
+      this.$store.commit('setPageTitle', this.title);
     },
     fnCancelButton() {
       this.$router.replace(
         this.$route.path.replace(/(create|edit)($|\/.*)/i, 'list'),
-      )
+      );
     },
   },
-}
+};
 </script>
 
 <style scoped>
