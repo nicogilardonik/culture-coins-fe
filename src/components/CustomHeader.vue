@@ -28,15 +28,16 @@
 
         </CCol>
 
-        <CCol v-if="requiredButton" :cols="requiredFilter ? 6 : 12" class="d-flex justify-content-end"
->
+        <CCol v-if="requiredButton" :cols="requiredFilter ? 6 : 12" class="d-flex justify-content-end">
             <div>
-                <CButton v-if="action == 'create'" :size="buttonSize" color="primary" class="kibana-font-weight" @click="fnButton">
+                <CButton v-if="action == 'create'" :size="buttonSize" color="primary" class="kibana-font-weight"
+                    @click="fnButton">
                     <IconFilePlus size="1.2rem" />
                     {{ textButton }}
                 </CButton>
 
-                <CButton v-else-if="action == 'save'" :size="buttonSize" color="primary" class="kibana-font-weight" @click="fnButton">
+                <CButton v-else-if="action == 'save'" :size="buttonSize" color="primary" class="kibana-font-weight"
+                    @click="fnButton">
                     <IconDeviceFloppy color="#fff" size="1.2rem" />
                     {{ textButton }}
                 </CButton>
@@ -64,7 +65,7 @@ export default {
         IconSortAscending2,
         IconFilePlus,
         IconDeviceFloppy,
-        IconX 
+        IconX
 
     },
 
@@ -85,11 +86,11 @@ export default {
         filters: Array,
         items: Array,
 
-        requiredCancelButton:{
+        requiredCancelButton: {
             type: Boolean,
             default: false
         },
-        fnCancelButton:{
+        fnCancelButton: {
             type: Function,
             required: false,
         },
@@ -122,7 +123,7 @@ export default {
             localFilterSelected: "",
             localItems: this.items,
             buttonSize: 'sm',
-        }
+        };
     },
 
     mounted() {
@@ -131,7 +132,7 @@ export default {
 
     methods: {
         filterItems() {
-            if(this.localFilterSelected == '' || this.localFilterSelected == null){
+            if (this.localFilterSelected == '' || this.localFilterSelected == null) {
                 this.localItems = this.items;
                 this.$emit('filter-changed', this.localItems);
                 return;
@@ -153,9 +154,9 @@ export default {
             }
             this.filterItems();
         },
-        adjustSizeButton(){
+        adjustSizeButton() {
             let isMobile = window.innerWidth <= 768;
-            if(!isMobile){
+            if (!isMobile) {
                 this.buttonSize = null;
             }
         }
