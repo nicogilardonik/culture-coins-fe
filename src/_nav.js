@@ -13,7 +13,7 @@ export default [
   {
     component: 'CNavItem',
     name: 'Recognition',
-    to: '/recognition',
+    to: '/recognition/create',
     icon: 'cil-speedometer',
   },
   {

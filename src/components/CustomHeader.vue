@@ -82,17 +82,21 @@ export default {
             type: Boolean,
             default: false
         },
+        filters: Array,
+        items: Array,
+
         requiredCancelButton:{
-            type: Boolean,
-            default: false
-        },
-        requiredButton: {
             type: Boolean,
             default: false
         },
         fnCancelButton:{
             type: Function,
             required: false,
+        },
+
+        requiredButton: {
+            type: Boolean,
+            default: false
         },
         textButton: {
             type: String,
@@ -107,8 +111,6 @@ export default {
             required: false,
         },
 
-        filters: Array,
-        items: Array,
     },
 
     computed: mapState(['pageTitle']),

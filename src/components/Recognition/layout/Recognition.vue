@@ -1,16 +1,7 @@
 <template>
-  <CRow
-    class="d-flex justify-content-center align-items-center position-relative"
-  >
-    <CustomHeader
-      class="mb-1"
-      :fnButton="create"
-      :textButton="'Create'"
-      :requiredButton="true"
-      action='create'
-      :requiredCancelButton="true"
-      :fnCancelButton="fnCancelButton"
-    />
+  <CRow class="d-flex justify-content-center align-items-center position-relative">
+    <CustomHeader class="mb-1" :fnButton="create" :textButton="'Create'" :requiredButton="true" action='create'
+      :requiredCancelButton="false" :fnCancelButton="fnCancelButton" />
   </CRow>
 
   <Multiselector ref="multiSelectorValues" @selected-values="selectedValues" />
@@ -48,50 +39,47 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('resize', this.checkWindowSize)
-    this.checkWindowSize()
-    this.setTitle()
+    window.addEventListener('resize', this.checkWindowSize);
+    this.checkWindowSize();
+    this.setTitle();
   },
   methods: {
     validate() {
       if (this.message == '<p><br></p>') {
-        throw 'Please enter a message'
+        throw 'Please enter a message';
       }
-      if (
-        this.selectedValue.type == undefined ||
-        !this.selectedValue.values.length
-      ) {
-        throw 'Please select a group and values'
+      if (this.selectedValue.type == undefined || !this.selectedValue.values.length) {
+        throw 'Please select a group and values';
       }
     },
     checkWindowSize() {
-      this.isMobile = window.innerWidth <= 768
+      this.isMobile = window.innerWidth <= 768;
     },
     create() {
       try {
-        this.getData()
-        this.validate()
-        let model = new Recognition(this.message)
-        RecognitionService.addRecognition(model)
-        this.showSuccess('Recognition created successfully')
+        this.getData();
+        this.validate();
+        let model = new Recognition(this.message);
+        RecognitionService.addRecognition(model);
+        this.showSuccess('Recognition created successfully');
       } catch (error) {
-        this.showError(error)
+        this.showError(error);
       }
     },
     getData() {
-      this.$refs.multiSelectorValues.emitSelectedValues()
-      this.$refs.customEditor.getMessage()
+      this.$refs.multiSelectorValues.emitSelectedValues();
+      this.$refs.customEditor.getMessage();
     },
 
     getMessage(data) {
-      this.message = data
+      this.message = data;
     },
 
     selectedValues(group, selectedValues) {
       this.selectedValue = {
         type: group,
         values: selectedValues,
-      }
+      };
     },
     showSuccess(text) {
       this.$swal.fire({
@@ -99,7 +87,7 @@ export default {
         text: text,
         icon: 'success',
         confirmButtonText: 'Ok',
-      })
+      });
     },
     showError(text) {
       this.$swal.fire({
@@ -107,14 +95,14 @@ export default {
         text: text,
         icon: 'error',
         confirmButtonText: 'Ok',
-      })
+      });
     },
     setTitle() {
-      this.$store.commit('setPageTitle', this.title)
+      this.$store.commit('setPageTitle', this.title);
     },
     fnCancelButton() {
       this.$router.replace(
-        this.$route.path.replace(/(create|edit)($|\/.*)/i, 'list'),
+        this.$route.path.replace(/(create|edit)($|\/.*)/i, ''),
       )
     },
   },

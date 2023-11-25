@@ -20,7 +20,7 @@ const routes = [
           import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
       },
       {
-        path: '/recognition',
+        path: '/recognition/create',
         name: 'Recognition',
         component: Recognition,
       },
