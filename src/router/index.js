@@ -5,6 +5,7 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 import Recognition from '@/components/Recognition/layout/Recognition.vue'
 import AskYourCommunityList from '@/components/AskYourCommunity/layout/AskYourCommunityList.vue'
 import AskYourCommunityCreate from '@/components/AskYourCommunity/layout/AskYourCommunityCreate.vue'
+import VMPDP from '@/components/ViewMyPersonalDataPoints/layout/VMPDP.vue'
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
         path: '/recognition/create',
         name: 'Recognition',
         component: Recognition,
+      },
+      {
+        path: '/ViewMyPersonalDataPoints',
+        name: 'VMPDP',
+        component: VMPDP,
       },
       {
         path: '/ask-your-community/list',

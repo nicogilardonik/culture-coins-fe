@@ -9,6 +9,12 @@ export default [
       text: 'NEW',
     },
   },
+  {
+    component: 'CNavItem',
+    name: 'Personal data & points',
+    to: '/ViewMyPersonalDataPoints',
+    icon: 'cil-speedometer',
+  },
 
   {
     component: 'CNavItem',
