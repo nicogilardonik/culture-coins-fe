@@ -5,7 +5,7 @@
     </div>
     <div class="ms-auto">
       <span class="me-1" target="_blank">Powered by</span>
-      <b>Nicolás y joaquín</b>
+      <b>Nicolás Gilardoni y Joaquín Banchero</b>
     </div>
   </CFooter>
 </template>
