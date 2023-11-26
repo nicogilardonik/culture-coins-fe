@@ -1,1 +1,9 @@
-// Variable overrides
+
+$kibana-color: #1dc9f7; 
+$infogain-portal-color: radial-gradient(circle at 114% 107%,#004950 0,#005962 37%,#002942 120%);
+
+
+$sidebar-bg: $infogain-portal-color; 
+$primary-base:  $kibana-color;
+
+$warning-base: #ff8200; 
