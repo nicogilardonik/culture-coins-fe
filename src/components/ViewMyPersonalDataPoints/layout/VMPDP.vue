@@ -13,7 +13,9 @@
       <p class="text-info font-weight-bold">{{ totalPoints }} points</p>
     </CCol>
 
-    <CCol :xs="isMobile ? 12 : 6">
+    <CCol :xs="isMobile ? 0 : 1"></CCol>
+
+    <CCol :xs="isMobile ? 12 : 5">
       <h3 class="mb-4">Preferences</h3>
 
       <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="receiveSupportRequest" />
@@ -32,6 +34,9 @@
 import { CCol } from '@coreui/vue';
 
 export default {
+
+  components: { CCol },
+
   data() {
     return {
       title: 'My Personal Data and Points',
@@ -61,7 +66,7 @@ export default {
       this.isMobile = window.innerWidth <= 768;
     },
   },
-  components: { CCol }
+  
 };
 </script>
 
