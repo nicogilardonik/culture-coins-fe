@@ -10,6 +10,7 @@
       </div>
       <AppFooter />
     </div>
+    <ShowError />
   </div>
 </template>
 <script>
@@ -17,6 +18,7 @@ import { CContainer } from '@coreui/vue'
 import AppFooter from '@/components/AppFooter.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
+import ShowError from '@/components/ShowError.vue'
 
 export default {
   name: 'DefaultLayout',
@@ -25,6 +27,7 @@ export default {
     AppHeader,
     AppSidebar,
     CContainer,
+    ShowError
   },
 }
 </script>

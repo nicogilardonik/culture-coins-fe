@@ -2,7 +2,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-
+import errorHandler from '@/helpers/errorHandler'
+import { ERROR_SEVERITY } from "@/helpers/constants"
 import CommonServices from '@/services/commonServices';
 import CoreuiVue from '@coreui/vue';
 import CIcon from '@coreui/icons-vue';
@@ -11,9 +12,10 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
-
-
 const app = createApp(App);
+
+addErrorHandlers(app);
+
 app.use(store);
 await initilizeData();
 app.use(router);
@@ -29,16 +31,22 @@ app.mount('#app');
 
 async function initilizeData() {
     try {
-        //Cargo el perfil del usuario y los projectos
         let userProfile = await CommonServices.getUserProfile();
-
-
         store.commit('setUserProfile', userProfile);
     }
     catch (error) {
-        console.log(error);
-        //TODO: manejador de errores generico
+        errorHandler.handleError(error);
     }
 }
 
-
+function addErrorHandlers(app){
+    app.config.errorHandler = (err) => {
+      err.errorSeverity = ERROR_SEVERITY.CRITICAL;
+      errorHandler.handleError(err);
+    }
+    window.addEventListener('unhandledrejection', event => {
+      event.reason.errorSeverity = ERROR_SEVERITY.CRITICAL;
+      errorHandler.handleError(event.reason);
+      event.preventDefault() 
+    })
+  }

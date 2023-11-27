@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { ERROR_SEVERITY } from "@/helpers/constants"
 
 export default createStore({
   state: {
@@ -7,7 +8,7 @@ export default createStore({
     userProfile: {
       email: 'TEST',
       firstName: 'TEST',
-      receiveSupportRequest:false,
+      receiveSupportRequest: true,
       points: 0,
       skills: [
         { value: 'html', label: 'HTML' },
@@ -15,7 +16,11 @@ export default createStore({
         { value: 'javascript', label: 'JavaScript' },
       ]
     },
-    pageTitle: null
+    pageTitle: null,
+    lastMessage: [],
+    lastWaning: [],
+    lastError: [],
+    lastCriticalErrors: [],
   },
   mutations: {
     toggleSidebar(state) {
@@ -32,7 +37,22 @@ export default createStore({
     },
     setPageTitle(state, pageTitle){
       state.pageTitle = pageTitle;
-    }
+    },
+    addMessage(state, message){
+      state.lastMessage = message;
+    },
+    addWarning(state, warning){
+      state.lastWarning = warning;
+    },
+    addError(state, error){
+      error.errorSeverity == error.errorSeverity ?? ERROR_SEVERITY.NORMAL;
+      if(error.errorSeverity == ERROR_SEVERITY.CRITICAL) state.lastCriticalError = error;
+      else state.lastError = error;
+    },
+    addCriticalError(state, error){
+      error.errorSeverity == ERROR_SEVERITY.CRITICAL
+      state.lastCriticalError = error;
+    },
   },
   actions: {},
   modules: {},
