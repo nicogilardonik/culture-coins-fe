@@ -51,6 +51,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
+    this.setTitle();
   },
   methods: {
     setTitle() {
