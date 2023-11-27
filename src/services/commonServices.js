@@ -2,7 +2,7 @@ import BaseRequest from '@/services/baseRequest'
 
 class CommonServices {
   async getUserProfile() {
-    let userProfile = await BaseRequest.get('userProfile');
+    let userProfile = await BaseRequest.get(`user/nicogilardonik@gmail.com`);
     return userProfile;
   }
 }
