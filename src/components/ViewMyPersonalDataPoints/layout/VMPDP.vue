@@ -2,7 +2,6 @@
   <CRow class="my-4">
     <CCol :xs="isMobile ? 12 : 6">
       <h3 class="mb-4">Personal Information</h3>
-
       <label>First Name</label>
       <CFormInput v-model="userProfile.firstName" type="text" placeholder="first name" readonly />
 
@@ -12,7 +11,8 @@
       <h3 class="mt-5">Total Accumulated Points</h3>
       <p class="text-info font-weight-bold">{{ userProfile.points }} points</p>
       <p></p>
-      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions(data.userProfile._id)" class="view-executions-link">See my recognitions ({{ countRegognitions }})</a>
+      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions(data.userProfile._id)"
+        class="view-executions-link">See my recognitions ({{ countRegognitions }})</a>
     </CCol>
 
     <CCol :xs="isMobile ? 0 : 1"></CCol>
@@ -24,7 +24,7 @@
 
       <h5>Skills</h5>
       <ul class="pl-3">
-        <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill.label }}</li>
+        <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill }}</li>
       </ul>
 
     </CCol>
@@ -34,7 +34,7 @@
 
 <script>
 import { CCol } from '@coreui/vue';
-import 
+import RecognitionService from '@/components/Recognition/services/recognitionService';
 
 export default {
 
@@ -56,11 +56,11 @@ export default {
   watch: {
     userProfile: {
       handler(newProfile) {
-        if (Object.keys(newProfile).length > 0) {
+        if (newProfile && Object.keys(newProfile).length > 0) {
           this.getRecognitions();
         }
       },
-      immediate: true, 
+      immediate: true,
     },
   },
 
@@ -76,9 +76,34 @@ export default {
     checkWindowSize() {
       this.isMobile = window.innerWidth <= 768;
     },
-    async getRecognitions(){
-
-    }
+    async getRecognitions() {
+      try {
+        await RecognitionService.getRecognitionsByUserEmail(this.userProfile.email)
+          .then((response) => {
+            //this.countRegognitions = response.data.length;
+            response;
+            this.countRegognitions = 10;
+          })
+          .catch((error) => {
+            this.showError(error.error ?? error);
+          });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
+    showError(text) {
+      this.$swal.fire({
+        title: 'Error!',
+        text: text,
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    },
+    objetcIsEmpty(obj) {
+      console.log(obj);
+      console.log(Object.keys(obj).length);
+      return Object.keys(obj).length === 0;
+    },
   },
 
 };

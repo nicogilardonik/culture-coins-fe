@@ -61,7 +61,7 @@ function armarUrl(controller, action, params) {
 
 
 class Api {
-  async invokeApi(method, subPath, body) {
+  async invokeApi(method, subPath, body) { 
     let url = armarUrl(subPath)
     let mensajeErrorGenerico =
       'Ocurrió un error inesperado, intente nuevamente más tarde'

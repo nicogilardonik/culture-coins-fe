@@ -4,18 +4,7 @@ export default createStore({
   state: {
     sidebarVisible: '',
     sidebarUnfoldable: false,
-    userProfile: {
-      _id:'lalalalallalaalaaal',
-      email: 'TEST',
-      firstName: 'TEST',
-      receiveSupportRequest:false,
-      points: 0,
-      skills: [
-        { value: 'html', label: 'HTML' },
-        { value: 'css', label: 'CSS' },
-        { value: 'javascript', label: 'JavaScript' },
-      ]
-    },
+    userProfile: {},
     pageTitle: null
   },
   mutations: {

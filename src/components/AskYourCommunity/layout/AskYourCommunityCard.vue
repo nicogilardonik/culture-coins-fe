@@ -48,7 +48,7 @@
 
                     <CCol sm="6" md="6" lg="4" xl="2" class="">
                         <div>
-                            <strong>Status: </strong> {{ getStatus() }} 
+                            <strong>Status: </strong> {{ data.status }} 
                         </div>
                     </CCol>
 
@@ -199,15 +199,6 @@ export default {
             const hour = d.getHours().toString().padStart(2, '0');
             const minutes = d.getMinutes().toString().padStart(2, '0');
             return `${day}/${month}/${year} ${hour}:${minutes}`;
-        },
-        getStatus() {
-            if (this.data.status === 'active') {
-                return 'Active';
-            } else if (this.data.status === 'inactive') {
-                return 'Completed';
-            } else {
-                return 'Pending';
-            }
         },
     },
 };

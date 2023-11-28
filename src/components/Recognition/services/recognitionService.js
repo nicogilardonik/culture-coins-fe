@@ -13,11 +13,10 @@ class RecognitionService {
         }
     }
 
-    async getRecognitionsByUser(email) {
+    async getRecognitionsByUserEmail(email) {
         try {
-            let x = data 
-            //let test = await Api.get(`acknowledgment`)
-            return x;
+            console.log(email);
+            return {};
         } catch (error) {
             console.error('Error al hacer test')
             throw error

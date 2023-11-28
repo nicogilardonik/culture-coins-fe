@@ -31,8 +31,6 @@ async function initilizeData() {
     try {
         //Cargo el perfil del usuario y los projectos
         let userProfile = await CommonServices.getUserProfile();
-
-
         store.commit('setUserProfile', userProfile);
     }
     catch (error) {
