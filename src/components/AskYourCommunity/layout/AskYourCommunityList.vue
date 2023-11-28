@@ -3,12 +3,11 @@
     class="d-flex justify-content-center align-items-center position-relative"
   >
     <CustomHeader
-      v-if="requests.length > 0"
       :fnButton="create"
       :filters="filters"
       textButton="New Request"
       :requiredButton="true"
-      :requiredFilter="requests.length > 0"
+      :requiredFilter="requests.length > 1"
       :items="requests"
       @filter-changed="filterChanged"
       action="create"
