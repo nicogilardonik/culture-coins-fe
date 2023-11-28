@@ -11,6 +11,8 @@
 
       <h3 class="mt-5">Total Accumulated Points</h3>
       <p class="text-info font-weight-bold">{{ userProfile.points }} points</p>
+      <p></p>
+      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions(data.userProfile._id)" class="view-executions-link">See my recognitions ({{ countRegognitions }})</a>
     </CCol>
 
     <CCol :xs="isMobile ? 0 : 1"></CCol>
@@ -32,6 +34,7 @@
 
 <script>
 import { CCol } from '@coreui/vue';
+import 
 
 export default {
 
@@ -41,13 +44,26 @@ export default {
     return {
       title: 'My Personal Data and Points',
       isMobile: window.innerWidth <= 768,
+      countRegognitions: 1,
     };
   },
   computed: {
     userProfile() {
       return this.$store.state.userProfile;
     }
-  },  
+  },
+
+  watch: {
+    userProfile: {
+      handler(newProfile) {
+        if (Object.keys(newProfile).length > 0) {
+          this.getRecognitions();
+        }
+      },
+      immediate: true, 
+    },
+  },
+
   mounted() {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
@@ -60,6 +76,9 @@ export default {
     checkWindowSize() {
       this.isMobile = window.innerWidth <= 768;
     },
+    async getRecognitions(){
+
+    }
   },
 
 };

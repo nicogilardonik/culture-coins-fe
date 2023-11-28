@@ -5,6 +5,7 @@ export default createStore({
     sidebarVisible: '',
     sidebarUnfoldable: false,
     userProfile: {
+      _id:'lalalalallalaalaaal',
       email: 'TEST',
       firstName: 'TEST',
       receiveSupportRequest:false,
