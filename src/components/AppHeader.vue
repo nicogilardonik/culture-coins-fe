@@ -4,23 +4,12 @@
       <CHeaderToggler class="ps-1" @click="$store.commit('toggleSidebar')">
         <CIcon icon="cil-menu" size="lg" />
       </CHeaderToggler>
-      <!-- <CHeaderBrand class="mx-auto d-lg-none" to="/">
-        <CIcon :icon="logo" height="48" alt="Logo" />
-      </CHeaderBrand> -->
       <CHeaderNav class="d-none d-md-flex me-auto">
       </CHeaderNav>
       <CHeaderNav>
-        <CNavItem>
-          <CNavLink href="#">
-            <CIcon class="mx-2" icon="cil-bell" size="lg" />
-          </CNavLink>
-        </CNavItem>
         <AppHeaderDropdownAccnt />
       </CHeaderNav>
     </CContainer>
-    <!-- <CContainer fluid>
-      <AppBreadcrumb />
-    </CContainer> -->
     <CContainer v-if="pageTitle" fluid class="custom-title">
       <h3 class="page-title">{{pageTitle}}</h3>
     </CContainer>
