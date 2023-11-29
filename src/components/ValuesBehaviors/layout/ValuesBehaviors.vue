@@ -32,7 +32,6 @@ export default {
   },
   computed: {
     filteredValues() {
-      // Filtra las tarjetas basándose en el texto de búsqueda
       return this.values.filter((value) => {
         const searchTextLowerCase = this.searchText.toLowerCase();
         return (
