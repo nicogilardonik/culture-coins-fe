@@ -21,6 +21,7 @@
           :data="request"
           @template-deleted="handleRequestDeleted"
           @edit-template="handleRequestEdit"
+          @show-support-request="handleRequestShow"
         />
       </CRow>
     </div>
@@ -52,7 +53,6 @@ export default {
                 { name: 'By title', value: 'title' },
                 { name: 'By date', value: 'createdAt' }
             ],
-      user: { email: 'nicogilardonik@gmail.com', name: 'Nico Gilardoni' }, //TODO agregarlo en el store
     }
   },
 
@@ -60,10 +60,13 @@ export default {
     buttonSize() {
       return this.isMobile ? 'sm' : 'lg'
     },
+    userProfile() {
+      return this.$store.state.userProfile;
+    }
   },
 
   mounted() {
-    this.getRequests(this.user.email)
+    this.getRequests(this.userProfile.email)
     this.setTitle()
   },
 
@@ -80,7 +83,7 @@ export default {
         }
       } catch (error) {
         console.log(error)
-        this.showError(error.Error ?? error)
+        this.showError(error.error ?? error)
       }
     },
 
@@ -88,7 +91,7 @@ export default {
       try {
        await AskYourCommunityService.deleteRequest(id);
         this.showSuccess('Request deleted successfully');
-        this.getRequests(this.user.email);
+        this.getRequests(this.userProfile.email);
       } catch (error) {
         console.log(error)
         this.showError(error.Error ?? error)
@@ -96,6 +99,9 @@ export default {
     },
     handleRequestEdit(id) {
       this.redirect('edit', id)
+    },
+    handleRequestShow() {
+      this.getRequests(this.userProfile.email)
     },
     showSuccess(text) {
       this.$swal.fire({

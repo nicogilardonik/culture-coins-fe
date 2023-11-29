@@ -7,7 +7,7 @@ class AskYourCommunityService {
             let response = await Api.post('supportRequest', data);
             return response;
         } catch (error) {
-            console.error('Error al hacer post')
+            console.error('Post error')
             throw error
         }
     }
@@ -17,7 +17,7 @@ class AskYourCommunityService {
             let response = await Api.get(`supportRequest/requests/${email}`);
             return response;
         } catch (error) {
-            console.error('Error al hacer get')
+            console.error('Get error')
             throw error
         }
     }
@@ -27,8 +27,8 @@ class AskYourCommunityService {
             let response = await Api.get(`supportRequest/request/${id}`);
             return response;
         } catch (error) {
-            console.error('Error al hacer get por id')
-            throw error
+            console.error('get by id error');
+            throw error;
         }
     }
 
@@ -37,8 +37,8 @@ class AskYourCommunityService {
             let response = await Api.put(`supportRequest/edit/${id}`, data);
             return response;
         } catch (error) {
-            console.error('Error al hacer put')
-            throw error
+            console.error('Put error');
+            throw error;
         }
     }
 
@@ -47,8 +47,18 @@ class AskYourCommunityService {
             let response = await Api.delete(`supportRequest/${id}`);
             return response;
         } catch (error) {
-            console.error('Error al hacer delete')
-            throw error
+            console.error('Delete error');
+            throw error;
+        }
+    }
+
+    async changeStatus(id){
+        try {
+            let response = await Api.put(`supportRequest/nextState/${id}`);
+            return response;
+        } catch (error) {
+            console.error('change status error');
+            throw error;
         }
     }
 

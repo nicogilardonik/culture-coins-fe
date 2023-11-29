@@ -20,13 +20,13 @@
                     <h4 class="d-inline-block">{{ data.title }}</h4>
                 </div>
                 <div class="justify-content-center align-self-center">
-                    <CTooltip  content="Edit" placement="top">
+                    <CTooltip content="Edit" placement="top">
                         <template #toggler="{ on }">
                             <IconPencil color="#f39c12" @click="edit(data._id)" size="1.8rem" class="m-1 custom-cursor"
                                 data-toggle="tooltip" data-placement="top" title="Tooltip on top" v-on="on" />
                         </template>
                     </CTooltip>
-                    <CTooltip  content="Delete" placement="top">
+                    <CTooltip content="Delete" placement="top">
                         <template #toggler="{ on }">
                             <IconTrash color="#e74c3c" @click="deleteTemplate(data._id, data.title)" size="1.8rem"
                                 class="m-1 custom-cursor" data-toggle="tooltip" data-placement="top" title="Tooltip on top"
@@ -38,7 +38,7 @@
             <CCardBody>
                 <CRow>
                     <CCol sm="6" md="6" lg="8" xl="10">
-                        <div>                         
+                        <div>
                             <div class="custom-display">
                                 <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
                             </div>
@@ -48,7 +48,11 @@
 
                     <CCol sm="6" md="6" lg="4" xl="2" class="">
                         <div>
-                            <strong>Status: </strong> {{ data.status }} 
+                            <strong>Status: </strong> {{ data.status }} <br>
+                            <CButton color="primary" size="sm" class="kibana-font-weight" @click="nextStep(data._id)">
+                                Next Step
+                            </CButton>
+
                         </div>
                     </CCol>
 
@@ -70,22 +74,23 @@
 </template>
 
 <script>
-import { IconPencil, IconTrash} from '@tabler/icons-vue';
+import { IconPencil, IconTrash } from '@tabler/icons-vue';
 import { cilMediaPlay, cilPencil, cilTrash } from '@coreui/icons';
-import {IconX } from '@tabler/icons-vue';
-import  CustomEditor from '@/components/CustomEditor.vue';
+import { IconX } from '@tabler/icons-vue';
+import CustomEditor from '@/components/CustomEditor.vue';
+import AskYourCommunityService from '@/components/AskYourCommunity/services/askYourCommunityService';
 
 export default {
 
     name: "AskYourCommunityCard",
 
-    emits: ['template-deleted', 'edit-template', 'show-executions'],
+    emits: ['template-deleted', 'edit-template', 'show-support-request'],
 
     components: {
         IconPencil,
         IconTrash,
         IconX,
-       CustomEditor
+        CustomEditor
     },
     props: {
         data: {
@@ -107,7 +112,7 @@ export default {
     mounted() {
         this.adjustMaxLength();
         window.addEventListener('resize', this.adjustMaxLength);
-       // this.$refs.requestMessage.innerHTML = this.data.message;
+        // this.$refs.requestMessage.innerHTML = this.data.message;
     },
 
 
@@ -168,6 +173,24 @@ export default {
             }
         },
 
+        showSuccess(text) {
+            this.$swal.fire({
+                title: 'Success!',
+                text: text,
+                icon: 'success',
+                confirmButtonText: 'Ok',
+            });
+        },
+        showError(text) {
+            this.$swal.fire({
+                title: 'Error!',
+                text: text,
+                icon: 'error',
+                confirmButtonText: 'Ok',
+            });
+        },
+
+
         deleteTemplate(id, title) {
             this.$swal.fire({
                 title: 'Borrar template',
@@ -183,7 +206,7 @@ export default {
                         'Borrado',
                         `El template ${title} ha sido borrado.`,
                         'success'
-                    )
+                    );
                     this.$emit('template-deleted', id);
                 }
             });
@@ -200,6 +223,17 @@ export default {
             const minutes = d.getMinutes().toString().padStart(2, '0');
             return `${day}/${month}/${year} ${hour}:${minutes}`;
         },
+
+        async nextStep(id) {
+            try {
+                await AskYourCommunityService.changeStatus(id);
+                this.showSuccess('Status changed successfully');
+                this.$emit('show-support-request');
+            } catch (error) {
+                console.log(error);
+                this.showError(error.error ?? error);
+            }
+        }
     },
 };
 </script>
