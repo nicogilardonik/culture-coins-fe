@@ -1,26 +1,26 @@
 <template>
   <div class="values-behaviors">
     <div class="search-container">
-      <input v-model="searchText" placeholder="Buscar en las tarjetas" class="search-input" />
+      <div class="input-with-icon">
+        <IconSearch class="search-icon" />
+        <input v-model="searchText" placeholder="Search in cards" class="search-input" />
+      </div>
     </div>
     <div class="card-container">
-      <card
-        v-for="value in filteredValues"
-        :key="value.id"
-        :title="value.title"
-        :text="value.text"
-      ></card>
+      <card v-for="value in filteredValues" :key="value.id" :title="value.title" :text="value.text"></card>
     </div>
   </div>
 </template>
 
 <script>
+import { IconSearch } from '@tabler/icons-vue';
 import Card from "@/components/ValuesBehaviors/layout/Card.vue";
 import Service from "@/components/ValuesBehaviors/services/ValuesBehaviorsService";
 
 export default {
   components: {
     Card,
+    IconSearch, 
   },
   data() {
     return {
@@ -80,18 +80,23 @@ export default {
 <style scoped>
 .values-behaviors {
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
+  flex-direction: column;
+  align-items: center;
 }
 
 .search-container {
   margin-bottom: 16px;
 }
 
-.search-input {
-  padding: 8px;
-  width: 100%;
-  box-sizing: border-box;
+.input-with-icon {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
 }
 
 .card-container {
@@ -100,5 +105,9 @@ export default {
   margin: 16px;
   flex-wrap: wrap; 
 }
-
+.search-input {
+  padding: 8px 8px 8px 32px;
+  width: 100%;
+  box-sizing: border-box;
+}
 </style>
