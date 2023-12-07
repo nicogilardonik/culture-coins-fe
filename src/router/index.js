@@ -4,7 +4,8 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 import Recognition from '@/components/Recognition/layout/Recognition.vue'
 import AskYourCommunityList from '@/components/AskYourCommunity/layout/AskYourCommunityList.vue'
 import AskYourCommunityCreate from '@/components/AskYourCommunity/layout/AskYourCommunityCreate.vue'
-import VMPDP from '@/components/ViewMyPersonalDataPoints/layout/VMPDP.vue'
+import PersonalDataAndPoints from '@/components/MyProfile/layout/PersonalDataAndPoints.vue'
+import MyRecognitions from '@/components/MyProfile/layout/MyRecognitions.vue'
 
 const routes = [
   {
@@ -27,7 +28,12 @@ const routes = [
       {
         path: '/ViewMyPersonalDataPoints',
         name: 'VMPDP',
-        component: VMPDP,
+        component: PersonalDataAndPoints,
+      },
+      {
+        path: '/MyRecognitions',
+        name: 'My Recognitions',
+        component: MyRecognitions,
       },
       {
         path: '/ask-your-community/list',

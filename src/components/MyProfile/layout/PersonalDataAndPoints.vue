@@ -11,7 +11,7 @@
       <h3 class="mt-5">Total Accumulated Points</h3>
       <p class="text-info font-weight-bold">{{ userProfile.points }} points</p>
       <p></p>
-      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions(data.userProfile._id)"
+      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions()"
         class="view-executions-link">See my recognitions ({{ countRegognitions }})</a>
     </CCol>
 
@@ -42,7 +42,7 @@ export default {
 
   data() {
     return {
-      title: 'My Personal Data and Points',
+      title: 'My Personal Data & Points',
       isMobile: window.innerWidth <= 768,
       countRegognitions: 1,
     };
@@ -78,7 +78,7 @@ export default {
     },
     async getRecognitions() {
       try {
-        await RecognitionService.getRecognitionsByUserEmail(this.userProfile.email)
+        await RecognitionService.getMyRecognitions(this.userProfile.email)
           .then((response) => {
             //this.countRegognitions = response.data.length;
             response;
@@ -104,9 +104,20 @@ export default {
       console.log(Object.keys(obj).length);
       return Object.keys(obj).length === 0;
     },
+
+    showRecognitions() {
+    let currentRoute = this.$router.currentRoute;
+    let currentPath = currentRoute.value.fullPath;
+    currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
+    this.$router.push(`${currentPath}/MyRecognitions`);
+  }
+
   },
 
+ 
 };
+
+
 </script>
 
 <style scoped></style>

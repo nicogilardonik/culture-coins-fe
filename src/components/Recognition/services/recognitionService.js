@@ -1,4 +1,4 @@
-//import Api from '@/services/baseRequest'
+import Api from '@/services/baseRequest'
 
 class RecognitionService {
 
@@ -13,12 +13,12 @@ class RecognitionService {
         }
     }
 
-    async getRecognitionsByUserEmail(email) {
+    async getMyRecognitions(email) {
         try {
-            console.log(email);
-            return {};
+            let response = await Api.get(`recognition/${email}`);
+            return response;
         } catch (error) {
-            console.error('Error al hacer test')
+            console.error('Get error')
             throw error
         }
     }
