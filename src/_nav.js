@@ -28,4 +28,17 @@ export default [
     to: '/ask-your-community/list',
     icon: 'cil-speedometer',
   },
+  {
+    component: 'CNavGroup',
+    name: 'Mi Infogain',
+    to: '/',
+    icon: 'cil-speedometer',
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Values ans behaviors',
+        to: '/ValuesBehaviors',
+      },
+    ],
+  },
 ]
