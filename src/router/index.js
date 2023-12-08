@@ -1,11 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-
 import DefaultLayout from '@/layouts/DefaultLayout'
 import Recognition from '@/components/Recognition/layout/Recognition.vue'
 import AskYourCommunityList from '@/components/AskYourCommunity/layout/AskYourCommunityList.vue'
 import AskYourCommunityCreate from '@/components/AskYourCommunity/layout/AskYourCommunityCreate.vue'
 import PersonalDataAndPoints from '@/components/MyProfile/layout/PersonalDataAndPoints.vue'
 import MyRecognitions from '@/components/MyProfile/layout/MyRecognitions.vue'
+import VMPDP from '@/components/ViewMyPersonalDataPoints/layout/VMPDP.vue'
+import ValuesBehaviors from '@/components/ValuesBehaviors/layout/ValuesBehaviors.vue'
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
         path: '/MyRecognitions',
         name: 'My Recognitions',
         component: MyRecognitions,
+      },
+      {
+        path: '/ValuesBehaviors',
+        name: 'ValuesBehaviors',
+        component: ValuesBehaviors,
       },
       {
         path: '/ask-your-community/list',
