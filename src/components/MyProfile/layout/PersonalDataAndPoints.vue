@@ -13,6 +13,7 @@
       <p></p>
       <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions()"
         class="view-executions-link">See my recognitions ({{ countRegognitions }})</a>
+      <span v-else href="#" class="view-executions-link">You have no recognitions yet</span>
     </CCol>
 
     <CCol :xs="isMobile ? 0 : 1"></CCol>
@@ -44,7 +45,7 @@ export default {
     return {
       title: 'My Personal Data & Points',
       isMobile: window.innerWidth <= 768,
-      countRegognitions: 1,
+      countRegognitions: 0,
     };
   },
   computed: {
@@ -80,9 +81,7 @@ export default {
       try {
         await RecognitionService.getMyRecognitions(this.userProfile.email)
           .then((response) => {
-            //this.countRegognitions = response.data.length;
-            response;
-            this.countRegognitions = 10;
+            this.countRegognitions = response.length;
           })
           .catch((error) => {
             this.showError(error.error ?? error);
@@ -100,8 +99,6 @@ export default {
       });
     },
     objetcIsEmpty(obj) {
-      console.log(obj);
-      console.log(Object.keys(obj).length);
       return Object.keys(obj).length === 0;
     },
 

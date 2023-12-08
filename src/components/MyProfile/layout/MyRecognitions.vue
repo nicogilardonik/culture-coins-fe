@@ -18,9 +18,6 @@
             v-for="recognition in recognitions"
             :key="recognition.id"
             :data="recognition"
-            @template-deleted="handleRequestDeleted"
-            @edit-template="handleRequestEdit"
-            @show-support-recognition="handleRequestShow"
           />
         </CRow>
       </div>

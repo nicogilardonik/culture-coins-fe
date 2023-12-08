@@ -3,7 +3,7 @@
         <CCard>
             <CCardHeader class="d-flex justify-content-between">
                 <div class="d-flex align-self-center">
-                    <h4 class="d-inline-block">{{ data.title }}</h4>
+                    <h4 class="d-inline-block"> By: {{ data.userFrom }}</h4>
                 </div>
             </CCardHeader>
             <CCardBody>
@@ -19,7 +19,11 @@
 
                     <CCol sm="6" md="6" lg="4" xl="2" class="">
                         <div>
-                            <strong>Status: </strong> {{ data.status }} <br>
+                            <strong>Category: </strong> {{ data.category }} <br>
+                            <strong>Sub Categories: </strong>
+                            <ul class="pl-3">
+                                <li v-for="(subCategory, index) in data.subCategory" :key="index">{{ subCategory }}</li>
+                            </ul>
                         </div>
                     </CCol>
 
@@ -58,14 +62,10 @@ export default {
         },
     },
 
-    created() {
-        //this.getExecutions();
-    },
 
     mounted() {
         this.adjustMaxLength();
         window.addEventListener('resize', this.adjustMaxLength);
-        // this.$refs.requestMessage.innerHTML = this.data.message;
     },
 
     data() {
