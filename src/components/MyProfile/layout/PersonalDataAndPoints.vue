@@ -31,7 +31,7 @@
 
       <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="userProfile.receiveSupportRequest" />
 
-      <h5>Values and Behaviors</h5>
+      <h5>skills</h5>
       <ul class="pl-3">
         <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill }}</li>
       </ul>
