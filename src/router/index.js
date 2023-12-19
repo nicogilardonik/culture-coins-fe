@@ -36,6 +36,11 @@ const routes = [
         component: MyRecognitions,
       },
       {
+        path: '/LastActivity',
+        name: 'Last Activity',
+        component: MyRecognitions,
+      },
+      {
         path: '/ValuesBehaviors',
         name: 'ValuesBehaviors',
         component: ValuesBehaviors,

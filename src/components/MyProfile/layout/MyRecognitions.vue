@@ -11,7 +11,7 @@
         @filter-changed="filterChanged"
         action="create"
       />
-  
+
       <div v-if="recognitions.length">
         <CRow>
           <MyRecognitionsCard
@@ -43,7 +43,7 @@
   
     data() {
       return {
-        title: 'My Recognitions',
+        title: this.$route.name,
         isMobile: window.innerWidth <= 768,
         recognitions: [],
         filters: [
@@ -74,6 +74,9 @@
   
       async getMyRecognitions(email) {
         try {
+          if(this.$route.name === "Last Activity"){
+            email = ""
+          }
           let response = await RecognitionService.getMyRecognitions(email)
           if (response) {
             this.recognitions = response
