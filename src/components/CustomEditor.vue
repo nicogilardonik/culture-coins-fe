@@ -1,10 +1,11 @@
 <template>
   <QuillEditor
-    :toolbar="readOnly ? []: [ { size: [false, 'large'] }, 'bold', 'italic','underline', { list: 'ordered' }, { list: 'bullet' },]"
-     @update:content="updateContent" @ready="onQuillReady"  :content="value" :contentType="readOnly || editing ? 'html' :'text'"  :readOnly="readOnly" ref="quillEditor"/>
+    :toolbar="readOnly ? [] : [{ size: [false, 'large'] }, 'bold', 'italic', 'underline', { list: 'ordered' }, { list: 'bullet' },]"
+    @update:content="updateContent" @ready="onQuillReady" :content="value"
+    :contentType="readOnly || editing ? 'html' : 'text'" :readOnly="readOnly" ref="quillEditor" />
 </template>
 <script>
-import { QuillEditor } from '@vueup/vue-quill'
+import { QuillEditor } from '@vueup/vue-quill';
 
 export default {
   name: 'CustomEditor',
@@ -24,34 +25,49 @@ export default {
       default: false,
     },
   },
-    
 
   components: {
     QuillEditor,
+  },
+
+
+  mounted() {
+
   },
 
   data() {
     return {
       message: null,
       quillEditor: null,
-    }
+    };
   },
 
   methods: {
     updateContent(data) {
       if (data && data.ops && data.ops.length > 0) {
-    this.message = data.ops.shift().insert;
-  }
+        this.message = data.ops.shift().insert;
+      }
     },
     onQuillReady(quill) {
       this.quillEditor = quill;
+
+      if (this.readOnly) {
+        this.$nextTick(() => {
+          if (this.quillEditor && this.quillEditor.getModule) {
+            const toolbarModule = this.quillEditor.getModule('toolbar');
+            if (toolbarModule) {
+              toolbarModule.container.remove(); 
+            }
+          }
+        });
+      }
     },
     getMessage() {
       try {
         this.getContentHTML();
         this.$emit('get-message', this.message);
       } catch (error) {
-        this.showError(error)
+        this.showError(error);
       }
     },
 
@@ -69,7 +85,9 @@ export default {
         confirmButtonText: 'Ok',
       });
     },
+
+
   },
-}
+};
 </script>
 <style></style>

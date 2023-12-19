@@ -8,7 +8,7 @@
       <h3 class="mb-4">Personal Information</h3>
 
       <label>Nickname</label>
-      <CFormInput v-model="userProfile.nickName" type="text" placeholder="nickName" /> <br>
+      <CFormInput v-model="userProfile.nickName" type="text" placeholder="nickname" /> <br>
 
       <label>First Name</label>
       <CFormInput v-model="userProfile.firstName" type="text" placeholder="first name" readonly /> <br>
@@ -42,6 +42,7 @@
 
 
 <script>
+import ProfileService from '@/components/MyProfile/services/profileService';
 import { CCol } from '@coreui/vue';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
 import CustomHeader from '@/components/CustomHeader.vue';
@@ -99,6 +100,16 @@ export default {
         this.showError(error.error ?? error);
       }
     },
+
+    showSuccess(text) {
+      this.$swal.fire({
+        title: 'Success!',
+        text: text,
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
+    },
+
     showError(text) {
       this.$swal.fire({
         title: 'Error!',
@@ -107,6 +118,7 @@ export default {
         confirmButtonText: 'Ok',
       });
     },
+
     objetcIsEmpty(obj) {
       return Object.keys(obj).length === 0;
     },
@@ -118,8 +130,18 @@ export default {
       this.$router.push(`${currentPath}/MyRecognitions`);
     },
 
-    save() {
-      console.log('save');
+    async save() {
+      try {
+        await ProfileService.update(this.userProfile).then(() => {
+          this.showSuccess('Your profile was updated successfully.');
+        })
+          .catch((error) => {
+            this.showError(error.error ?? error);
+          });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+
     }
 
   },
