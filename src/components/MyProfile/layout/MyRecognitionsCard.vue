@@ -19,8 +19,8 @@
 
                     <CCol sm="6" md="6" lg="4" xl="2" class="">
                         <div>
-                            <strong>Category: </strong> {{ data.category }} <br>
-                            <strong>Sub Categories: </strong>
+                            <strong>Value: </strong> {{ data.category }} <br>
+                            <strong>Behaviors: </strong>
                             <ul class="pl-3">
                                 <li v-for="(subCategory, index) in data.subCategory" :key="index">{{ subCategory }}</li>
                             </ul>
