@@ -1,9 +1,17 @@
 <template>
+  <CRow class="d-flex justify-content-center align-items-center position-relative">
+    <CustomHeader class="mb-1" :fnButton="save" :textButton="'Save'" :requiredButton="true" action='save'
+      :requiredCancelButton="false" />
+  </CRow>
   <CRow class="my-4">
     <CCol :xs="isMobile ? 12 : 6">
       <h3 class="mb-4">Personal Information</h3>
+
+      <label>Nickname</label>
+      <CFormInput v-model="userProfile.nickName" type="text" placeholder="nickName" /> <br>
+
       <label>First Name</label>
-      <CFormInput v-model="userProfile.firstName" type="text" placeholder="first name" readonly />
+      <CFormInput v-model="userProfile.firstName" type="text" placeholder="first name" readonly /> <br>
 
       <label>Email</label>
       <CFormInput v-model="userProfile.email" type="email" placeholder="email" readonly />
@@ -11,8 +19,8 @@
       <h3 class="mt-5">Total Accumulated Points</h3>
       <p class="text-info font-weight-bold">{{ userProfile.points }} points</p>
       <p></p>
-      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions()"
-        class="view-executions-link">See my recognitions ({{ countRegognitions }})</a>
+      <a v-if="countRegognitions > 0" href="#" @click.prevent="showRecognitions()" class="view-executions-link">See my
+        recognitions ({{ countRegognitions }})</a>
       <span v-else href="#" class="view-executions-link">You have no recognitions yet</span>
     </CCol>
 
@@ -36,10 +44,11 @@
 <script>
 import { CCol } from '@coreui/vue';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
+import CustomHeader from '@/components/CustomHeader.vue';
 
 export default {
 
-  components: { CCol },
+  components: { CCol, CustomHeader },
 
   data() {
     return {
@@ -103,15 +112,19 @@ export default {
     },
 
     showRecognitions() {
-    let currentRoute = this.$router.currentRoute;
-    let currentPath = currentRoute.value.fullPath;
-    currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
-    this.$router.push(`${currentPath}/MyRecognitions`);
-  }
+      let currentRoute = this.$router.currentRoute;
+      let currentPath = currentRoute.value.fullPath;
+      currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
+      this.$router.push(`${currentPath}/MyRecognitions`);
+    },
+
+    save() {
+      console.log('save');
+    }
 
   },
 
- 
+
 };
 
 
