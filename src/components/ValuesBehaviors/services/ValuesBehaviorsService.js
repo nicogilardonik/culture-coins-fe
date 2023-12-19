@@ -6,7 +6,7 @@ class ValuesBehaviorsService {
             const list = await Api.get(`ValuesBehaviors`);
             return list;
         } catch (error) {
-            console.error('Error al hacer test');
+            console.error('Error al obtener los Values Behaviors');
             throw error
         }
     }

@@ -11,7 +11,7 @@
         @filter-changed="filterChanged"
         action="create"
       />
-      <p>La fuente es: {{ $route.params.title }}</p>
+
       <div v-if="recognitions.length">
         <CRow>
           <MyRecognitionsCard
