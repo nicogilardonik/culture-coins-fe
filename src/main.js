@@ -29,9 +29,16 @@ app.mount('#app');
 
 async function initilizeData() {
     try {
-        //Cargo el perfil del usuario y los projectos
+        //Cargo el perfil del usuario
         let userProfile = await CommonServices.getUserProfile();
         store.commit('setUserProfile', userProfile);
+
+        //Cargo las notificaciones
+
+        // setInterval(async function () {
+        //     let lastNotificacions = await CommonServices.getLastNotificacions();
+        //     store.commit('setLastNotificacions', lastNotificacions);
+        // }, 60000);
     }
     catch (error) {
         console.log(error);
