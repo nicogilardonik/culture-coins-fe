@@ -36,19 +36,27 @@
         <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill }}</li>
       </ul> -->
 
-      <h5>Skills</h5>
+      <div class="d-flex align-self-center">
+        <h5 style="margin-right: 10px;">Skills</h5>
+        <CButton @click="toggleSkillsMenu" size="sm" class="btn btn-primary">Manage Skills</CButton>
+      </div>
       <ul class="pl-3">
         <li v-for="(skill, index) in userProfile.skills" :key="index">
           {{ skill }}
-          <button @click="removeSkill(index)" class="btn btn-sm btn-danger">Remove</button>
+
+          <CTooltip v-if="showSkillsMenu" content="Remove" placement="top">
+            <template #toggler="{ on }">
+              <IconCircleX color="#e74c3c" size="1.5rem" data-toggle="tooltip" data-placement="top" title="Tooltip on top"
+                v-on="on" @click="removeSkill(index)" />
+            </template>
+          </CTooltip>
+
         </li>
       </ul>
-
-      <h5>Manage Skills</h5>
       <div>
-        <button @click="toggleSkillsMenu" class="btn btn-primary">Add Skill</button>
+        <h5 v-if="showSkillsMenu">Add Skill</h5>
         <ul v-if="showSkillsMenu" class="pl-3">
-          <li v-for="skill in skillsList" :key="skill._id">
+          <li v-for="skill in filteredSkillsList" :key="skill._id">
             <button @click="addSkill(skill.name)" class="btn btn-sm btn-outline-primary">{{ skill.name }}</button>
           </li>
         </ul>
@@ -58,8 +66,7 @@
   </CRow>
 </template>
 
-la idea seria que haya un boton que sea agregar skill y que se pueda agregar a la lista de skills del usuario
-que no esten simpre visibles, que acceda mediante un boton y quisa un multiple selector, o algo mas lindo
+
 
 
 
@@ -68,10 +75,11 @@ import ProfileService from '@/components/MyProfile/services/profileService';
 import { CCol } from '@coreui/vue';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
 import CustomHeader from '@/components/CustomHeader.vue';
+import { IconCircleX } from '@tabler/icons-vue';
 
 export default {
 
-  components: { CCol, CustomHeader },
+  components: { CCol, CustomHeader, IconCircleX },
 
   data() {
     return {
@@ -85,126 +93,129 @@ export default {
   computed: {
     userProfile() {
       return this.$store.state.userProfile;
+    },
+    filteredSkillsList() {
+      return this.skillsList.filter(skill => !this.userProfile.skills.includes(skill.name));
+    },
+  },
+
+watch: {
+  userProfile: {
+    handler(newProfile) {
+      if (newProfile && Object.keys(newProfile).length > 0) {
+        this.getRecognitions();
+      }
+    },
+    immediate: true,
+    },
+},
+
+mounted() {
+  window.addEventListener('resize', this.checkWindowSize);
+  this.checkWindowSize();
+  this.setTitle();
+  this.getSkils();
+
+},
+methods: {
+  setTitle() {
+    this.$store.commit('setPageTitle', this.title);
+  },
+
+  checkWindowSize() {
+    this.isMobile = window.innerWidth <= 768;
+  },
+
+    async getRecognitions() {
+    try {
+      await RecognitionService.getMyRecognitions(this.userProfile.email)
+        .then((response) => {
+          this.countRegognitions = response.length;
+        })
+        .catch((error) => {
+          this.showError(error.error ?? error);
+        });
+    } catch (error) {
+      this.showError(error.error ?? error);
     }
   },
 
-  watch: {
-    userProfile: {
-      handler(newProfile) {
-        if (newProfile && Object.keys(newProfile).length > 0) {
-          this.getRecognitions();
-        }
-      },
-      immediate: true,
-    },
-  },
-
-  mounted() {
-    window.addEventListener('resize', this.checkWindowSize);
-    this.checkWindowSize();
-    this.setTitle();
-    this.getSkils();
-
-  },
-  methods: {
-    setTitle() {
-      this.$store.commit('setPageTitle', this.title);
-    },
-
-    checkWindowSize() {
-      this.isMobile = window.innerWidth <= 768;
-    },
-
-    async getRecognitions() {
-      try {
-        await RecognitionService.getMyRecognitions(this.userProfile.email)
-          .then((response) => {
-            this.countRegognitions = response.length;
-          })
-          .catch((error) => {
-            this.showError(error.error ?? error);
-          });
-      } catch (error) {
-        this.showError(error.error ?? error);
-      }
-    },
-
     async getSkils() {
-      try {
-        await ProfileService.getSkills().then((response) => {
-            this.skillsList = response;
-          }).catch((error) => {
-            this.showError(error.error ?? error);
-          });
-      } catch (error) {
+    try {
+      await ProfileService.getSkills().then((response) => {
+        this.skillsList = response;
+      }).catch((error) => {
         this.showError(error.error ?? error);
-      }
-    },
-
-    showSuccess(text) {
-      this.$swal.fire({
-        title: 'Success!',
-        text: text,
-        icon: 'success',
-        confirmButtonText: 'Ok',
       });
-    },
+    } catch (error) {
+      this.showError(error.error ?? error);
+    }
+  },
 
-    showError(text) {
-      this.$swal.fire({
-        title: 'Error!',
-        text: text,
-        icon: 'error',
-        confirmButtonText: 'Ok',
-      });
-    },
+  showSuccess(text) {
+    this.$swal.fire({
+      title: 'Success!',
+      text: text,
+      icon: 'success',
+      confirmButtonText: 'Ok',
+    });
+  },
 
-    objetcIsEmpty(obj) {
-      return Object.keys(obj).length === 0;
-    },
+  showError(text) {
+    this.$swal.fire({
+      title: 'Error!',
+      text: text,
+      icon: 'error',
+      confirmButtonText: 'Ok',
+    });
+  },
 
-    showRecognitions() {
-      let currentRoute = this.$router.currentRoute;
-      let currentPath = currentRoute.value.fullPath;
-      currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
-      this.$router.push(`${currentPath}/MyRecognitions`);
-    },
+  objetcIsEmpty(obj) {
+    return Object.keys(obj).length === 0;
+  },
+
+  showRecognitions() {
+    let currentRoute = this.$router.currentRoute;
+    let currentPath = currentRoute.value.fullPath;
+    currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
+    this.$router.push(`${currentPath}/MyRecognitions`);
+  },
 
     async save() {
-      try {
-        await ProfileService.update(this.userProfile).then(() => {
-          this.showSuccess('Your profile was updated successfully.');
-        })
-          .catch((error) => {
-            this.showError(error.error ?? error);
-          });
-      } catch (error) {
-        this.showError(error.error ?? error);
-      }
-    },
-
-    addSkill(skill) {
-      if (!this.userProfile.skills.includes(skill)) {
-        this.userProfile.skills.push(skill);
-      } else {
-        this.$swal.fire({
-          title: 'Skill already added!',
-          text: 'You have already added this skill to your profile.',
-          icon: 'warning',
-          confirmButtonText: 'OK',
+    try {
+      await ProfileService.update(this.userProfile).then(() => {
+        this.showSuccess('Your profile was updated successfully.');
+      })
+        .catch((error) => {
+          this.showError(error.error ?? error);
         });
-      }
-    },
-
-    removeSkill(index) {
-      this.userProfile.skills.splice(index, 1);
-    },
-
-    toggleSkillsMenu() {
-      this.showSkillsMenu = !this.showSkillsMenu;
-    },
-
+    } catch (error) {
+      this.showError(error.error ?? error);
+    }
   },
+
+  addSkill(skill) {
+    if (!this.userProfile.skills.includes(skill)) {
+      this.userProfile.skills.push(skill);
+    } else {
+      this.$swal.fire({
+        title: 'Skill already added!',
+        text: 'You have already added this skill to your profile.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+    }
+  },
+
+  removeSkill(index) {
+    this.userProfile.skills.splice(index, 1);
+  },
+
+  toggleSkillsMenu() {
+    this.showSkillsMenu = !this.showSkillsMenu;
+  },
+
+},
 
 
 };
