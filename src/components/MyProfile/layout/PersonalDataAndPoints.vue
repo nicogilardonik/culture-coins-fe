@@ -31,14 +31,36 @@
 
       <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="userProfile.receiveSupportRequest" />
 
-      <h5>skills</h5>
+      <!-- <h5>skills</h5>
       <ul class="pl-3">
         <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill }}</li>
+      </ul> -->
+
+      <h5>Skills</h5>
+      <ul class="pl-3">
+        <li v-for="(skill, index) in userProfile.skills" :key="index">
+          {{ skill }}
+          <button @click="removeSkill(index)" class="btn btn-sm btn-danger">Remove</button>
+        </li>
       </ul>
+
+      <h5>Manage Skills</h5>
+      <div>
+        <button @click="toggleSkillsMenu" class="btn btn-primary">Add Skill</button>
+        <ul v-if="showSkillsMenu" class="pl-3">
+          <li v-for="skill in skillsList" :key="skill._id">
+            <button @click="addSkill(skill.name)" class="btn btn-sm btn-outline-primary">{{ skill.name }}</button>
+          </li>
+        </ul>
+      </div>
 
     </CCol>
   </CRow>
 </template>
+
+la idea seria que haya un boton que sea agregar skill y que se pueda agregar a la lista de skills del usuario
+que no esten simpre visibles, que acceda mediante un boton y quisa un multiple selector, o algo mas lindo
+
 
 
 <script>
@@ -56,6 +78,8 @@ export default {
       title: 'My Personal Data & Points',
       isMobile: window.innerWidth <= 768,
       countRegognitions: 0,
+      skillsList: [],
+      showSkillsMenu: false,
     };
   },
   computed: {
@@ -79,14 +103,18 @@ export default {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
     this.setTitle();
+    this.getSkils();
+
   },
   methods: {
     setTitle() {
       this.$store.commit('setPageTitle', this.title);
     },
+
     checkWindowSize() {
       this.isMobile = window.innerWidth <= 768;
     },
+
     async getRecognitions() {
       try {
         await RecognitionService.getMyRecognitions(this.userProfile.email)
@@ -94,6 +122,18 @@ export default {
             this.countRegognitions = response.length;
           })
           .catch((error) => {
+            this.showError(error.error ?? error);
+          });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
+
+    async getSkils() {
+      try {
+        await ProfileService.getSkills().then((response) => {
+            this.skillsList = response;
+          }).catch((error) => {
             this.showError(error.error ?? error);
           });
       } catch (error) {
@@ -141,8 +181,28 @@ export default {
       } catch (error) {
         this.showError(error.error ?? error);
       }
+    },
 
-    }
+    addSkill(skill) {
+      if (!this.userProfile.skills.includes(skill)) {
+        this.userProfile.skills.push(skill);
+      } else {
+        this.$swal.fire({
+          title: 'Skill already added!',
+          text: 'You have already added this skill to your profile.',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+        });
+      }
+    },
+
+    removeSkill(index) {
+      this.userProfile.skills.splice(index, 1);
+    },
+
+    toggleSkillsMenu() {
+      this.showSkillsMenu = !this.showSkillsMenu;
+    },
 
   },
 
