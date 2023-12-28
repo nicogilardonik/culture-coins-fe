@@ -7,7 +7,7 @@ class CommonServices {
   }
 
   async getLastNotificacions() {
-    let lastNotificacions = await BaseRequest.get(`notifications`);
+    let lastNotificacions = await BaseRequest.get(`recognition/lastMinute`);
     return lastNotificacions;
   }
 

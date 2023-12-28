@@ -35,10 +35,10 @@ async function initilizeData() {
 
         //Cargo las notificaciones
 
-        // setInterval(async function () {
-        //     let lastNotificacions = await CommonServices.getLastNotificacions();
-        //     store.commit('setLastNotificacions', lastNotificacions);
-        // }, 60000);
+         setInterval(async function () {
+             let lastNotificacions = await CommonServices.getLastNotificacions();
+             store.commit('setLastNotificacions', lastNotificacions);
+         }, 60000);
     }
     catch (error) {
         console.log(error);
