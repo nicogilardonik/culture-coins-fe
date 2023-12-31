@@ -5,8 +5,8 @@ import AskYourCommunityList from '@/components/AskYourCommunity/layout/AskYourCo
 import AskYourCommunityCreate from '@/components/AskYourCommunity/layout/AskYourCommunityCreate.vue'
 import PersonalDataAndPoints from '@/components/MyProfile/layout/PersonalDataAndPoints.vue'
 import MyRecognitions from '@/components/MyProfile/layout/MyRecognitions.vue'
-import ValuesBehaviors from '@/components/ValuesBehaviors/layout/ValuesBehaviors.vue'
-
+import ValuesBehaviors from '@/components/MiInfogain/ValuesBehaviors/layout/ValuesBehaviors.vue'
+import LastActivity from '@/components/MiInfogain/LastActivity/layaout/LastActivity.vue'
 const routes = [
   {
     path: '/',
@@ -36,12 +36,12 @@ const routes = [
         component: MyRecognitions,
       },
       {
-        path: '/LastActivity',
+        path: '/MiInfogain/LastActivity',
         name: 'Last Activity',
-        component: MyRecognitions,
+        component: LastActivity,
       },
       {
-        path: '/ValuesBehaviors',
+        path: '/MiInfogain/ValuesBehaviors',
         name: 'ValuesBehaviors',
         component: ValuesBehaviors,
       },
