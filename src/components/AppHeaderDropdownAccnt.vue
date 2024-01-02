@@ -58,7 +58,7 @@ export default {
 <style>
 
 .avatar-text {
-  background-color: #027380;
+  background-color: #017481;
   font-weight: 600;
 }
 

@@ -5,7 +5,8 @@ export default createStore({
     sidebarVisible: '',
     sidebarUnfoldable: false,
     userProfile: {},
-    pageTitle: null
+    pageTitle: null,
+    lastNotificacions: [],
   },
   mutations: {
     toggleSidebar(state) {
@@ -22,6 +23,9 @@ export default createStore({
     },
     setPageTitle(state, pageTitle){
       state.pageTitle = pageTitle;
+    },
+    setLastNotificacions(state, lastNotificacions){
+      state.lastNotificacions = lastNotificacions;
     }
   },
   actions: {},
