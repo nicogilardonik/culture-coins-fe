@@ -1,0 +1,4 @@
+export const ERROR_SEVERITY = {
+    CRITICAL: 'CRITICAL',
+    NORMAL: 'NORMAL'
+}

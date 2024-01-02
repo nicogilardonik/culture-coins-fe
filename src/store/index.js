@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import { ERROR_SEVERITY } from "@/helpers/constants"
 
 export default createStore({
   state: {
@@ -7,27 +8,42 @@ export default createStore({
     userProfile: {},
     pageTitle: null,
     lastNotificacions: [],
+    lastWaning: [],
+    lastError: [],
+    lastCriticalErrors: [],
   },
   mutations: {
     toggleSidebar(state) {
-      state.sidebarVisible = !state.sidebarVisible
+      state.sidebarVisible = !state.sidebarVisible;
     },
     toggleUnfoldable(state) {
-      state.sidebarUnfoldable = !state.sidebarUnfoldable
+      state.sidebarUnfoldable = !state.sidebarUnfoldable;
     },
     updateSidebarVisible(state, payload) {
-      state.sidebarVisible = payload.value
+      state.sidebarVisible = payload.value;
     },
     setUserProfile(state, userProfile) {
-      state.userProfile = userProfile
+      state.userProfile = userProfile;
     },
-    setPageTitle(state, pageTitle){
+    setPageTitle(state, pageTitle) {
       state.pageTitle = pageTitle;
     },
-    setLastNotificacions(state, lastNotificacions){
-      state.lastNotificacions = lastNotificacions;
-    }
+    addNotification(state, message){
+      state.lastNotificacion = message;
+    },
+    addWarning(state, warning) {
+      state.lastWarning = warning;
+    },
+    addError(state, error) {
+      error.errorSeverity == error.errorSeverity ?? ERROR_SEVERITY.NORMAL;
+      if (error.errorSeverity == ERROR_SEVERITY.CRITICAL) state.lastCriticalError = error;
+      else state.lastError = error;
+    },
+    addCriticalError(state, error) {
+      error.errorSeverity == ERROR_SEVERITY.CRITICAL;
+      state.lastCriticalError = error;
+    },
   },
   actions: {},
   modules: {},
-})
+});

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <CRow
     class="d-flex justify-content-center align-items-center position-relative"
   >
@@ -138,4 +138,76 @@ export default {
   },
 }
 </script>
-<style></style>
+<style></style> -->
+
+
+<template>
+  <CCard>
+      <CCardBody>
+      
+          <CCallout color="info">
+              <h3>Toasts</h3>
+              Los toasts permiten mostrar mensajes de forma no intrusiva. <br>
+              Estos mensajes pueden ser de tres tipos: ERROR, ADVERTENCIA o ERROR.<br>
+              Así mismo, es posible indicar si el toast se cierra automáticamente o no.
+          </CCallout>
+          <CFormCheck v-model="toastAutohide" :checked="toastAutohide" label="Autohide"/>
+          <CButtonGroup role="group">
+              <CButton color="info" @click="showInfo">Show Notification</CButton>
+              <CButton color="warning" @click="showWarning">Show Warning</CButton>
+              <CButton color="danger" @click="showError">Show Error</CButton>
+          </CButtonGroup>
+
+          <CCallout class="mt-5" color="info">
+              <h3>Mensaje intrusivo</h3>
+              Los mensajes instrusivos se muestran en el centro de la pantalla y no permiten realizar otra acción hasta que no son cerrados
+          </CCallout>
+          <CButton color="danger" @click="showCriticalError">Show Critical Error</CButton>
+      </CCardBody>
+  </CCard>
+
+</template>
+  
+<script>
+
+export default {
+  name: 'TestErrors',
+  data() {
+      return {
+          toastAutohide: true,
+      };
+  },
+
+  methods: {
+      showInfo() {
+          this.$store.commit("addNotification", {
+              title: "Título del mensaje",
+              message: "Mensaje de información",
+              autoHide: this.toastAutohide
+          })
+      },
+      showWarning() {
+          this.$store.commit("addWarning", {
+              title: "Título del mensaje",
+              message: "Mensaje de advertencia",
+              autoHide: this.toastAutohide
+          })
+      },
+      showError() {
+          this.$store.commit("addError", {
+              title: "Título del error",
+              message: "Mensaje de error",
+              autoHide: this.toastAutohide
+          })
+      },
+      showCriticalError(){
+          this.$store.commit("addCriticalError", {
+              title: "Título del error",
+              message: "Ocurrió un error"
+          })
+      }
+  }
+
+}
+</script>
+  

@@ -2,7 +2,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-
+import errorHandler from '@/helpers/errorHandler';
+import { ERROR_SEVERITY } from "@/helpers/constants";
 import CommonServices from '@/services/commonServices';
 import CoreuiVue from '@coreui/vue';
 import CIcon from '@coreui/icons-vue';
@@ -14,6 +15,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 const app = createApp(App);
+
+addErrorHandlers(app);
+
 app.use(store);
 await initilizeData();
 app.use(router);
@@ -35,6 +39,7 @@ async function initilizeData() {
 
         //Cargo las notificaciones
         loadNotifications();
+
         //Hago un setInterval para actualizar las notificaciones cada 1 minuto
         setInterval(async function () {
             loadNotifications();
@@ -42,18 +47,47 @@ async function initilizeData() {
     }
     catch (error) {
         console.log(error);
-        //TODO: manejador de errores generico
+        errorHandler.handleError(error);
     }
 }
 
 async function loadNotifications() {
     try {
         let lastNotificacions = await CommonServices.getLastNotificacions();
-        store.commit('setLastNotificacions', lastNotificacions);
+      
+        let index = 0;
+        let intervalId = setInterval(function () {
+            if (index >= lastNotificacions.length) {
+                clearInterval(intervalId);
+                return;
+            }
+    
+            let ln = lastNotificacions[index];
+            let notification = {
+                title: "New Recogniton!",
+                message: `${ln.userFrom} has recognized  ${ln.userTo} for ${ln.category}`,
+                autoHide: true
+            };
+            store.commit('addNotification', notification);
+    
+            index++;
+        }, 800);
+    } catch (error) {
+        console.error(error);
+        errorHandler.handleError(error);
     }
-    catch (error) {
-        console.log(error);
-    }
+}
+
+function addErrorHandlers(app) {
+    app.config.errorHandler = (err) => {
+        err.errorSeverity = ERROR_SEVERITY.CRITICAL;
+        errorHandler.handleError(err);
+    };
+    window.addEventListener('unhandledrejection', event => {
+        event.reason.errorSeverity = ERROR_SEVERITY.CRITICAL;
+        errorHandler.handleError(event.reason);
+        event.preventDefault();
+    });
 }
 
 
