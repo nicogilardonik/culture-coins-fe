@@ -51,12 +51,12 @@ export default [
       {
         component: 'CNavItem',
         name: 'Values ans behaviors',
-        to: '/ValuesBehaviors',
+        to: '/MiInfogain/ValuesBehaviors',
       },
       {
         component: 'CNavItem',
         name: 'Last activity',
-        to: '/LastActivity',
+        to: '/MiInfogain/LastActivity',
       },
     ],
   },

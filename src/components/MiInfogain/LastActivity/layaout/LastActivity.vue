@@ -8,7 +8,7 @@
   import ListRecognitions from '@/components/ListRecognitions'
   
   export default {
-    name: 'MyRecognitions',
+    name: 'LastActivity',
   
     components: {
       ListRecognitions,
@@ -16,14 +16,11 @@
   
     data() {
       return {
-        titlet: "My recognition",
-        email: null,
+        titlet: "Last Activity",
+        email: "",
       }
     },
-  
-    created() {
-      this.email = this.$store.state.userProfile.email;
-    },
+
   }
   </script>
   
