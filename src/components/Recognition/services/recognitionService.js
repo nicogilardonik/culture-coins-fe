@@ -4,9 +4,9 @@ class RecognitionService {
 
     async addRecognition(data) {
         try {
-            let x = data 
-            //let test = await Api.get(`acknowledgment`)
-            return x;
+            //let x = data 
+            let result = await Api.post(`recognition`, data)
+            return result;
         } catch (error) {
             console.error('Error al hacer test')
             throw error
