@@ -14,8 +14,8 @@
 
 <script>
 import { IconSearch } from '@tabler/icons-vue';
-import Card from "@/components/ValuesBehaviors/layout/Card.vue";
-import Service from "@/components/ValuesBehaviors/services/ValuesBehaviorsService";
+import Card from "@/components/MiInfogain/ValuesBehaviors/layout/Card.vue";
+import Service from "@/components/MiInfogain/ValuesBehaviors/services/ValuesBehaviorsService";
 
 export default {
   components: {

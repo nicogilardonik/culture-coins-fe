@@ -184,6 +184,7 @@ methods: {
     async save() {
     try {
       await ProfileService.update(this.userProfile).then(() => {
+        this.showSkillsMenu = false;
         this.showSuccess('Your profile was updated successfully.');
       })
         .catch((error) => {
