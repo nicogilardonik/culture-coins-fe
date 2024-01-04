@@ -51,7 +51,6 @@ props: {
         isMobile: window.innerWidth <= 768,
         recognitions: [],
         filters: [
-                  { name: 'By title', value: 'title' },
                   { name: 'By date', value: 'createdAt' }
               ],
       }

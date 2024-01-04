@@ -50,7 +50,6 @@ export default {
       isMobile: window.innerWidth <= 768,
       requests: [],
       filters: [
-                { name: 'By title', value: 'title' },
                 { name: 'By date', value: 'createdAt' }
             ],
     }

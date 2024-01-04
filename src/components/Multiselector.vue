@@ -3,7 +3,7 @@
       <CCol xs="12" md="5">
         <div class="select-wrapper">
           <select v-model="selectedGroup" class="custom-select">
-            <option disabled value="">Select group</option>
+            <option disabled value="">Select value</option>
             <option
               v-for="(description, group) in groups" :key="group" :value="group">
               {{ group }}
