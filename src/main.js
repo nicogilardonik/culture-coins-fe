@@ -65,7 +65,7 @@ async function loadNotifications() {
             let ln = lastNotificacions[index];
             let notification = {
                 title: "New Recogniton!",
-                message: `${ln.userFrom} has recognized  ${ln.userTo} for ${ln.category}`,
+                message: `${ln.userFromNickName} has recognized  ${ln.userToNickName} for ${ln.category}`,
                 autoHide: true
             };
             store.commit('addNotification', notification);

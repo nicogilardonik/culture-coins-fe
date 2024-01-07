@@ -51,7 +51,7 @@
                         <div><strong>Created at : </strong> {{ formatDate(data.createdAt) }}</div>
                     </CCol>
                     <CCol v-if="data.updatedAt" sm="12" md="6" class="custom-font-size d-flex justify-content-end">
-                        <div><strong>Apdated at : </strong> {{ formatDate(data.updatedAt) }}</div>
+                        <div><strong>Updated at : </strong> {{ formatDate(data.updatedAt) }}</div>
                     </CCol>
                 </CRow>
             </CCardFooter>

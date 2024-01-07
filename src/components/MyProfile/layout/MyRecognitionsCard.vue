@@ -3,7 +3,7 @@
         <CCard>
             <CCardHeader class="d-flex justify-content-between">
                 <div class="d-flex align-self-center">
-                    <h4 class="d-inline-block"> By: {{ data.userFrom }}</h4>
+                    <h4 class="d-inline-block"> By: {{ data.userFromNickName }}</h4>
                 </div>
             </CCardHeader>
             <CCardBody>

@@ -5,7 +5,7 @@ class RecognitionService {
     async addRecognition(data) {
         try {
             //let x = data 
-            let result = await Api.post(`recognition`, data)
+            const result = await Api.post(`recognition`, data)
             return result;
         } catch (error) {
             console.error('Error al hacer test')

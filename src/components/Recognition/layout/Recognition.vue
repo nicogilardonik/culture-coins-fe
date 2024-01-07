@@ -59,7 +59,7 @@ export default {
       try {
         this.getData();
         this.validate();
-        let model = new Recognition(this.message);
+        const model = new Recognition(this.message);
         RecognitionService.addRecognition(model);
         this.showSuccess('Recognition created successfully');
       } catch (error) {

@@ -1,9 +1,9 @@
 export class Recognition {
     constructor(message) {
       this.message = message,
-      this.userToEmail = "nicogilardonik@gmail.com",
-      this.userToNickName = "nicolas",
-      this.userFromNickName = "joaquin"
+      this.userToEmail = "banchero510@gmail.com",
+      this.userToNickName = "Joaquin",
+      this.userFromNickName = "Nicolas"
     }
   
     static fromJSON(json) {
