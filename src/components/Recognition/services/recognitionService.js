@@ -4,7 +4,6 @@ class RecognitionService {
 
     async addRecognition(data) {
         try {
-            //let x = data 
             const result = await Api.post(`recognition`, data)
             return result;
         } catch (error) {
