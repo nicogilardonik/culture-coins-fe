@@ -61,6 +61,32 @@
           </li>
         </ul>
       </div>
+<!-- teams -->
+      <div class="d-flex align-self-center">
+        <h5 style="margin-right: 10px;">Teams</h5>
+        <CButton @click="toggleTeamsMenu" size="sm" class="btn btn-primary">Manage Teams</CButton>
+      </div>
+      <ul class="pl-3">
+        <li v-for="(team, index) in userProfile.teams" :key="index">
+          {{ team }}
+
+          <CTooltip v-if="showTeamsMenu" content="Remove" placement="top">
+            <template #toggler="{ on }">
+              <IconCircleX color="#e74c3c" size="1.5rem" data-toggle="tooltip" data-placement="top" title="Tooltip on top"
+                v-on="on" @click="removeTeam(index)" />
+            </template>
+          </CTooltip>
+
+        </li>
+      </ul>
+      <div>
+        <h5 v-if="showTeamsMenu">Add Team</h5>
+        <ul v-if="showTeamsMenu" class="pl-3">
+          <li v-for="team in filteredTeamsList" :key="team._id">
+            <button @click="addTeam(team.name)" class="btn btn-sm btn-outline-primary">{{ team.name }}</button>
+          </li>
+        </ul>
+      </div>
 
     </CCol>
   </CRow>
@@ -87,7 +113,9 @@ export default {
       isMobile: window.innerWidth <= 768,
       countRegognitions: 0,
       skillsList: [],
+      teamsList: [],
       showSkillsMenu: false,
+      showTeamsMenu: false,
     };
   },
   computed: {
@@ -96,6 +124,9 @@ export default {
     },
     filteredSkillsList() {
       return this.skillsList.filter(skill => !this.userProfile.skills.includes(skill.name));
+    },
+    filteredTeamsList() {
+      return this.teamsList.filter(team => !this.userProfile.teams.includes(team.name));
     },
   },
 
@@ -115,6 +146,7 @@ mounted() {
   this.checkWindowSize();
   this.setTitle();
   this.getSkils();
+  this.getTeams();
 
 },
 methods: {
@@ -144,6 +176,18 @@ methods: {
     try {
       await ProfileService.getSkills().then((response) => {
         this.skillsList = response;
+      }).catch((error) => {
+        this.showError(error.error ?? error);
+      });
+    } catch (error) {
+      this.showError(error.error ?? error);
+    }
+  },
+
+  async getTeams() {
+    try {
+      await ProfileService.getTeams().then((response) => {
+        this.teamsList = response;
       }).catch((error) => {
         this.showError(error.error ?? error);
       });
@@ -185,6 +229,7 @@ methods: {
     try {
       await ProfileService.update(this.userProfile).then(() => {
         this.showSkillsMenu = false;
+        this.showTeamsMenu = false;
         this.showSuccess('Your profile was updated successfully.');
       })
         .catch((error) => {
@@ -208,14 +253,33 @@ methods: {
     }
   },
 
+  addTeam(team) {
+    if (!this.userProfile.teams.includes(team)) {
+      this.userProfile.teams.push(team);
+    } else {
+      this.$swal.fire({
+        title: 'Skill already added!',
+        text: 'You have already added this team to your profile.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+    }
+  },
+
   removeSkill(index) {
     this.userProfile.skills.splice(index, 1);
+  },
+  removeTeam(index) {
+    this.userProfile.teams.splice(index, 1);
   },
 
   toggleSkillsMenu() {
     this.showSkillsMenu = !this.showSkillsMenu;
   },
 
+  toggleTeamsMenu() {
+    this.showTeamsMenu = !this.showTeamsMenu;
+  }
 },
 
 
