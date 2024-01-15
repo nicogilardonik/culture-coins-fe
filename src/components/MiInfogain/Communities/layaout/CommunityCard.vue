@@ -20,7 +20,7 @@
           </CCol>
 
           <CCol sm="6" md="6" lg="4" xl="2">
-            <CButton color="primary" size="md" class="kibana-font-weight" @click="save">
+            <CButton color="primary" size="md" class="kibana-font-weight" @click="join">
               join
             </CButton>
           </CCol>
@@ -52,12 +52,13 @@ export default {
     setUsers() {
       this.UsersFilter = this.users.filter(user => user.communities.includes(this.name));
     },
-    async save() {
+    async join() {
       if (!this.userProfile.communities.includes(this.name)) {
         this.userProfile.communities.push(this.name);
         try {
           await CommunitiesService.update(this.userProfile).then(() => {
-            this.showSuccess('Entro a la comunidad.');
+            this.showSuccess('I join the community.');
+            this.UsersFilter.push(this.userProfile);
           })
             .catch((error) => {
               this.showError(error.error ?? error);
@@ -67,8 +68,8 @@ export default {
         }
       } else {
         this.$swal.fire({
-          title: 'Community already added!',
-          text: 'You have already added this community to your profile.',
+          title: 'You could not join!',
+          text: 'You already belong to this community',
           icon: 'warning',
           confirmButtonText: 'OK',
         })
