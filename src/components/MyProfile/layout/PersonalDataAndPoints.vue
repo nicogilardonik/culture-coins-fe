@@ -258,7 +258,7 @@ methods: {
       this.userProfile.teams.push(team);
     } else {
       this.$swal.fire({
-        title: 'Skill already added!',
+        title: 'Team already added!',
         text: 'You have already added this team to your profile.',
         icon: 'warning',
         confirmButtonText: 'OK',

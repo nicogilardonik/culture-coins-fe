@@ -7,6 +7,7 @@ import PersonalDataAndPoints from '@/components/MyProfile/layout/PersonalDataAnd
 import MyRecognitions from '@/components/MyProfile/layout/MyRecognitions.vue'
 import ValuesBehaviors from '@/components/MiInfogain/ValuesBehaviors/layout/ValuesBehaviors.vue'
 import LastActivity from '@/components/MiInfogain/LastActivity/layaout/LastActivity.vue'
+import Communities from '@/components/MiInfogain/Communities/layaout/Communities.vue'
 const routes = [
   {
     path: '/',
@@ -44,6 +45,11 @@ const routes = [
         path: '/MiInfogain/ValuesBehaviors',
         name: 'ValuesBehaviors',
         component: ValuesBehaviors,
+      },
+      {
+        path: '/MiInfogain/Communities',
+        name: 'Communities',
+        component: Communities,
       },
       {
         path: '/ask-your-community/list',

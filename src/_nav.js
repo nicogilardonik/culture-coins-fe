@@ -58,6 +58,11 @@ export default [
         name: 'Last activity',
         to: '/MiInfogain/LastActivity',
       },
+      {
+        component: 'CNavItem',
+        name: 'Communities',
+        to: '/MiInfogain/Communities',
+      },
     ],
   },
 ]
