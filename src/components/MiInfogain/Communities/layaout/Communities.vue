@@ -1,7 +1,7 @@
 <template>
 
 <div v-for="community in communities" :key="community.id">
-  <CommunityCard :name="community.name" :users="Users"/> 
+  <CommunityCard :name="community.name"/> 
 </div>
 
 
@@ -21,14 +21,12 @@ export default {
     return {
       title: 'Communities',
       isMobile: window.innerWidth <= 768,
-      Users: [],
       communities: [],
       name: "Uruguay"
     }
   },
   mounted() {
     this.setTitle()
-    this.getUsers();
     this.getCommunities();
   },
 
@@ -36,18 +34,6 @@ export default {
     setTitle() {
       this.$store.commit('setPageTitle', this.title)
     },
-
-    async getUsers() {
-    try {
-      await CommunitiesService.getUsers().then((response) => {
-        this.Users = response;
-      }).catch((error) => {
-        this.showError(error.error ?? error);
-      });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-  },
   async getCommunities(){
     try {
       await CommunitiesService.getCommunities().then((response) => {

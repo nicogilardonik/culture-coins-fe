@@ -37,7 +37,6 @@ import CommunitiesService from '@/components/MiInfogain/Communities/services/Com
 export default {
   props: {
     name: { type: String },
-    users: { type: Array },
   },
   data() {
     return {
@@ -49,9 +48,19 @@ export default {
     this.setUsers();
   },
   methods: {
-    setUsers() {
-      this.UsersFilter = this.users.filter(user => user.communities.includes(this.name));
+    async setUsers() {
+      try {
+      await CommunitiesService.getUsers().then((response) => {
+        this.UsersFilter = response.filter(user => user.communities.includes(this.name))
+      }).catch((error) => {
+        this.showError(error.error ?? error);
+      });
+    } catch (error) {
+      this.showError(error.error ?? error);
+    }
+      ;
     },
+
     async join() {
       if (!this.userProfile.communities.includes(this.name)) {
         this.userProfile.communities.push(this.name);
