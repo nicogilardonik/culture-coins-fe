@@ -31,70 +31,16 @@
 
       <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="userProfile.receiveSupportRequest" />
 
-      <!-- <h5>skills</h5>
-      <ul class="pl-3">
-        <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill }}</li>
-      </ul> -->
-    <div class="preferences">
-      <div class="grid-container">
-        <div class="grid-item">
-      <div class="d-flex align-self-center">
-        <h5 style="margin-right: 10px;">Skills</h5>
-        <CButton @click="toggleSkillsMenu" size="sm" class="btn btn-primary">Manage Skills</CButton>
+      <!-- skill -->
+      <div class="preferences">
+        <div class="grid-container">
+          <ManageList title="Skills" :items="userProfile.skills" :filteredList="filteredSkillsList" :resetMenu="resetMenu"
+            @remove-item="removeSkill" @add-item="addSkill" />
+          <!-- teams -->
+            <ManageList title="Teams" :items="userProfile.teams" :filteredList="filteredTeamsList" :resetMenu="resetMenu"
+              @remove-item="removeTeam" @add-item="addTeam" />
+        </div>
       </div>
-      <ul class="pl-3">
-        <li v-for="(skill, index) in userProfile.skills" :key="index">
-          {{ skill }}
-
-          <CTooltip v-if="showSkillsMenu" content="Remove" placement="top">
-            <template #toggler="{ on }">
-              <IconCircleX color="#e74c3c" size="1.5rem" data-toggle="tooltip" data-placement="top" title="Tooltip on top"
-                v-on="on" @click="removeSkill(index)" />
-            </template>
-          </CTooltip>
-
-        </li>
-      </ul>
-      <div>
-        <h5 v-if="showSkillsMenu">Add Skill</h5>
-        <ul v-if="showSkillsMenu" class="pl-3">
-          <li v-for="skill in filteredSkillsList" :key="skill._id">
-            <button @click="addSkill(skill.name)" class="btn btn-sm btn-outline-primary">{{ skill.name }}</button>
-          </li>
-        </ul>
-      </div>
-    </div>
-<!-- teams -->
-<div><div class="grid-item">
-      <div class="d-flex align-self-center">
-        <h5 style="margin-right: 10px;">Teams</h5>
-        <CButton @click="toggleTeamsMenu" size="sm" class="btn btn-primary">Manage Teams</CButton>
-      </div>
-      <ul class="pl-3">
-        <li v-for="(team, index) in userProfile.teams" :key="index">
-          {{ team }}
-
-          <CTooltip v-if="showTeamsMenu" content="Remove" placement="top">
-            <template #toggler="{ on }">
-              <IconCircleX color="#e74c3c" size="1.5rem" data-toggle="tooltip" data-placement="top" title="Tooltip on top"
-                v-on="on" @click="removeTeam(index)" />
-            </template>
-          </CTooltip>
-
-        </li>
-      </ul>
-      <div>
-        <h5 v-if="showTeamsMenu">Add Team</h5>
-        <ul v-if="showTeamsMenu" class="pl-3">
-          <li v-for="team in filteredTeamsList" :key="team._id">
-            <button @click="addTeam(team.name)" class="btn btn-sm btn-outline-primary">{{ team.name }}</button>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-    </div>
-  </div>
     </CCol>
   </CRow>
 </template>
@@ -108,11 +54,11 @@ import ProfileService from '@/components/MyProfile/services/profileService';
 import { CCol } from '@coreui/vue';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
 import CustomHeader from '@/components/CustomHeader.vue';
-import { IconCircleX } from '@tabler/icons-vue';
+import ManageList from '@/components/MyProfile/layout/ManageList.vue';
 
 export default {
 
-  components: { CCol, CustomHeader, IconCircleX },
+  components: { CCol, CustomHeader, ManageList },
 
   data() {
     return {
@@ -121,8 +67,9 @@ export default {
       countRegognitions: 0,
       skillsList: [],
       teamsList: [],
-      showSkillsMenu: false,
+      showMenu: false,
       showTeamsMenu: false,
+      resetMenu: false,
     };
   },
   computed: {
@@ -137,157 +84,156 @@ export default {
     },
   },
 
-watch: {
-  userProfile: {
-    handler(newProfile) {
-      if (newProfile && Object.keys(newProfile).length > 0) {
-        this.getRecognitions();
-      }
+  watch: {
+    userProfile: {
+      handler(newProfile) {
+        if (newProfile && Object.keys(newProfile).length > 0) {
+          this.getRecognitions();
+        }
+      },
+      immediate: true,
     },
-    immediate: true,
-    },
-},
-
-mounted() {
-  window.addEventListener('resize', this.checkWindowSize);
-  this.checkWindowSize();
-  this.setTitle();
-  this.getSkils();
-  this.getTeams();
-
-},
-methods: {
-  setTitle() {
-    this.$store.commit('setPageTitle', this.title);
   },
 
-  checkWindowSize() {
-    this.isMobile = window.innerWidth <= 768;
+  mounted() {
+    window.addEventListener('resize', this.checkWindowSize);
+    this.checkWindowSize();
+    this.setTitle();
+    this.getSkils();
+    this.getTeams();
+
   },
+  methods: {
+    setTitle() {
+      this.$store.commit('setPageTitle', this.title);
+    },
+
+    checkWindowSize() {
+      this.isMobile = window.innerWidth <= 768;
+    },
 
     async getRecognitions() {
-    try {
-      await RecognitionService.getMyRecognitions(this.userProfile.email)
-        .then((response) => {
-          this.countRegognitions = response.length;
-        })
-        .catch((error) => {
-          this.showError(error.error ?? error);
-        });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-  },
+      try {
+        await RecognitionService.getMyRecognitions(this.userProfile.email)
+          .then((response) => {
+            this.countRegognitions = response.length;
+          })
+          .catch((error) => {
+            this.showError(error.error ?? error);
+          });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
 
     async getSkils() {
-    try {
-      await ProfileService.getSkills().then((response) => {
-        this.skillsList = response;
-      }).catch((error) => {
-        this.showError(error.error ?? error);
-      });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-  },
-
-  async getTeams() {
-    try {
-      await ProfileService.getTeams().then((response) => {
-        this.teamsList = response;
-      }).catch((error) => {
-        this.showError(error.error ?? error);
-      });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-  },
-
-  showSuccess(text) {
-    this.$swal.fire({
-      title: 'Success!',
-      text: text,
-      icon: 'success',
-      confirmButtonText: 'Ok',
-    });
-  },
-
-  showError(text) {
-    this.$swal.fire({
-      title: 'Error!',
-      text: text,
-      icon: 'error',
-      confirmButtonText: 'Ok',
-    });
-  },
-
-  objetcIsEmpty(obj) {
-    return Object.keys(obj).length === 0;
-  },
-
-  showRecognitions() {
-    let currentRoute = this.$router.currentRoute;
-    let currentPath = currentRoute.value.fullPath;
-    currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
-    this.$router.push(`${currentPath}/MyRecognitions`);
-  },
-
-    async save() {
-    try {
-      await ProfileService.update(this.userProfile).then(() => {
-        this.showSkillsMenu = false;
-        this.showTeamsMenu = false;
-        this.showSuccess('Your profile was updated successfully.');
-      })
-        .catch((error) => {
+      try {
+        await ProfileService.getSkills().then((response) => {
+          this.skillsList = response;
+        }).catch((error) => {
           this.showError(error.error ?? error);
         });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-  },
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
 
-  addSkill(skill) {
-    if (!this.userProfile.skills.includes(skill)) {
-      this.userProfile.skills.push(skill);
-    } else {
+    async getTeams() {
+      try {
+        await ProfileService.getTeams().then((response) => {
+          this.teamsList = response;
+        }).catch((error) => {
+          this.showError(error.error ?? error);
+        });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
+
+    showSuccess(text) {
       this.$swal.fire({
-        title: 'Skill already added!',
-        text: 'You have already added this skill to your profile.',
-        icon: 'warning',
-        confirmButtonText: 'OK',
+        title: 'Success!',
+        text: text,
+        icon: 'success',
+        confirmButtonText: 'Ok',
       });
-    }
-  },
+    },
 
-  addTeam(team) {
-    if (!this.userProfile.teams.includes(team)) {
-      this.userProfile.teams.push(team);
-    } else {
+    showError(text) {
       this.$swal.fire({
-        title: 'Team already added!',
-        text: 'You have already added this team to your profile.',
-        icon: 'warning',
-        confirmButtonText: 'OK',
+        title: 'Error!',
+        text: text,
+        icon: 'error',
+        confirmButtonText: 'Ok',
       });
+    },
+
+    objetcIsEmpty(obj) {
+      return Object.keys(obj).length === 0;
+    },
+
+    showRecognitions() {
+      let currentRoute = this.$router.currentRoute;
+      let currentPath = currentRoute.value.fullPath;
+      currentPath = currentPath.replace('/ViewMyPersonalDataPoints', '');
+      this.$router.push(`${currentPath}/MyRecognitions`);
+    },
+
+    async save() {
+      this.resetMenu = !this.resetMenu;
+      try {
+        await ProfileService.update(this.userProfile).then(() => {  
+          this.showSuccess('Your profile was updated successfully.');
+        })
+          .catch((error) => {
+            this.showError(error.error ?? error);
+          });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
+
+    addSkill(skill) {
+      if (!this.userProfile.skills.includes(skill)) {
+        this.userProfile.skills.push(skill);
+      } else {
+        this.$swal.fire({
+          title: 'Skill already added!',
+          text: 'You have already added this skill to your profile.',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+        });
+      }
+    },
+
+    addTeam(team) {
+      if (!this.userProfile.teams.includes(team)) {
+        this.userProfile.teams.push(team);
+      } else {
+        this.$swal.fire({
+          title: 'Team already added!',
+          text: 'You have already added this team to your profile.',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+        });
+      }
+    },
+
+    removeSkill(index) {
+      this.userProfile.skills.splice(index, 1);
+    },
+    removeTeam(index) {
+      this.userProfile.teams.splice(index, 1);
+    },
+
+    toggleSkillsMenu() {
+      this.showMenu = !this.showMenu;
+    },
+
+    toggleTeamsMenu() {
+      this.showTeamsMenu = !this.showTeamsMenu;
     }
   },
-
-  removeSkill(index) {
-    this.userProfile.skills.splice(index, 1);
-  },
-  removeTeam(index) {
-    this.userProfile.teams.splice(index, 1);
-  },
-
-  toggleSkillsMenu() {
-    this.showSkillsMenu = !this.showSkillsMenu;
-  },
-
-  toggleTeamsMenu() {
-    this.showTeamsMenu = !this.showTeamsMenu;
-  }
-},
 
 
 };
@@ -298,7 +244,7 @@ methods: {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 </style>
