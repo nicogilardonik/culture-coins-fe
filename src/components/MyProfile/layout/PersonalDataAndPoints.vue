@@ -35,7 +35,9 @@
       <ul class="pl-3">
         <li v-for="(skill, index) in userProfile.skills" :key="index">{{ skill }}</li>
       </ul> -->
-
+    <div class="preferences">
+      <div class="grid-container">
+        <div class="grid-item">
       <div class="d-flex align-self-center">
         <h5 style="margin-right: 10px;">Skills</h5>
         <CButton @click="toggleSkillsMenu" size="sm" class="btn btn-primary">Manage Skills</CButton>
@@ -61,7 +63,9 @@
           </li>
         </ul>
       </div>
+    </div>
 <!-- teams -->
+<div><div class="grid-item">
       <div class="d-flex align-self-center">
         <h5 style="margin-right: 10px;">Teams</h5>
         <CButton @click="toggleTeamsMenu" size="sm" class="btn btn-primary">Manage Teams</CButton>
@@ -87,7 +91,10 @@
           </li>
         </ul>
       </div>
-
+    </div>
+  </div>
+    </div>
+  </div>
     </CCol>
   </CRow>
 </template>
@@ -288,4 +295,10 @@ methods: {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px;
+}
+</style>
