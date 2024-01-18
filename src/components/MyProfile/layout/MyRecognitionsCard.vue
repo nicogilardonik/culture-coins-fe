@@ -5,6 +5,7 @@
                 <div class="d-flex align-self-center">
                     <h4 class="d-inline-block"> By: {{ data.userFromNickName }}</h4>
                 </div>
+                <h4>To: {{ data.userToNickName }}</h4>
             </CCardHeader>
             <CCardBody>
                 <CRow>
