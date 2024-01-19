@@ -67,8 +67,6 @@ export default {
       countRegognitions: 0,
       skillsList: [],
       teamsList: [],
-      showMenu: false,
-      showTeamsMenu: false,
       resetMenu: false,
     };
   },
@@ -226,13 +224,6 @@ export default {
       this.userProfile.teams.splice(index, 1);
     },
 
-    toggleSkillsMenu() {
-      this.showMenu = !this.showMenu;
-    },
-
-    toggleTeamsMenu() {
-      this.showTeamsMenu = !this.showTeamsMenu;
-    }
   },
 
 
