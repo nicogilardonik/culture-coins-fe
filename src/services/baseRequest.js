@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import store from '../store/index';
 //const APP_SUB_PATH = process.env.VUE_APP_SUB_PATH;
 
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -77,6 +77,7 @@ class Api {
     if (!(body instanceof FormData)) {
       requestConfig.headers = {
         'Content-Type': 'application/json',
+        'authorization': store.state.token
       }
     }
   

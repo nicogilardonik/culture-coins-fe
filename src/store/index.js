@@ -11,6 +11,7 @@ export default createStore({
     lastWaning: [],
     lastError: [],
     lastCriticalErrors: [],
+    token: String
   },
   mutations: {
     toggleSidebar(state) {
@@ -24,6 +25,9 @@ export default createStore({
     },
     setUserProfile(state, userProfile) {
       state.userProfile = userProfile;
+    },
+    setToken(state, token) {
+      state.token = token;
     },
     setPageTitle(state, pageTitle) {
       state.pageTitle = pageTitle;

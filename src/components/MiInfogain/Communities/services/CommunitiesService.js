@@ -3,7 +3,7 @@ class CommunitiesService {
 
     async getUsers() {
         try {
-            const list = await Api.get(`user`);
+            const list = await Api.get(`user/list`);
             return list;
         } catch (error) {
             console.error('Error al obtener los Users');

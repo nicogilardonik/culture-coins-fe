@@ -46,8 +46,13 @@ export default {
     this.checkWindowSize();
     this.getRequests();
     this.setTitle();
+    this.token();
   },
   methods: {
+    token() {
+      let token = this.$store.state.token;
+      console.log("token de prueba",token);
+    },
     setTitle() {
       this.$store.commit("setPageTitle", this.title);
     },
