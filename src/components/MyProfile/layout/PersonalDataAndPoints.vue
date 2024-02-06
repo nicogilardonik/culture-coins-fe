@@ -31,11 +31,11 @@
 
       <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="userProfile.receiveSupportRequest" />
 
-      <!-- skill -->
+      <!-- Community -->
       <div class="preferences">
         <div class="grid-container">
-          <ManageList title="Skills" :items="userProfile.skills" :filteredList="filteredSkillsList" :resetMenu="resetMenu"
-            @remove-item="removeSkill" @add-item="addSkill" />
+          <ManageList title="Communities" :items="userProfile.communities" :filteredList="filteredCommunitiesList" :resetMenu="resetMenu"
+            @remove-item="removeCommunity" @add-item="addCommunity" />
           <!-- teams -->
             <ManageList title="Teams" :items="userProfile.teams" :filteredList="filteredTeamsList" :resetMenu="resetMenu"
               @remove-item="removeTeam" @add-item="addTeam" />
@@ -65,7 +65,7 @@ export default {
       title: 'My Personal Data & Points',
       isMobile: window.innerWidth <= 768,
       countRegognitions: 0,
-      skillsList: [],
+      communitiesList: [],
       teamsList: [],
       resetMenu: false,
     };
@@ -74,8 +74,9 @@ export default {
     userProfile() {
       return this.$store.state.userProfile;
     },
-    filteredSkillsList() {
-      return this.skillsList.filter(skill => !this.userProfile.skills.includes(skill.name));
+    filteredCommunitiesList() {
+      console.log("entro a filteredCommunitiesList");
+      return this.communitiesList.filter(community => !this.userProfile.communities.includes(community.name));
     },
     filteredTeamsList() {
       return this.teamsList.filter(team => !this.userProfile.teams.includes(team.name));
@@ -97,7 +98,7 @@ export default {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
     this.setTitle();
-    this.getSkils();
+    this.getCommunities();
     this.getTeams();
 
   },
@@ -124,10 +125,10 @@ export default {
       }
     },
 
-    async getSkils() {
+    async getCommunities() {
       try {
-        await ProfileService.getSkills().then((response) => {
-          this.skillsList = response;
+        await ProfileService.getCommunities().then((response) => {
+          this.communitiesList = response;
         }).catch((error) => {
           this.showError(error.error ?? error);
         });
@@ -191,13 +192,13 @@ export default {
       }
     },
 
-    addSkill(skill) {
-      if (!this.userProfile.skills.includes(skill)) {
-        this.userProfile.skills.push(skill);
+    addCommunity(community) {
+      if (!this.userProfile.communities.includes(community)) {
+        this.userProfile.communities.push(community);
       } else {
         this.$swal.fire({
-          title: 'Skill already added!',
-          text: 'You have already added this skill to your profile.',
+          title: 'community already added!',
+          text: 'You have already added this community to your profile.',
           icon: 'warning',
           confirmButtonText: 'OK',
         });
@@ -217,8 +218,8 @@ export default {
       }
     },
 
-    removeSkill(index) {
-      this.userProfile.skills.splice(index, 1);
+    removeCommunity(index) {
+      this.userProfile.communities.splice(index, 1);
     },
     removeTeam(index) {
       this.userProfile.teams.splice(index, 1);

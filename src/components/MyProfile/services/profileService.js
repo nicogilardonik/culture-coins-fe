@@ -12,12 +12,12 @@ class ProfileService {
         }
     }
 
-    async getSkills() {
+    async getCommunities() {
         try {
-            const result = await Api.get('skills');
+            const result = await Api.get('Communities');
             return result;
         } catch (error) {
-            console.error('Error al obtener las skills');
+            console.error('Error al obtener las Communities');
             throw error;
         }
     }

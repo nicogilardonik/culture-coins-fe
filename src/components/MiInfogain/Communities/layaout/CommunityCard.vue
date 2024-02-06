@@ -20,8 +20,11 @@
           </CCol>
 
           <CCol sm="6" md="6" lg="4" xl="2">
-            <CButton color="primary" size="md" class="kibana-font-weight" @click="join">
-              join
+            <CButton v-if="userInComunity" color="primary" size="md" class="kibana-font-weight" @click="chage">
+              Leave
+            </CButton>
+            <CButton v-else color="primary" size="md" class="kibana-font-weight" @click="chage">
+              Join
             </CButton>
           </CCol>
 
@@ -41,33 +44,57 @@ export default {
   data() {
     return {
       UsersFilter: [],
+      userInComunity: false
 
     }
   },
   mounted() {
     this.setUsers();
+    this.setUserInComunity();
   },
   methods: {
-    async setUsers() {
-      try {
-      await CommunitiesService.getUsers().then((response) => {
-        this.UsersFilter = response.filter(user => user.communities.includes(this.name))
-      }).catch((error) => {
-        this.showError(error.error ?? error);
-      });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-      ;
+    setUserInComunity() {
+      if (this.$store.state.userProfile.communities.includes(this.name)) {
+        this.userInComunity = true;
+      }
     },
 
-    async join() {
+    async setUsers() {
+      try {
+        await CommunitiesService.getUsers().then((response) => {
+          this.UsersFilter = response.filter(user => user.communities.includes(this.name))
+        }).catch((error) => {
+          this.showError(error.error ?? error);
+        });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+      ;
+    },
+    async chage() {
+      let mensaje;
+      let userComunity;
       if (!this.userProfile.communities.includes(this.name)) {
         this.userProfile.communities.push(this.name);
-        try {
+        mensaje = "I join the community.";
+        userComunity = true;
+      }else{
+        mensaje = "I left the community.";
+        userComunity = false;
+        const index = this.userProfile.communities.indexOf(this.name);
+        this.userProfile.communities.splice(index, 1);
+      }
+      try {
           await CommunitiesService.update(this.userProfile).then(() => {
-            this.showSuccess('I join the community.');
-            this.UsersFilter.push(this.userProfile);
+            this.showSuccess(mensaje);
+            this.userInComunity = userComunity;
+            if (this.userInComunity) {
+              this.UsersFilter.push(this.userProfile);
+              console.log(this.UsersFilter);
+            }else{
+              const userIndex = this.UsersFilter.indexOf(this.userProfile);
+              this.UsersFilter.splice(userIndex, 1);
+            }
           })
             .catch((error) => {
               this.showError(error.error ?? error);
@@ -75,14 +102,6 @@ export default {
         } catch (error) {
           this.showError(error.error ?? error);
         }
-      } else {
-        this.$swal.fire({
-          title: 'You could not join!',
-          text: 'You already belong to this community',
-          icon: 'warning',
-          confirmButtonText: 'OK',
-        })
-      }
     },
     showError(text) {
       this.$swal.fire({
