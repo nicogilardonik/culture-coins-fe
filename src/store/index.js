@@ -11,7 +11,7 @@ export default createStore({
     lastWaning: [],
     lastError: [],
     lastCriticalErrors: [],
-    token: String
+    token: ''
   },
   mutations: {
     toggleSidebar(state) {

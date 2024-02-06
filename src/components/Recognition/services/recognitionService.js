@@ -22,6 +22,17 @@ class RecognitionService {
         }
     }
 
+    async getListUsers() {
+        try {
+            console.log("entro a getListUsers");
+            const result = await Api.get(`user/list`)
+            return result;
+        } catch (error) {
+            console.error('Get error')
+            throw error
+        }
+    }
+
 }
 
 export default new RecognitionService()

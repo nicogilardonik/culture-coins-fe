@@ -5,6 +5,18 @@
   </CRow>
 
   <Multiselector ref="multiSelectorValues" @selected-values="selectedValues" />
+  <CRow>
+    <CCol xs="12" md="5">
+      <div class="select-wrapper">
+        <select v-model="selectedEmail" class="custom-select">
+          <option value="" disabled>Select user</option>
+          <option v-for="user in users" :key="user.email" :value="user.email">
+            {{ user.email }}
+          </option>
+        </select>
+      </div>
+    </CCol>
+  </CRow>
 
   <CustomEditor @get-message="getMessage" ref="customEditor" />
 
@@ -36,20 +48,39 @@ export default {
       isMobile: window.innerWidth <= 768,
       message: '',
       selectedValue: {},
+      users: [],
+      selectedEmail: ''
     };
   },
   mounted() {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
     this.setTitle();
+    this.setUsers();
   },
   methods: {
+    async setUsers() {
+      try {
+        const currentUserProfile = this.$store.state.userProfile
+        await RecognitionService.getListUsers().then((response) => {
+          this.users = response.filter(user => user.email !== currentUserProfile.email);
+        }).catch((error) => {
+          this.showError(error.error ?? error);
+        });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
+
     validate() {
       if (this.message == '<p><br></p>') {
         throw 'Please enter a message';
       }
       if (this.selectedValue.type == undefined || !this.selectedValue.values.length) {
         throw 'Please select a group and values';
+      }
+      if (this.selectedEmail == null ||this.selectedEmail == '') {
+        throw 'Please select user';
       }
     },
     checkWindowSize() {
@@ -59,7 +90,7 @@ export default {
       try {
         this.getData();
         this.validate();
-        const model = new Recognition(this.message, this.selectedValue.type, this.selectedValue.values);
+        const model = new Recognition(this.message, this.selectedEmail, this.$store.state.userProfile.email, this.selectedValue.type, this.selectedValue.values);
         RecognitionService.addRecognition(model);
         this.showSuccess('Recognition created successfully');
       } catch (error) {
@@ -109,4 +140,21 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.select-wrapper {
+  margin-bottom: 1rem;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+</style>
