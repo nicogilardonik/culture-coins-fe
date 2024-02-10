@@ -34,20 +34,17 @@ app.mount('#app');
 async function initilizeData() {
     try {
         //Cargar token del back y perfil del usuario
-        console.log("token inicio", store.state.token);
-        if (store.state.token != undefined && store.state.token != null) {
+
+        if (sessionStorage.getItem('token') == undefined || sessionStorage.getItem('token') === null) {
+            console.log("entro al if de sessionStorage.getItem");
             const hash = window.location.hash;
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
             const token = params.get('token');
-            store.commit('setToken', token);
+            sessionStorage.setItem('token', token);            
+        }
             let userProfile = await CommonServices.getUserProfile();
             store.commit('setUserProfile', userProfile);
-            console.log("token dentro de if", store.state.token);
-        }
-        console.log("token final", store.state.token);
-        
 
-        
 
         //Cargo las notificaciones
         loadNotifications();

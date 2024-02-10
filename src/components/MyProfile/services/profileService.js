@@ -4,6 +4,7 @@ class ProfileService {
 
     async update(data) {
         try {
+            console.log("data", data);
             let result = await Api.put(`user/${data.email}`, data);
             return result;
         } catch (error) {

@@ -12,11 +12,11 @@
     "
   >
     <CSidebarBrand>
-      <CIcon
+      <!-- <CIcon
         custom-class-name="sidebar-brand-full"
         :icon="logoNegative"
         :height="35"
-      />
+      /> -->
       <CIcon
         custom-class-name="sidebar-brand-narrow"
         :icon="sygnet"

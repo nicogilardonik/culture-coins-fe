@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     token() {
-      let token = this.$store.state.token;
+      let token = sessionStorage.getItem('token');
       console.log("token de prueba",token);
     },
     setTitle() {
