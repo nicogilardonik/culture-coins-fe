@@ -63,6 +63,11 @@ export default [
         name: 'Communities',
         to: '/MiInfogain/Communities',
       },
+      {
+        component: 'CNavItem',
+        name: 'Top Recognition',
+        to: '/MiInfogain/TopRecognition',
+      },
     ],
   },
 ]

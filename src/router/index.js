@@ -8,6 +8,8 @@ import MyRecognitions from '@/components/MyProfile/layout/MyRecognitions.vue'
 import ValuesBehaviors from '@/components/MiInfogain/ValuesBehaviors/layout/ValuesBehaviors.vue'
 import LastActivity from '@/components/MiInfogain/LastActivity/layaout/LastActivity.vue'
 import Communities from '@/components/MiInfogain/Communities/layaout/Communities.vue'
+import TopRecognition from '@/components/MiInfogain/TopRecognition/layout/TopRecognition.vue'
+
 const routes = [
   {
     path: '/',
@@ -50,6 +52,11 @@ const routes = [
         path: '/MiInfogain/Communities',
         name: 'Communities',
         component: Communities,
+      },
+      {
+        path: '/MiInfogain/TopRecognition',
+        name: 'TopRecognition',
+        component: TopRecognition,
       },
       {
         path: '/ask-your-community/list',
