@@ -4,7 +4,6 @@ class ProfileService {
 
     async update(data) {
         try {
-            console.log("data", data);
             let result = await Api.put(`user/${data.email}`, data);
             return result;
         } catch (error) {
@@ -24,7 +23,6 @@ class ProfileService {
     }
     async getTeams() {
         try {
-            console.log("entro a getTeams service");
             const result = await Api.get('teams');
             return result;
         } catch (error) {

@@ -75,7 +75,6 @@ export default {
       return this.$store.state.userProfile;
     },
     filteredCommunitiesList() {
-      console.log("entro a filteredCommunitiesList");
       return this.communitiesList.filter(community => !this.userProfile.communities.includes(community.name));
     },
     filteredTeamsList() {

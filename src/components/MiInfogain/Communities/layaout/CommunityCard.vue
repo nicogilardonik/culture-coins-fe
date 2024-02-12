@@ -90,7 +90,6 @@ export default {
             this.userInComunity = userComunity;
             if (this.userInComunity) {
               this.UsersFilter.push(this.userProfile);
-              console.log(this.UsersFilter);
             }else{
               const userIndex = this.UsersFilter.indexOf(this.userProfile);
               this.UsersFilter.splice(userIndex, 1);

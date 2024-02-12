@@ -36,7 +36,6 @@ async function initilizeData() {
         //Cargar token del back y perfil del usuario
 
         if (sessionStorage.getItem('token') == undefined || sessionStorage.getItem('token') === null) {
-            console.log("entro al if de sessionStorage.getItem");
             const hash = window.location.hash;
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
             const token = params.get('token');
