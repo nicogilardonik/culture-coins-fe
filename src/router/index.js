@@ -73,6 +73,12 @@ const routes = [
         name: 'Ask your community edit',
         component: AskYourCommunityCreate,
       }, 
+      {
+        path:'login',
+        name:'Login',
+        component: () =>
+          import(/* webpackChunkName: "login" */ '@/views/Login'),
+      }
     ],
   },
 

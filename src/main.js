@@ -34,15 +34,21 @@ app.mount('#app');
 async function initilizeData() {
     try {
         //Cargar token del back y perfil del usuario
+        if (sessionStorage.getItem('token') === "null" || sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
 
-        if (sessionStorage.getItem('token') == undefined || sessionStorage.getItem('token') === null) {
             const hash = window.location.hash;
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
             const token = params.get('token');
-            sessionStorage.setItem('token', token);            
+
+            if (!token) { //Si no hay token, redirijo a la pagina de login
+               // window.location.href = "http://culture-coins-dev-be.us-east-1.elasticbeanstalk.com:3000/auth/microsoft";
+               // window.location.href = "http://localhost:3000/auth/microsoft";
+            }
+
+            sessionStorage.setItem('token', token);
         }
-            let userProfile = await CommonServices.getUserProfile();
-            store.commit('setUserProfile', userProfile);
+        let userProfile = await CommonServices.getUserProfile();
+        store.commit('setUserProfile', userProfile);
 
 
         //Cargo las notificaciones
@@ -62,14 +68,14 @@ async function initilizeData() {
 async function loadNotifications() {
     try {
         let lastNotificacions = await CommonServices.getLastNotificacions();
-      
+
         let index = 0;
         let intervalId = setInterval(function () {
             if (index >= lastNotificacions.length) {
                 clearInterval(intervalId);
                 return;
             }
-    
+
             let ln = lastNotificacions[index];
             let notification = {
                 title: "New Recogniton!",
@@ -77,7 +83,7 @@ async function loadNotifications() {
                 autoHide: true
             };
             store.commit('addNotification', notification);
-    
+
             index++;
         }, 800);
     } catch (error) {

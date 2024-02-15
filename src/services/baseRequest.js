@@ -1,25 +1,14 @@
 import axios from 'axios'
 
-//const APP_SUB_PATH = process.env.VUE_APP_SUB_PATH;
-
-//axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-//axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-
 
 function createRequest(){
-  //let baseURL = 'http://localhost:7090/api';
-  let baseURL = 'http://localhost:3000/api/';
-
+  //let baseURL = 'http://culture-coins-dev-be.us-east-1.elasticbeanstalk.com:3000/api/';
+  let baseURL = 'http://localhost:3000/api/'
 
   let axiosObj = axios.create({
-    //baseURL: API_BASE_URL,
-    //baseURL: 'http://localhost:7090/api',
     baseURL,
     timeout: 10000,
   });
-
-  //axiosObj.defaults.headers['Access-Control-Allow-Origin'] = "*";
-  //axiosObj.defaults.headers['Access-Control-Allow-Methods'] = "GET, PUT, POST, DELETE, OPTIONS, post, get"; 
 
   return axiosObj
 }

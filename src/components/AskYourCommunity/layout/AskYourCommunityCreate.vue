@@ -3,18 +3,6 @@
     <CustomHeader class="mb-1" :fnButton="editing ? update : create" :textButton="editing ? 'Save' : 'Create'"
       :requiredButton="true" :action="editing ? 'save' : 'create'" :requiredCancelButton="true"
       :fnCancelButton="fnCancelButton" />
-
-    <!-- <div
-        v-if="!isMobile"
-        class="d-flex justify-content-end position-absolute create-btn mb-3"
-      >
-        <CButton
-          color="primary"
-          size="lg"
-          @click="editing ? update() : create()"
-          >{{ editing ? 'Update' : 'Create' + 'Request' }}</CButton
-        >
-      </div> -->
   </CRow>
 
   <CRow class="">
@@ -23,7 +11,6 @@
     </CCol>
 
     <CCol xs="6">
-      <!-- <label for="prioritySelect" class="form-label">Select Priority</label> -->
       <div class="select-wrapper">
         <select v-model="selectedPriority" class="custom-select">
           <option disabled value="">Select priority</option>
@@ -33,11 +20,7 @@
         </select>
       </div>
     </CCol>
-  </CRow>
-
-  <!-- <div class="custom-display">
-                                <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
-                            </div> -->
+  </CRow>>
   <div v-if="editing">
     <CustomEditor @get-message="getMessage" :value="message" :editing="true" ref="customEditor" />
   </div>
