@@ -13,7 +13,7 @@
               <div class="custom-display">
                 <p>members:</p>
                 <ul>
-                  <li v-for="user in UsersFilter" :key="user.id">{{ user.nickName }}</li>
+                  <li v-for="user in usersFilter" :key="user.id">{{ user.nickName }}</li>
                 </ul>
               </div>
             </div>
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      UsersFilter: [],
+      usersFilter: [],
       userInComunity: false
 
     }
@@ -62,18 +62,18 @@ export default {
     setUsers() {
       //console.log("0");
       const userCard = this.users.filter(user => user.communities.includes(this.name))
-      this.UsersFilter = userCard
+      this.usersFilter = userCard
        if (this.name == ".NET") {
       //   console.log("primer console.log");
       //   console.log("1", this.users);
-         console.log("UsersFilter en setUsers", this.UsersFilter);
+         console.log("usersFilter en setUsers", this.usersFilter);
        }
     },
 
     // async setUsers() {
     //   try {
     //     await CommunitiesService.getUsers().then((response) => {
-    //       this.UsersFilter = response.filter(user => user.communities.includes(this.name))
+    //       this.usersFilter = response.filter(user => user.communities.includes(this.name))
     //     }).catch((error) => {
     //       this.showError(error.error ?? error);
     //     });
@@ -85,8 +85,8 @@ export default {
 
     async change() {
       debugger
-      console.log("UsersFilter en change" ,this.UsersFilter);
-      console.log("UsersFilter en change 2" ,this.UsersFilter);
+      console.log("usersFilter en change" ,this.usersFilter);
+      console.log("usersFilter en change 2" ,this.usersFilter);
       let mensaje;
       let userComunity;
       if (!this.userProfile.communities.includes(this.name)) {
@@ -104,12 +104,12 @@ export default {
           this.showSuccess(mensaje);
           this.userInComunity = userComunity;
           if (this.userInComunity) {
-            this.UsersFilter.push(this.userProfile);
+            this.usersFilter.push(this.userProfile);
           } else {
-            const userIndex = this.UsersFilter.indexOf(this.userProfile);
+            const userIndex = this.usersFilter.indexOf(this.userProfile);
             console.log(userIndex);
-            console.log("userIndex", this.UsersFilter[userIndex]);
-            this.UsersFilter.splice(userIndex, 1);
+            console.log("userIndex", this.usersFilter[userIndex]);
+            this.usersFilter.splice(userIndex, 1);
           }
         })
           .catch((error) => {
