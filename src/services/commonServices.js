@@ -11,6 +11,12 @@ class CommonServices {
     return lastNotificacions;
   }
 
+  async login(username, password) {
+    debugger
+    let response = await BaseRequest.post(`user/auth/login`, { username, password });
+    return response;
+  }
+
 }
 
 export default new CommonServices();

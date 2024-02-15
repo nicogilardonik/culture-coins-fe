@@ -1,23 +1,25 @@
 <template>
     <div class="login-container">
-        <form @submit.prevent="login" class="login-form">
+        <form class="login-form">
             <h2 class="login-heading">Login</h2>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" v-model="form.email" class="form-control" placeholder="Enter your email"
-                    required>
+                <input type="email" id="email" v-model="email" class="form-control" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" v-model="form.password" class="form-control"
+                <input type="password" id="password" v-model="password" class="form-control"
                     placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <button type="button" class="btn btn-primary btn-block" @click="login">Login</button>
         </form>
     </div>
 </template>
   
 <script>
+
+import CommonService from '@/services/commonServices'
+
 export default {
     name: 'Login',
 
@@ -31,27 +33,48 @@ export default {
 
     data() {
         return {
-            form: {
-                email: '',
-                password: ''
-            }
+
+            email: '',
+            password: ''
+
         };
     },
     methods: {
-        login() {
-            console.log('Logging in...');
-            console.log('Email:', this.form.email);
-            console.log('Password:', this.form.password);
+
+        async login() {
+            try {
+                this.validate();
+                let response = await CommonService.login(this.email, this.password);
+                console.log(response);
+            } catch (error) {
+                this.showError(error);
+            }
         },
 
         validate() {
-            if (this.email == '') {
-                throw 'Please enter a title';
+            if (!/\S+@\S+\.\S+/.test(this.email)) {
+                throw 'Please enter a valid email';
             }
-
             if (!this.password || this.password.length < 8) {
                 throw 'Please enter a password';
             }
+        },
+
+        showSuccess(text) {
+            this.$swal.fire({
+                title: 'Success!',
+                text: text,
+                icon: 'success',
+                confirmButtonText: 'Ok',
+            });
+        },
+        showError(text) {
+            this.$swal.fire({
+                title: 'Error!',
+                text: text,
+                icon: 'error',
+                confirmButtonText: 'Ok',
+            });
         },
 
 

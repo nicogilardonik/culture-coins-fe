@@ -30,7 +30,6 @@ export default createStore({
       state.token = token;
     },
     setPageTitle(state, pageTitle) {
-      console.log("Setting page title to " + pageTitle);
       state.pageTitle = pageTitle;
     },
     addNotification(state, message){
