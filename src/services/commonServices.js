@@ -16,6 +16,11 @@ class CommonServices {
     return response;
   }
 
+  async register(data) {
+    let response = await BaseRequest.post(`user/auth/register`, data);
+    return response;
+  }
+
 }
 
 export default new CommonServices();

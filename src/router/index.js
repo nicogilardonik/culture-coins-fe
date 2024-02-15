@@ -77,8 +77,15 @@ const routes = [
         path:'login',
         name:'Login',
         component: () =>
-          import(/* webpackChunkName: "login" */ '@/views/Login'),
-      }
+          import(/* webpackChunkName: "login" */ '@/components/Auth/layout/Login'),
+      },
+      {
+        path:'register',
+        name:'Register',
+        component: () =>
+          import(/* webpackChunkName: "register" */ '@/components/Auth/layout/Register'),
+      },
+
     ],
   },
 
