@@ -65,7 +65,7 @@ export default {
         { value: 'within-week', label: 'Within a Week' },
       ],
       selectedPriority: '',
-      user: { email: this.$store.state.userProfile.email, name: this.$store.state.userProfile.nickName }, //TODO agregarlo en el store
+      user: { email: this.$store.state.userProfile.email, name: this.$store.state.userProfile.nickName }, 
     };
   },
   mounted() {

@@ -33,23 +33,6 @@ function armarUrl(controller, action, params) {
   return url
 }
 
-// axiosInstance.interceptors.request.use(async reqConfig => {
-//   //antes del request para cada request
-//   //let access_token = AuthServices.getTokenFromStore();
-//   let access_token = await fbAuth.currentUser.getIdToken();
-
-//   if (access_token && access_token.length > 0) { //si existe un token
-//     reqConfig.headers.Authorization = `Bearer ${access_token}`;
-//   }
-//   else{
-//     //store.commit('auth/logout');
-//     AuthServices.logout();
-//   }
-  
-//   //reqConfig.baseURL = url;  
-//   return reqConfig;
-// });
-
 
 class Api {
   async invokeApi(method, subPath, body) { 
