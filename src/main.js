@@ -40,9 +40,11 @@ async function initilizeData() {
             const hash = window.location.hash;
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
             let token = params.get('token');
-
+            
             if (!token) { //Si no hay token, redirijo a la pagina de login       
                 window.location.href = `${process.env.VUE_APP_URL}login?redirect_uri=${window.location.href}`;
+            }else{
+                sessionStorage.setItem('token', token);
             }
         }
         let userProfile = await CommonServices.getUserProfile();
