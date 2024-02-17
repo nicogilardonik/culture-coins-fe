@@ -1,7 +1,9 @@
 <template>
 
-<div v-for="community in communities" :key="community.id">
-  <CommunityCard :name="community.name"/> 
+<div v-if="this.usersData !== null">
+  <div v-for="community in communities" :key="community.id">
+    <CommunityCard :name="community.name" :users="this.usersData"/> 
+  </div>
 </div>
 
 
@@ -22,12 +24,14 @@ export default {
       title: 'Communities',
       isMobile: window.innerWidth <= 768,
       communities: [],
-      name: "Uruguay"
+      usersData: null,
+      //name: "Uruguay"
     }
   },
   mounted() {
     this.setTitle()
     this.getCommunities();
+    this.getUsers()
   },
 
   methods: {
@@ -45,6 +49,14 @@ export default {
       this.showError(error.error ?? error);
     }
   },
+  async getUsers() {
+  try {
+    this.usersData = await CommunitiesService.getUsers();
+  } catch (error) {
+    this.showError(error.error ?? error);
+  }
+},
+
   showError(text) {
       this.$swal.fire({
         title: "Error!",

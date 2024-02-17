@@ -13,17 +13,17 @@
               <div class="custom-display">
                 <p>members:</p>
                 <ul>
-                  <li v-for="user in UsersFilter" :key="user.id">{{ user.nickName }}</li>
+                  <li v-for="user in usersFilter" :key="user.id">{{ user.nickName }}</li>
                 </ul>
               </div>
             </div>
           </CCol>
 
           <CCol sm="6" md="6" lg="4" xl="2">
-            <CButton v-if="userInComunity" color="primary" size="md" class="kibana-font-weight" @click="chage">
+            <CButton v-if="userInComunity" color="primary" class="kibana-font-weight" @click="change">
               Leave
             </CButton>
-            <CButton v-else color="primary" size="md" class="kibana-font-weight" @click="chage">
+            <CButton v-else color="primary" class="kibana-font-weight" @click="change">
               Join
             </CButton>
           </CCol>
@@ -40,10 +40,11 @@ import CommunitiesService from '@/components/MiInfogain/Communities/services/Com
 export default {
   props: {
     name: { type: String },
+    users: { type: Array },
   },
   data() {
     return {
-      UsersFilter: [],
+      usersFilter: [],
       userInComunity: false
 
     }
@@ -58,49 +59,40 @@ export default {
         this.userInComunity = true;
       }
     },
-
-    async setUsers() {
-      try {
-        await CommunitiesService.getUsers().then((response) => {
-          this.UsersFilter = response.filter(user => user.communities.includes(this.name))
-        }).catch((error) => {
-          this.showError(error.error ?? error);
-        });
-      } catch (error) {
-        this.showError(error.error ?? error);
-      }
-      ;
+    setUsers() {
+      let userCard = this.users.filter(user => user.communities.includes(this.name))
+      this.usersFilter = userCard;
     },
-    async chage() {
+    async change() {
       let mensaje;
       let userComunity;
       if (!this.userProfile.communities.includes(this.name)) {
         this.userProfile.communities.push(this.name);
         mensaje = "I join the community.";
         userComunity = true;
-      }else{
+      } else {
         mensaje = "I left the community.";
         userComunity = false;
         const index = this.userProfile.communities.indexOf(this.name);
         this.userProfile.communities.splice(index, 1);
       }
       try {
-          await CommunitiesService.update(this.userProfile).then(() => {
-            this.showSuccess(mensaje);
-            this.userInComunity = userComunity;
-            if (this.userInComunity) {
-              this.UsersFilter.push(this.userProfile);
-            }else{
-              const userIndex = this.UsersFilter.indexOf(this.userProfile);
-              this.UsersFilter.splice(userIndex, 1);
-            }
-          })
-            .catch((error) => {
-              this.showError(error.error ?? error);
-            });
-        } catch (error) {
-          this.showError(error.error ?? error);
-        }
+        await CommunitiesService.update(this.userProfile).then(() => {
+          this.showSuccess(mensaje);
+          this.userInComunity = userComunity;
+          if (this.userInComunity) {
+            this.usersFilter.push(this.userProfile);
+          } else {
+            const userIndex = this.usersFilter.indexOf(this.userProfile);
+            this.usersFilter.splice(userIndex, 1);
+          }
+        })
+          .catch((error) => {
+            this.showError(error.error ?? error);
+          });
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
     },
     showError(text) {
       this.$swal.fire({
