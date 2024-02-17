@@ -72,7 +72,8 @@ export default {
                  let response = await CommonService.register(registerModel);
                   console.log(response);
             } catch (error) {
-                this.showError(error);
+                let errorMessage = error.error? error.error : error.message ? error.message : error;
+                this.showError(errorMessage);
             }
         },
 

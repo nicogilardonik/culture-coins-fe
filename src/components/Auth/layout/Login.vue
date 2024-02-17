@@ -47,7 +47,8 @@ export default {
                 let response = await CommonService.login(this.email, this.password);
                 console.log(response);
             } catch (error) {
-                this.showError(error);
+                let errorMessage = error.error? error.error : error.message ? error.message : error;
+                this.showError(errorMessage);
             }
         },
 
