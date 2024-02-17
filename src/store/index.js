@@ -21,7 +21,7 @@ export default createStore({
       state.sidebarUnfoldable = !state.sidebarUnfoldable;
     },
     updateSidebarVisible(state, payload) {
-      state.sidebarVisible = payload.value;
+      state.sidebarVisible = payload.value ?? payload;
     },
     setUserProfile(state, userProfile) {
       state.userProfile = userProfile;

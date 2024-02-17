@@ -11,6 +11,16 @@ class CommonServices {
     return lastNotificacions;
   }
 
+  async login(username, password) {
+    let response = await BaseRequest.post(`user/auth/login`, { username, password });
+    return response;
+  }
+
+  async register(data) {
+    let response = await BaseRequest.post(`user/auth/register`, data);
+    return response;
+  }
+
 }
 
 export default new CommonServices();

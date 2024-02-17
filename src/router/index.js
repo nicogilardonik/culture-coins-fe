@@ -73,6 +73,19 @@ const routes = [
         name: 'Ask your community edit',
         component: AskYourCommunityCreate,
       }, 
+      {
+        path:'login',
+        name:'Login',
+        component: () =>
+          import(/* webpackChunkName: "login" */ '@/components/Auth/layout/Login'),
+      },
+      {
+        path:'register',
+        name:'Register',
+        component: () =>
+          import(/* webpackChunkName: "register" */ '@/components/Auth/layout/Register'),
+      },
+
     ],
   },
 
