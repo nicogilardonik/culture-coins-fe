@@ -6,9 +6,7 @@ function createRequest(){
   console.log('process.env', process.env);
   console.log('process.env.VUE_BE_URL', process.env.VUE_BE_URL);
   let baseURL = process.env.VUE_APP_BE_URL
-
-
-
+  
   let axiosObj = axios.create({
     baseURL,
     timeout: 10000,
