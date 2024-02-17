@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import CommunityCard from '@/components/MiInfogain/Communities/layaout/CommunityCard.vue'
+import CommunityCard from '@/components/MiInfogain/Communities/layout/CommunityCard.vue'
 import CommunitiesService from '@/components/MiInfogain/Communities/services/CommunitiesService';
 export default {
   name: 'Communities',

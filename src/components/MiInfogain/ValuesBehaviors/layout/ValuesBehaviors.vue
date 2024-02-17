@@ -51,7 +51,6 @@ export default {
   methods: {
     token() {
       let token = sessionStorage.getItem('token');
-      console.log("token de prueba",token);
     },
     setTitle() {
       this.$store.commit("setPageTitle", this.title);

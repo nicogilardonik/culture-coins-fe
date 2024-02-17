@@ -6,8 +6,8 @@ import AskYourCommunityCreate from '@/components/AskYourCommunity/layout/AskYour
 import PersonalDataAndPoints from '@/components/MyProfile/layout/PersonalDataAndPoints.vue'
 import MyRecognitions from '@/components/MyProfile/layout/MyRecognitions.vue'
 import ValuesBehaviors from '@/components/MiInfogain/ValuesBehaviors/layout/ValuesBehaviors.vue'
-import LastActivity from '@/components/MiInfogain/LastActivity/layaout/LastActivity.vue'
-import Communities from '@/components/MiInfogain/Communities/layaout/Communities.vue'
+import LastActivity from '@/components/MiInfogain/LastActivity/layout/LastActivity.vue'
+import Communities from '@/components/MiInfogain/Communities/layout/Communities.vue'
 import TopRecognition from '@/components/MiInfogain/TopRecognition/layout/TopRecognition.vue'
 
 const routes = [
