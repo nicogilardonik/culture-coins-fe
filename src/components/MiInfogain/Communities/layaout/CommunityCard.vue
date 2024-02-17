@@ -60,33 +60,10 @@ export default {
       }
     },
     setUsers() {
-      //console.log("0");
-      const userCard = this.users.filter(user => user.communities.includes(this.name))
-      this.usersFilter = userCard
-       if (this.name == ".NET") {
-      //   console.log("primer console.log");
-      //   console.log("1", this.users);
-         console.log("usersFilter en setUsers", this.usersFilter);
-       }
+      let userCard = this.users.filter(user => user.communities.includes(this.name))
+      this.usersFilter = userCard;
     },
-
-    // async setUsers() {
-    //   try {
-    //     await CommunitiesService.getUsers().then((response) => {
-    //       this.usersFilter = response.filter(user => user.communities.includes(this.name))
-    //     }).catch((error) => {
-    //       this.showError(error.error ?? error);
-    //     });
-    //   } catch (error) {
-    //     this.showError(error.error ?? error);
-    //   }
-    //   ;
-    // },
-
     async change() {
-      debugger
-      console.log("usersFilter en change" ,this.usersFilter);
-      console.log("usersFilter en change 2" ,this.usersFilter);
       let mensaje;
       let userComunity;
       if (!this.userProfile.communities.includes(this.name)) {
@@ -107,8 +84,6 @@ export default {
             this.usersFilter.push(this.userProfile);
           } else {
             const userIndex = this.usersFilter.indexOf(this.userProfile);
-            console.log(userIndex);
-            console.log("userIndex", this.usersFilter[userIndex]);
             this.usersFilter.splice(userIndex, 1);
           }
         })
