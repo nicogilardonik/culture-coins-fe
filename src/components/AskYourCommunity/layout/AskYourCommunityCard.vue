@@ -89,14 +89,10 @@ export default {
         };
     },
 
-    created() {
-        //this.getExecutions();
-    },
 
     mounted() {
         this.adjustMaxLength();
         window.addEventListener('resize', this.adjustMaxLength);
-        // this.$refs.requestMessage.innerHTML = this.data.message;
     },
 
 

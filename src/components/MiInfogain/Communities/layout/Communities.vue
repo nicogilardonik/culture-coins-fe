@@ -25,7 +25,6 @@ export default {
       isMobile: window.innerWidth <= 768,
       communities: [],
       usersData: null,
-      //name: "Uruguay"
     }
   },
   mounted() {
