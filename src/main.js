@@ -33,24 +33,21 @@ app.mount('#app');
 
 async function initilizeData() {
     try {
-        //Cargar token del back y perfil del usuario
+        //Cargar token y perfil del usuario
+
         if (sessionStorage.getItem('token') === "null" || sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
 
             const hash = window.location.hash;
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
-            const token = params.get('token');
+            let token = params.get('token');
 
-            if (!token) { //Si no hay token, redirijo a la pagina de login
-               // window.location.href = "http://culture-coins-dev-be.us-east-1.elasticbeanstalk.com:3000/auth/microsoft";
-               // window.location.href = "http://localhost:3000/auth/microsoft";
+            if (!token) { //Si no hay token, redirijo a la pagina de login       
+                window.location.href = `${process.env.VUE_APP_URL}login?redirect_uri=${window.location.href}`;
             }
-
-            sessionStorage.setItem('token', token);
         }
         let userProfile = await CommonServices.getUserProfile();
-        store.commit('setUserProfile', userProfile);
-
-
+            store.commit('setUserProfile', userProfile);
+        
         //Cargo las notificaciones
         loadNotifications();
 

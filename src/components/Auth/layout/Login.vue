@@ -1,21 +1,24 @@
 <template>
     <div class="login-container">
-        <form class="login-form">
-            <h2 class="login-heading">Login</h2>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" v-model="email" class="form-control" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" v-model="password" class="form-control"
-                    placeholder="Enter your password" required>
-            </div>
-            <button type="button" class="btn btn-primary btn-block" @click="login">Login</button>
-        </form>
+        <div class="form-container">
+            <form class="login-form">
+                <h2 class="login-heading">Login</h2>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" v-model="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" v-model="password" class="form-control"
+                        placeholder="Enter your password" required>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" @click="login">Login</button>
+                <p>Don't you have an account? <router-link class="link-style" to="/register">Create Account</router-link> </p>
+            </form>
+        </div>
     </div>
 </template>
-  
+
 <script>
 
 import CommonService from '@/services/commonServices'
@@ -33,10 +36,8 @@ export default {
 
     data() {
         return {
-
             email: '',
             password: ''
-
         };
     },
     methods: {
@@ -45,9 +46,12 @@ export default {
             try {
                 this.validate();
                 let response = await CommonService.login(this.email, this.password);
-                console.log(response);
+                this.setTokenAndProfile(response);
+                this.$store.commit('toggleUnfoldable');
+                this.$store.commit('updateSidebarVisible', true);
+                this.showSuccess(response.message);
             } catch (error) {
-                let errorMessage = error.error? error.error : error.message ? error.message : error;
+                let errorMessage = error.error ? error.error : error.message ? error.message : error;
                 this.showError(errorMessage);
             }
         },
@@ -61,6 +65,12 @@ export default {
             }
         },
 
+        async setTokenAndProfile(response) {
+            sessionStorage.setItem('token', response.token);
+            let userProfile = await CommonService.getUserProfile();
+            this.$store.commit('setUserProfile', userProfile);
+            this.$router.push('/ViewMyPersonalDataPoints');
+        },
         showSuccess(text) {
             this.$swal.fire({
                 title: 'Success!',
@@ -77,22 +87,24 @@ export default {
                 confirmButtonText: 'Ok',
             });
         },
-
-
     }
 };
 </script>
-  
+
 <style scoped>
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10%;
+}
+
+.form-container {
+    max-width: 360px;
+    width: 100%;
 }
 
 .login-form {
-    max-width: 360px;
-    width: 100%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;

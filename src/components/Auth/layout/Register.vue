@@ -69,8 +69,9 @@ export default {
             try {
                 this.validate();
                 let registerModel = new RegisterModel(this.firstName, this.lastName, this.nickName, this.email, this.password);
-                 let response = await CommonService.register(registerModel);
-                  console.log(response);
+                let response = await CommonService.register(registerModel);
+                this.showSuccess(response.message);
+                this.$router.push('/login');  
             } catch (error) {
                 let errorMessage = error.error? error.error : error.message ? error.message : error;
                 this.showError(errorMessage);
