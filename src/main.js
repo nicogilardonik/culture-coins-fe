@@ -41,8 +41,8 @@ async function initilizeData() {
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
             let token = params.get('token');
             
-            if (!token) { //Si no hay token, redirijo a la pagina de login       
-                window.location.href = `${process.env.VUE_APP_URL}login?redirect_uri=${window.location.href}`;
+            if (!token) { //Si no hay token, redirijo a la pagina de login   
+                window.location.href = `${process.env.VUE_APP_URL}login`;
             }else{
                 sessionStorage.setItem('token', token);
             }
