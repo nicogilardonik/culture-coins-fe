@@ -44,13 +44,13 @@ export default [
   },
   {
     component: 'CNavGroup',
-    name: 'Mi Infogain',
+    name: 'My Infogain',
     to: '/',
     icon: 'cil-speedometer',
     items: [
       {
         component: 'CNavItem',
-        name: 'Values ans behaviors',
+        name: 'Values and behaviors',
         to: '/MiInfogain/ValuesBehaviors',
       },
       {

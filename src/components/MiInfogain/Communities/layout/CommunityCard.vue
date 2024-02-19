@@ -13,12 +13,12 @@
               <div class="custom-display">
                 <p>members:</p>
                 <ul>
-                  <li v-for="user in usersFilter" :key="user.id">{{ user.nickName }}</li>
+                  <li v-for="(user, index) in displayedUsers.slice(0, 5)" :key="index">{{ user.nickName }}</li>
                 </ul>
               </div>
             </div>
           </CCol>
-
+          <CButton v-if="usersFilter.length > 5" @click="openModal" color="secondary">Ver más</CButton>
           <CCol sm="6" md="6" lg="4" xl="2">
             <CButton v-if="userInComunity" color="primary" class="kibana-font-weight" @click="change">
               Leave
@@ -29,6 +29,21 @@
           </CCol>
 
         </CRow>
+
+        <CModal v-model="modalOpen" size="lg">
+          <CModalHeader>
+            Miembros de la comunidad
+          </CModalHeader>
+          <CModalBody>
+            <ul>
+              <li v-for="(user, index) in usersFilter" :key="index">{{ user.nickName }}</li>
+            </ul>
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" @click="closeModal">Cerrar</CButton>
+          </CModalFooter>
+        </CModal>
+
       </CCardBody>
     </CCard>
   </CCol>
@@ -45,8 +60,8 @@ export default {
   data() {
     return {
       usersFilter: [],
-      userInComunity: false
-
+      userInComunity: false,
+      modalOpen: false
     }
   },
   mounted() {
@@ -66,33 +81,38 @@ export default {
     async change() {
       let mensaje;
       let userComunity;
-      if (!this.userProfile.communities.includes(this.name)) {
-        this.userProfile.communities.push(this.name);
+      if (!this.userInComunity) {
+        this.$store.state.userProfile.communities.push(this.name);
         mensaje = "I join the community.";
         userComunity = true;
+        this.usersFilter.push(this.$store.state.userProfile);
       } else {
         mensaje = "I left the community.";
         userComunity = false;
-        const index = this.userProfile.communities.indexOf(this.name);
-        this.userProfile.communities.splice(index, 1);
+        const index = this.$store.state.userProfile.communities.indexOf(this.name);
+        this.$store.state.userProfile.communities.splice(index, 1);
+        const userIndex = this.usersFilter.findIndex(user => user._id === this.$store.state.userProfile._id);
+        if (userIndex !== -1) {
+          this.usersFilter.splice(userIndex, 1);
+        }
       }
+
       try {
-        await CommunitiesService.update(this.userProfile).then(() => {
+        await CommunitiesService.update(this.$store.state.userProfile).then(() => {
           this.showSuccess(mensaje);
           this.userInComunity = userComunity;
-          if (this.userInComunity) {
-            this.usersFilter.push(this.userProfile);
-          } else {
-            const userIndex = this.usersFilter.indexOf(this.userProfile);
-            this.usersFilter.splice(userIndex, 1);
-          }
-        })
-          .catch((error) => {
-            this.showError(error.error ?? error);
-          });
+        }).catch((error) => {
+          this.showError(error.error ?? error);
+        });
       } catch (error) {
         this.showError(error.error ?? error);
       }
+    },
+    openModal() {
+      this.modalOpen = true;
+    },
+    closeModal() {
+      this.modalOpen = false;
     },
     showError(text) {
       this.$swal.fire({
@@ -114,6 +134,10 @@ export default {
   computed: {
     userProfile() {
       return this.$store.state.userProfile;
+    },
+    // Devuelve solo los primeros 5 usuarios para mostrar
+    displayedUsers() {
+      return this.usersFilter.slice(0, 5);
     },
   }
 }

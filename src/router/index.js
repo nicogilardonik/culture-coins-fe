@@ -9,6 +9,9 @@ import ValuesBehaviors from '@/components/MiInfogain/ValuesBehaviors/layout/Valu
 import LastActivity from '@/components/MiInfogain/LastActivity/layout/LastActivity.vue'
 import Communities from '@/components/MiInfogain/Communities/layout/Communities.vue'
 import TopRecognition from '@/components/MiInfogain/TopRecognition/layout/TopRecognition.vue'
+//import Login from '@/components/Auth/layout/Login.vue'
+//import Register from '@/components/Auth/layout/Register.vue'
+import Dashboard from '@/views/Dashboard.vue'
 
 const routes = [
   {
@@ -20,8 +23,7 @@ const routes = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () =>
-          import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
+        component: Dashboard,
       },
       {
         path: '/recognition/create',
@@ -76,14 +78,12 @@ const routes = [
       {
         path:'login',
         name:'Login',
-        component: () =>
-          import(/* webpackChunkName: "login" */ '@/components/Auth/layout/Login'),
+        component: () => import('@/components/Auth/layout/Login.vue'),
       },
       {
         path:'register',
         name:'Register',
-        component: () =>
-          import(/* webpackChunkName: "register" */ '@/components/Auth/layout/Register'),
+        component: () => import('@/components/Auth/layout/Register.vue'),
       },
 
     ],

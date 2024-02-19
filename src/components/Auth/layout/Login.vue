@@ -48,7 +48,8 @@ export default {
                 let response = await CommonService.login(this.email, this.password);
                 this.setTokenAndProfile(response);
                 this.$store.commit('toggleUnfoldable');
-                this.$store.commit('updateSidebarVisible', true);
+                //this.$store.commit('updateSidebarVisible', true);
+                this.$store.commit('updateShowToggleSidebar', true);
                 this.showSuccess(response.message);
             } catch (error) {
                 let errorMessage = error.error ? error.error : error.message ? error.message : error;

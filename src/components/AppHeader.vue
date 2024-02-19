@@ -32,7 +32,7 @@ export default {
       return this.$store.state.pageTitle
     },
     showToggle() {
-      return this.$store.state.sidebarVisible
+      return this.$store.state.showToggleSidebar
     },
   },
   setup() {

@@ -11,9 +11,13 @@ export default createStore({
     lastWaning: [],
     lastError: [],
     lastCriticalErrors: [],
-    token: ''
+    token: '',
+    showToggleSidebar: false,
   },
   mutations: {
+    updateShowToggleSidebar(state, value) {
+      state.showToggleSidebar = value;
+    },
     toggleSidebar(state) {
       state.sidebarVisible = !state.sidebarVisible;
     },

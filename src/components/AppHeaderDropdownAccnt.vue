@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-
+    
     userName() {
       let userProfile = this.$store.state.userProfile;
       return userProfile ? userProfile.firstName + ' ' + userProfile.lastName : '';
