@@ -1,52 +1,51 @@
 <template>
-  <CCol :sm="12" :md="12" class="p-1">
-    <CCard>
-      <CCardHeader class="d-flex justify-content-between">
-        <div class="d-flex align-self-center">
-          <h4 class="d-inline-block">{{ name }}</h4>
-        </div>
-      </CCardHeader>
-      <CCardBody>
-        <CRow>
-          <CCol sm="6" md="6" lg="8" xl="10">
-            <div>
-              <div class="custom-display">
-                <p>members:</p>
-                <ul>
-                  <li v-for="(user, index) in displayedUsers.slice(0, 5)" :key="index">{{ user.nickName }}</li>
-                </ul>
-              </div>
+  <CCard class="m-1">
+    <CCardHeader class="d-flex justify-content-between">
+      <div class="d-flex align-self-center">
+        <h4 class="d-inline-block">{{ name }}</h4>
+      </div>
+    </CCardHeader>
+    <CCardBody>
+      <CRow>
+        <CCol sm="6" lg="8" xl="10">
+          <div>
+            <div class="custom-display">
+              <p><strong>Members: {{ usersFilter.length }}</strong></p>
+              <ul>
+                <li v-for="(user, index) in displayedUsers.slice(0, 3)" :key="index">{{ user.nickName }}</li>
+              </ul>
             </div>
-          </CCol>
-          <CButton v-if="usersFilter.length > 5" @click="openModal" color="secondary">Ver más</CButton>
-          <CCol sm="6" md="6" lg="4" xl="2">
-            <CButton v-if="userInComunity" color="primary" class="kibana-font-weight" @click="change">
-              Leave
-            </CButton>
-            <CButton v-else color="primary" class="kibana-font-weight" @click="change">
-              Join
-            </CButton>
-          </CCol>
+            <span v-if="usersFilter.length > 3" @click="openModal" class="link-style"> See more members ({{
+              usersFilter.length }})</span>
+          </div>
+        </CCol>
 
-        </CRow>
+        <CCol sm="6" lg="4" xl="2">
+          <CButton v-if="userInComunity" color="primary" class="kibana-font-weight" @click="change">
+            Leave
+          </CButton>
+          <CButton v-else color="primary" class="kibana-font-weight" @click="change">
+            Join
+          </CButton>
+        </CCol>
+      </CRow>
 
-        <CModal v-model="modalOpen" size="lg">
-          <CModalHeader>
-            Miembros de la comunidad
-          </CModalHeader>
-          <CModalBody>
-            <ul>
-              <li v-for="(user, index) in usersFilter" :key="index">{{ user.nickName }}</li>
-            </ul>
-          </CModalBody>
-          <CModalFooter>
-            <CButton color="secondary" @click="closeModal">Cerrar</CButton>
-          </CModalFooter>
-        </CModal>
+      <CModal :visible="showModal" @close="() => { showModal = false }" size="lg">
+        <CModalHeader>
+          <h2>Miembros de la comunidad</h2>
+        </CModalHeader>
+        <CModalBody>
+          <ul>
+            <li v-for="(user, index) in usersFilter" :key="index">{{ user.nickName }}</li>
+          </ul>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="danger" @click="closeModal">Cerrar</CButton>
+        </CModalFooter>
+      </CModal>
 
-      </CCardBody>
-    </CCard>
-  </CCol>
+    </CCardBody>
+  </CCard>
 </template>
 
 <script>
@@ -61,7 +60,7 @@ export default {
     return {
       usersFilter: [],
       userInComunity: false,
-      modalOpen: false
+      showModal: false
     }
   },
   mounted() {
@@ -83,11 +82,11 @@ export default {
       let userComunity;
       if (!this.userInComunity) {
         this.$store.state.userProfile.communities.push(this.name);
-        mensaje = "I join the community.";
+        mensaje = "I have joined the community.";
         userComunity = true;
         this.usersFilter.push(this.$store.state.userProfile);
       } else {
-        mensaje = "I left the community.";
+        mensaje = "I have exited the community.";
         userComunity = false;
         const index = this.$store.state.userProfile.communities.indexOf(this.name);
         this.$store.state.userProfile.communities.splice(index, 1);
@@ -109,10 +108,10 @@ export default {
       }
     },
     openModal() {
-      this.modalOpen = true;
+      this.showModal = true;
     },
     closeModal() {
-      this.modalOpen = false;
+      this.showModal = false;
     },
     showError(text) {
       this.$swal.fire({
@@ -143,4 +142,10 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.link-style {
+  color: #0077cc;
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>

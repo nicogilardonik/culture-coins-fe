@@ -1,12 +1,11 @@
 <template>
-
-<div v-if="this.usersData !== null">
-  <div v-for="community in communities" :key="community.id">
-    <CommunityCard :name="community.name" :users="this.usersData"/> 
+  <div v-if="this.usersData !== null">
+    <CRow class="d-flex justify-content-between">
+      <CCol xs="12" sm=6 v-for="community in communities" :key="community.id">
+        <CommunityCard :name="community.name" :users="this.usersData" />
+      </CCol>
+    </CRow>
   </div>
-</div>
-
-
 </template>
 
 <script>
@@ -37,26 +36,26 @@ export default {
     setTitle() {
       this.$store.commit('setPageTitle', this.title)
     },
-  async getCommunities(){
-    try {
-      await CommunitiesService.getCommunities().then((response) => {
-        this.communities = response;
-      }).catch((error) => {
+    async getCommunities() {
+      try {
+        await CommunitiesService.getCommunities().then((response) => {
+          this.communities = response;
+        }).catch((error) => {
+          this.showError(error.error ?? error);
+        });
+      } catch (error) {
         this.showError(error.error ?? error);
-      });
-    } catch (error) {
-      this.showError(error.error ?? error);
-    }
-  },
-  async getUsers() {
-  try {
-    this.usersData = await CommunitiesService.getUsers();
-  } catch (error) {
-    this.showError(error.error ?? error);
-  }
-},
+      }
+    },
+    async getUsers() {
+      try {
+        this.usersData = await CommunitiesService.getUsers();
+      } catch (error) {
+        this.showError(error.error ?? error);
+      }
+    },
 
-  showError(text) {
+    showError(text) {
       this.$swal.fire({
         title: "Error!",
         text: text,
@@ -66,9 +65,7 @@ export default {
     },
 
   }
-  }
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
