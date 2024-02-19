@@ -4,7 +4,7 @@
       :requiredCancelButton="false" />
   </CRow>
   <CRow class="my-4">
-    <CCol :xs="isMobile ? 12 : 6">
+    <CCol xs="12" md="5">
       <h3 class="mb-4">Personal Information</h3>
 
       <label>Nickname</label>
@@ -24,23 +24,28 @@
       <span v-else href="#" class="view-executions-link">You have no recognitions yet</span>
     </CCol>
 
-    <CCol :xs="isMobile ? 0 : 1"></CCol>
+    <CCol xs="0" md="1"></CCol>
 
-    <CCol :xs="isMobile ? 12 : 5">
-      <h3 class="mb-4">Preferences</h3>
+    <CCol xs="12" md="5">
 
-      <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="userProfile.receiveSupportRequest" />
+      <CRow>
+        <h3 class="mb-4">Preferences</h3>
 
-      <!-- Community -->
-      <div class="preferences">
-        <div class="grid-container">
-          <ManageList title="Communities" :items="userProfile.communities" :filteredList="filteredCommunitiesList" :resetMenu="resetMenu"
-            @remove-item="removeCommunity" @add-item="addCommunity" />
+        <CFormCheck id="flexCheckDefault" label="Receive Support Request" v-model="userProfile.receiveSupportRequest" />
+      </CRow>
+
+      <CRow>
+        <CCol>
+          <!-- communities -->
+          <ManageList title="Communities" :items="userProfile.communities" :filteredList="filteredCommunitiesList"
+            :resetMenu="resetMenu" @remove-item="removeCommunity" @add-item="addCommunity" />
+        </CCol>
+        <CCol>
           <!-- teams -->
-            <ManageList title="Teams" :items="userProfile.teams" :filteredList="filteredTeamsList" :resetMenu="resetMenu"
-              @remove-item="removeTeam" @add-item="addTeam" />
-        </div>
-      </div>
+          <ManageList title="Teams" :items="userProfile.teams" :filteredList="filteredTeamsList" :resetMenu="resetMenu"
+            @remove-item="removeTeam" @add-item="addTeam" />
+        </CCol>
+      </CRow>
     </CCol>
   </CRow>
 </template>
@@ -51,14 +56,13 @@
 
 <script>
 import ProfileService from '@/components/MyProfile/services/profileService';
-import { CCol } from '@coreui/vue';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
 import CustomHeader from '@/components/CustomHeader.vue';
 import ManageList from '@/components/MyProfile/layout/ManageList.vue';
 
 export default {
 
-  components: { CCol, CustomHeader, ManageList },
+  components: {CustomHeader, ManageList },
 
   data() {
     return {
@@ -180,7 +184,7 @@ export default {
     async save() {
       this.resetMenu = !this.resetMenu;
       try {
-        await ProfileService.update(this.userProfile).then(() => {  
+        await ProfileService.update(this.userProfile).then(() => {
           this.showSuccess('Your profile was updated successfully.');
         })
           .catch((error) => {
