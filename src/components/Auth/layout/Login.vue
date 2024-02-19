@@ -30,6 +30,7 @@ export default {
         next((vm) => {
             vm.$store.commit('toggleUnfoldable');
             vm.$store.commit('updateSidebarVisible', false);
+            vm.$store.commit('updateShowToggleSidebar', false);
             vm.$store.commit('setPageTitle', 'Login');
         });
     },

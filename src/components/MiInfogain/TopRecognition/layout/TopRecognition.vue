@@ -4,9 +4,9 @@
       <li v-for="(recognition, index) in recognitions" :key="index" class="recognition-item">
         <h2>{{ recognition._id }} {{ recognition.count }}</h2>
         <h3>Last recognition</h3>
-        Sender <strong>{{ recognition.userFromNickName }}</strong> destinatario <strong>{{ recognition.userToNickName }}</strong> <br>
-        Created at {{ formatDate(recognition.createdAt) }} <br>
-        Message <span v-html="removePTags(recognition.message)"></span>
+        <b>Sender: </b> <strong>{{ recognition.userFromNickName }}</strong> destination <strong>{{ recognition.userToNickName }}</strong> <br>
+        <b>Created at:</b> {{ formatDate(recognition.createdAt) }} <br>
+          <b>Message:</b> <span v-html="removePTags(recognition.message)"></span>
       </li>
     </ul>
   </div>

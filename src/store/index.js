@@ -12,7 +12,7 @@ export default createStore({
     lastError: [],
     lastCriticalErrors: [],
     token: '',
-    showToggleSidebar: false,
+    showToggleSidebar: true,
   },
   mutations: {
     updateShowToggleSidebar(state, value) {
