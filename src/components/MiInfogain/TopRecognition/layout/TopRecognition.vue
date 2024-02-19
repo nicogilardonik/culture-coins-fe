@@ -1,21 +1,23 @@
 <template>
   <div>
-    <ul class="recognition-list">
-      <li v-for="(recognition, index) in recognitions" :key="index" class="recognition-item">
-        <h2>{{ recognition._id }} {{ recognition.count }}</h2>
-        <h3>Last recognition</h3>
-        <b>Sender: </b> <strong>{{ recognition.userFromNickName }}</strong> destination <strong>{{ recognition.userToNickName }}</strong> <br>
-        <b>Created at:</b> {{ formatDate(recognition.createdAt) }} <br>
-          <b>Message:</b> <span v-html="removePTags(recognition.message)"></span>
-      </li>
-    </ul>
+    <CRow class="d-flex justify-content-between">
+      <CCol xs="12" sm=6 v-for="(recognition, index) in recognitions" :key="index">
+        <TopRecognitionCard :recognition="recognition" />
+      </CCol>
+    </CRow>
   </div>
 </template>
 
 <script>
+import TopRecognitionCard from './TopRecognitionCard.vue';
 import TopRecognitionService from '@/components/MiInfogain/TopRecognition/services/topRecognitionService';
 
 export default {
+
+  components: {
+    TopRecognitionCard,
+  },
+
   data() {
     return {
       title: "Top Recognitions",

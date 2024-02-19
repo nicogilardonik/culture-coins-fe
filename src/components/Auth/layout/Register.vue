@@ -32,6 +32,7 @@
                     placeholder=" Confirm your password" required>
             </div>
             <button type="button" class="btn btn-primary btn-block" @click="register">Register</button>
+            <p>Do you have an account? <router-link class="link-style" to="/login">Login</router-link> </p>
         </form>
     </div>
 </template>
