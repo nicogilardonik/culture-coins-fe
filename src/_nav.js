@@ -65,7 +65,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Top Recognition',
+        name: 'Top Recognitions',
         to: '/MiInfogain/TopRecognition',
       },
     ],
