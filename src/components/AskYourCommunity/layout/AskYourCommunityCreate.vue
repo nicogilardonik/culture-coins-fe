@@ -20,7 +20,7 @@
         </select>
       </div>
     </CCol>
-  </CRow>>
+  </CRow>
   <div v-if="editing">
     <CustomEditor @get-message="getMessage" :value="message" :editing="true" ref="customEditor" />
   </div>
