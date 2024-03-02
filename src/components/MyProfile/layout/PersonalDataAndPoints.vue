@@ -184,7 +184,9 @@ export default {
     async save() {
       this.resetMenu = !this.resetMenu;
       try {
-        await ProfileService.update(this.userProfile).then(() => {
+        let userProfileCopy = { ...this.userProfile };
+        delete userProfileCopy.points;
+        await ProfileService.update(userProfileCopy).then(() => {
           this.showSuccess('Your profile was updated successfully.');
         })
           .catch((error) => {
