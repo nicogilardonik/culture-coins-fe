@@ -68,7 +68,7 @@ export default {
         },
 
         async setTokenAndProfile(response) {
-            sessionStorage.setItem('token', response.token);
+            localStorage.setItem('token', response.token);
             let userProfile = await CommonService.getUserProfile();
             this.$store.commit('setUserProfile', userProfile);
             this.$router.push('/ViewMyPersonalDataPoints');

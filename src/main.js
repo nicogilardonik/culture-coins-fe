@@ -35,7 +35,7 @@ async function initilizeData() {
     try {
         //Cargar token y perfil del usuario
 
-        if (sessionStorage.getItem('token') === "null" || sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
+        if (localStorage.getItem('token') === "null" || localStorage.getItem('token') === null || localStorage.getItem('token') === undefined) {
 
             const hash = window.location.hash;
             const params = new URLSearchParams(hash.substr(hash.indexOf('?')));
@@ -44,7 +44,7 @@ async function initilizeData() {
             if (!token) { //Si no hay token, redirijo a la pagina de login   
                 window.location.href = `${process.env.VUE_APP_URL}login`;
             } else {
-                sessionStorage.setItem('token', token);
+                localStorage.setItem('token', token);
             }
         }
         let userProfile = await CommonServices.getUserProfile();

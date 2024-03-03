@@ -49,7 +49,7 @@ class Api {
     if (!(body instanceof FormData)) {
       requestConfig.headers = {
         'Content-Type': 'application/json',
-        'authorization': sessionStorage.getItem('token')
+        'authorization': localStorage.getItem('token')
       }
     }
   
@@ -69,6 +69,12 @@ class Api {
 
     } catch (error) {
       if(error.response && error.response.data){
+        console.log(error.response.status, "hola");
+        if (error.response.status == 401 || error.response.status == 403) {
+          localStorage.removeItem('token');
+          window.location.href = `${process.env.VUE_APP_URL}login`;
+          
+        }
         errorInfo = this.getErrorInfo(error.response.data); //Intento obtener el error de la API
       }
       if(!errorInfo){
