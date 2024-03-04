@@ -54,7 +54,6 @@ export default {
     return {
       newAvatar: '',
       isModalOpen: false,
-     // avatarPrefix: require(`@/assets/images/avatars/${this.avatarName}`),
       avatars: [
         require('@/assets/images/avatars/1.jpg'),
         require('@/assets/images/avatars/2.jpg'),
@@ -80,16 +79,6 @@ export default {
       this.isModalOpen = true
     },
     updateAvatar(avatar) {
-      debugger
-     // const filename = avatar.substring(avatar.lastIndexOf('/') + 1)
-    
-      // const nameWithoutExtension = filename.substring(
-      //   0,
-      //   filename.lastIndexOf('.'),
-      // )
-      //const extension = filename.substring(filename.lastIndexOf('.'))
-      //const fileName = nameWithoutExtension.split('.')[0]
-
       this.newAvatar = avatar;
       this.isModalOpen = false;
       this.$emit('avatar-updated', this.newAvatar)
