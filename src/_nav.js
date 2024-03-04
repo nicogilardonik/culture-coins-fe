@@ -43,6 +43,12 @@ export default [
     icon: 'cil-speedometer',
   },
   {
+    component: 'CNavItem',
+    name: 'Ask all community',
+    to: '/ask-your-community/askallcommunity',
+    icon: 'cil-speedometer',
+  },
+  {
     component: 'CNavGroup',
     name: 'My Infogain',
     to: '/',
@@ -68,6 +74,7 @@ export default [
         name: 'Top Recognitions',
         to: '/MiInfogain/TopRecognition',
       },
+      
     ],
   },
 ]

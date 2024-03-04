@@ -6,6 +6,7 @@
                     <h4 class="d-inline-block">{{ data.title }}</h4>
                 </div>
                 <div class="justify-content-center align-self-center">
+                    <div v-if="isModifiable" >
                     <CTooltip content="Edit" placement="top">
                         <template #toggler="{ on }">
                             <IconPencil color="#f39c12" @click="edit(data._id)" size="1.8rem" class="m-1 custom-cursor"
@@ -20,6 +21,7 @@
                         </template>
                     </CTooltip>
                 </div>
+                </div>
             </CCardHeader>
             <CCardBody>
                 <CRow>
@@ -28,20 +30,20 @@
                             <div class="custom-display">
                                 <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
                             </div>
-                            <!-- <div class="" ref="requestMessage"></div> -->
                         </div>
                     </CCol>
 
                     <CCol sm="6" md="6" lg="4" xl="2" class="">
                         <div>
                             <strong>Status: </strong> {{ data.status }} <br>
+                            <strong>Community: </strong> {{ data.community }} <br>
+                            <div v-if="isModifiable" >
                             <CButton color="primary" size="sm" class="kibana-font-weight" @click="nextStep(data._id)">
                                 Next Step
                             </CButton>
-
+                        </div>
                         </div>
                     </CCol>
-
                 </CRow>
             </CCardBody>
 
@@ -80,6 +82,10 @@ export default {
         data: {
             type: Object,
             required: true
+        },
+        isModifiable: {
+            type: Boolean,
+            default: true,
         },
     },
 

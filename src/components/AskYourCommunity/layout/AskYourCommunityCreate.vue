@@ -6,16 +6,26 @@
   </CRow>
 
   <CRow class="">
-    <CCol xs="6">
+    <CCol xs="4">
       <CFormInput v-model="titleSupport" type="text" placeholder="Title" aria-label="lg input example" />
     </CCol>
 
-    <CCol xs="6">
+    <CCol xs="4">
       <div class="select-wrapper">
         <select v-model="selectedPriority" class="custom-select">
           <option disabled value="">Select priority</option>
           <option v-for="option in priorityOptions" :key="option.value" :value="option.value">
             {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </CCol>
+    <CCol xs="4">
+      <div class="select-wrapper">
+        <select v-model="selectedCommunity" class="custom-select">
+          <option disabled value="">Select community</option>
+          <option v-for="option in communityOptions" :key="option.name" :value="option.name">
+            {{ option.name }}
           </option>
         </select>
       </div>
@@ -64,13 +74,16 @@ export default {
         { value: 'next-day', label: 'Next Day' },
         { value: 'within-week', label: 'Within a Week' },
       ],
+      communityOptions: [],
       selectedPriority: '',
+      selectedCommunity: '',
       user: { email: this.$store.state.userProfile.email, name: this.$store.state.userProfile.nickName }, 
     };
   },
   mounted() {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
+    this.setCommunityOptions();
     this.setTitle();
     if (this.$route.params.requestId) {
       this.editing = true;
@@ -84,6 +97,16 @@ export default {
         this.titleSupport = request.title;
         this.message = request.message;
         this.selectedPriority = request.priority;
+        this.selectedCommunity = request.community;
+      } catch (error) {
+        console.log(error);
+        this.showError(error.error ?? error);
+      }
+    },
+
+    async setCommunityOptions() {
+      try {
+        this.communityOptions = await AskYourCommunityService.getCommunities();
       } catch (error) {
         console.log(error);
         this.showError(error.error ?? error);
@@ -99,6 +122,7 @@ export default {
           this.message,
           this.selectedPriority,
           this.user.email,
+          this.selectedCommunity
         );
         await AskYourCommunityService.addRequest(model);
         this.showSuccess('Request created successfully');
@@ -117,6 +141,7 @@ export default {
           this.message,
           this.selectedPriority,
           this.user.email,
+          this.selectedCommunity
         );
         await AskYourCommunityService.updateRequest(
           this.$route.params.requestId,
@@ -137,6 +162,10 @@ export default {
 
       if (!this.selectedPriority) {
         throw 'Please select a priority';
+      }
+
+      if (!this.selectedCommunity) {
+        throw 'Please select a community';
       }
 
       if (this.message == '<p><br></p>' || !this.message) {

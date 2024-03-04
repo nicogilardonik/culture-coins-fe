@@ -62,6 +62,16 @@ class AskYourCommunityService {
         }
     }
 
+    async getCommunities() {
+        try {
+            const list = await Api.get(`Communities`);
+            return list;
+        } catch (error) {
+            console.error('Error al obtener los Users');
+            throw error
+        }
+    }
+
  
 
 }
