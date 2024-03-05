@@ -7,6 +7,9 @@
     <CCol xs="12" md="5">
       <h3 class="mb-4">Personal Information</h3>
 
+      <label>Avatar</label>
+      <Avatar @avatar-updated="avatarUpdated" :avatar="userProfile.avatar ?? ''" />
+
       <label>Nickname</label>
       <CFormInput v-model="userProfile.nickName" type="text" placeholder="nickname" /> <br>
 
@@ -59,10 +62,11 @@ import ProfileService from '@/components/MyProfile/services/profileService';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
 import CustomHeader from '@/components/CustomHeader.vue';
 import ManageList from '@/components/MyProfile/layout/ManageList.vue';
+import Avatar from '@/components/MyProfile/layout/Avatar.vue';
 
 export default {
 
-  components: {CustomHeader, ManageList },
+  components: {CustomHeader, ManageList, Avatar },
 
   data() {
     return {
@@ -72,6 +76,7 @@ export default {
       communitiesList: [],
       teamsList: [],
       resetMenu: false,
+
     };
   },
   computed: {
@@ -103,7 +108,6 @@ export default {
     this.setTitle();
     this.getCommunities();
     this.getTeams();
-
   },
   methods: {
     setTitle() {
@@ -150,6 +154,10 @@ export default {
       } catch (error) {
         this.showError(error.error ?? error);
       }
+    },
+
+    avatarUpdated(avatar) {
+      this.userProfile.avatar = avatar;
     },
 
     showSuccess(text) {
