@@ -44,8 +44,8 @@ export default [
   },
   {
     component: 'CNavItem',
-    name: 'Ask all community',
-    to: '/ask-your-community/askallcommunity',
+    name: 'Ask from all communities',
+    to: '/ask-your-community/askfromallcommunities',
     icon: 'cil-speedometer',
   },
   {

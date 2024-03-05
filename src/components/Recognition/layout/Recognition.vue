@@ -4,7 +4,7 @@
       :requiredCancelButton="false" :fnCancelButton="fnCancelButton" />
   </CRow>
 
-  <Multiselector ref="multiSelectorValues" @selected-values="selectedValues" />
+  <Multiselector ref="multiSelectorValues" :message="'Select Behaviour'" @selected-values="selectedValues" />
   <CRow>
     <CCol xs="12" md="5">
       <div class="select-wrapper">

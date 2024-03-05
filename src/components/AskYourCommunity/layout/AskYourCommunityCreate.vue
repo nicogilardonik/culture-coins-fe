@@ -1,6 +1,6 @@
 <template>
   <CRow class="d-flex justify-content-center align-items-center position-relative">
-    <CustomHeader class="mb-1" :fnButton="editing ? update : create" :textButton="editing ? 'Save' : 'Create'"
+    <CustomHeader class="mb-3" :fnButton="editing ? update : create" :textButton="editing ? 'Save' : 'Create'"
       :requiredButton="true" :action="editing ? 'save' : 'create'" :requiredCancelButton="true"
       :fnCancelButton="fnCancelButton" />
   </CRow>
