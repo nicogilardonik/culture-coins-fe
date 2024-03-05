@@ -23,7 +23,7 @@
     <CCol xs="4">
       <div class="select-wrapper">
         <select v-model="selectedCommunity" class="custom-select">
-          <option disabled value="">Select community</option>
+          <option disabled value="">All communities</option>
           <option v-for="option in communityOptions" :key="option.name" :value="option.name">
             {{ option.name }}
           </option>

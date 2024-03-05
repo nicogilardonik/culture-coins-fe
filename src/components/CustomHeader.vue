@@ -20,7 +20,7 @@
 
             <div v-if="Communities" class="select-wrapper">
                 <select v-model="selectedCommunity" class="custom-select">
-                    <option value="">Select community</option>
+                    <option value="">All communities</option>
                     <option v-for="option in Communities" :key="option.name" :value="option.name">
                         {{ option.name }}
                     </option>
