@@ -80,6 +80,18 @@ export default {
       this.redirect('create')
     },
 
+    async getRequests(email) {
+      try {
+        let response = await AskYourCommunityService.getRequests(email)
+        if (response) {
+          this.requestsFilter = response
+        }
+      } catch (error) {
+        console.log(error)
+        this.showError(error.error ?? error)
+      }
+    },
+
     async setCommunities() {
       try {
         let response = await AskYourCommunityService.getCommunities()
