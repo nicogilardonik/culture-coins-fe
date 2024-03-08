@@ -48,7 +48,7 @@ export default {
 .custom-title {
     margin-top: 100px; 
     width: auto;
-    max-width: 100%; /* Añade esta línea para establecer un ancho máximo */
+    max-width: 100%; 
 }
 
 

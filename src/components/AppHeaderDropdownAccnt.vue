@@ -6,8 +6,15 @@
       :caret="false"
       @click.prevent
     >
-      <img v-if="avatarImg" :src="avatarImg" class="img-avatar" alt="avatar" />
-      <CAvatar v-else size="md" class="avatar-text">{{ avatarText }}</CAvatar>
+      <div v-if="avText">
+        <img
+          v-if="avatarImg"
+          :src="avatarImg"
+          class="img-avatar"
+          alt="avatar"
+        />
+        <CAvatar v-else size="md" class="avatar-text">{{ avatarText }}</CAvatar>
+      </div>
     </CDropdownToggle>
     <CDropdownMenu class="pt-0">
       <CDropdownHeader component="h6" class="bg-light fw-semibold py-2">
@@ -47,7 +54,7 @@ export default {
         : ''
     },
     avatarText() {
-      let avText = '##'
+      let avText = ''
       let userProfile = this.$store.state.userProfile
 
       if (userProfile) {
