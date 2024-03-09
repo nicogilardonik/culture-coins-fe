@@ -9,22 +9,12 @@
                     </option>
                 </select>
             </div>
-            
 
             <div class="ml-auto">
                 <IconSortDescending2 v-if="localFilterSelected && !ascendingSort" @click="toggleSortOrder('descending')"
                     color="#0054a6" size="1.8rem" class="m-1 icon-sort-descending2" />
                 <IconSortAscending2 v-if="localFilterSelected && ascendingSort" @click="toggleSortOrder('ascending')"
                     color="#0054a6" size="1.8rem" class="m-1 icon-sort-ascending2" />
-            </div>
-
-            <div v-if="Communities" class="select-wrapper">
-                <select v-model="selectedCommunity" class="custom-select">
-                    <option value="">All communities</option>
-                    <option v-for="option in Communities" :key="option.name" :value="option.name">
-                        {{ option.name }}
-                    </option>
-                </select>
             </div>
         </CCol>
 
@@ -37,14 +27,7 @@
             </div>
 
         </CCol>
-        <!-- <CCol v-if="Communities" class="select-wrapper">
-                <select v-model="selectedCommunity" class="custom-select">
-                    <option value="">Select community</option>
-                    <option v-for="option in Communities" :key="option.name" :value="option.name">
-                        {{ option.name }}
-                    </option>
-                </select>
-        </CCol> -->
+
         <CCol v-if="requiredButton" :cols="requiredFilter ? 6 : 12" class="d-flex justify-content-end">
             <div>
                 <CButton v-if="action == 'create'" :size="buttonSize" color="primary" class="kibana-font-weight"
@@ -64,10 +47,9 @@
                 </CButton>
             </div>
         </CCol>
-
     </CRow>
 </template>
-
+  
 <script>
 
 import { mapState } from 'vuex';
@@ -76,7 +58,7 @@ import { IconDeviceFloppy, IconFilePlus, IconX } from '@tabler/icons-vue';
 
 export default {
 
-    emits: ['filter-changed', 'filter2-changed'],
+    emits: ['filter-changed'],
 
     components: {
         IconSortDescending2,
@@ -93,10 +75,7 @@ export default {
         },
         items: function (val) {
             this.localItems = val;
-        },
-        selectedCommunity() {
-            this.filterItems2();
-        },
+        }
     },
 
     props: {
@@ -132,7 +111,7 @@ export default {
             type: String, //create, save
             required: false,
         },
-        filter2: Array,
+
     },
 
     computed: mapState(['pageTitle']),
@@ -144,31 +123,14 @@ export default {
             localFilterSelected: "",
             localItems: this.items,
             buttonSize: 'sm',
-            Communities: [],
-            selectedCommunity: ""
         };
     },
 
     mounted() {
         this.adjustSizeButton();
-        this.setCommunity();
     },
 
-
     methods: {
-        setCommunity() {
-            this.Communities = this.filter2;
-        },
-
-        filterItems2() {
-            if (this.selectedCommunity == "") {
-               return this.$emit('filter2-changed', this.items);
-            }
-            this.$emit('filter2-changed', this.items.filter((item) => {
-                return item.community && item.community === this.selectedCommunity;
-            }));
-
-        },
         filterItems() {
             if (this.localFilterSelected == '' || this.localFilterSelected == null) {
                 this.localItems = this.items;
@@ -202,24 +164,4 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.select-wrapper {
-  margin-left: 1rem;
-}
-
-.custom-select {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
-}
-</style>
+<style></style>

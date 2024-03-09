@@ -9,7 +9,7 @@ import ValuesBehaviors from '@/components/MiInfogain/ValuesBehaviors/layout/Valu
 import LastActivity from '@/components/MiInfogain/LastActivity/layout/LastActivity.vue'
 import Communities from '@/components/MiInfogain/Communities/layout/Communities.vue'
 import TopRecognition from '@/components/MiInfogain/TopRecognition/layout/TopRecognition.vue'
-import AskFromAllCommunities from '@/components/AskFromAllCommunities/layout/AskFromAllCommunities.vue'
+import AskAllCommunities from '@/components/AskAllCommunities/layout/AskFromAllCommunities.vue'
 //import Login from '@/components/Auth/layout/Login.vue'
 //import Register from '@/components/Auth/layout/Register.vue'
 import Dashboard from '@/views/Dashboard.vue'
@@ -67,9 +67,9 @@ const routes = [
         component: AskYourCommunityList,
       },
       {
-        path: '/ask-your-community/askfromallcommunities',
+        path: '/ask-your-community/AskAllCommunities',
         name: 'Ask all community',
-        component: AskFromAllCommunities,
+        component: AskAllCommunities,
       },
       {
         path: '/ask-your-community/create',

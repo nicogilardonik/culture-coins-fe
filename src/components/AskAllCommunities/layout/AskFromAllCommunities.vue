@@ -1,14 +1,14 @@
 <template>
   <div v-if="this.requests.length">
-  <askCommunityList :title="'Ask from all communities'" :requestsProp="requests" :isModifiable="false" />
+  <askCommunityList :title="'All Requests'" :requestsProp="requests" :isModifiable="false" />
 </div>
 </template>
 
 <script>
 import askCommunityList from '@/components/AskCommunityList.vue'
-import AskYourCommunityService from '@/components/AskFromAllCommunities/services/AskFromAllCommunitiesService'
+import AskAllCommunityService from '@/components/AskAllCommunities/services/AskAllCommunityService'
 export default {
-  name: 'AskFromAllCommunities',
+  name: 'AskAllCommunity',
 
   data() {
     return {
@@ -27,7 +27,7 @@ export default {
 
     async getRequests() {
       try {
-        let response = await AskYourCommunityService.getRequests()
+        let response = await AskAllCommunityService.getRequests()
         if (response) {
           this.requests = response
         }

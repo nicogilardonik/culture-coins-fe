@@ -6,7 +6,7 @@
       :caret="false"
       @click.prevent
     >
-      <div v-if="avText">
+      <div v-if="avatarText">
         <img
           v-if="avatarImg"
           :src="avatarImg"

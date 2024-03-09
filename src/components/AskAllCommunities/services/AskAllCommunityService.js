@@ -15,10 +15,10 @@ class AskAllCommunityService {
 
     async getCommunities() {
         try {
-            const list = await Api.get(`Communities`);
+            const list = await Api.get('community');
             return list;
         } catch (error) {
-            console.error('Error al obtener los Users');
+            console.error('Error al obtener las comunidades');
             throw error
         }
     }

@@ -1,16 +1,16 @@
 <template>
   <CRow class="d-flex justify-content-center align-items-center position-relative">
-    <CustomHeader class="mb-3" :fnButton="editing ? update : create" :textButton="editing ? 'Save' : 'Create'"
+    <CustomHeader class="mb-1" :fnButton="editing ? update : create" :textButton="editing ? 'Save' : 'Create'"
       :requiredButton="true" :action="editing ? 'save' : 'create'" :requiredCancelButton="true"
       :fnCancelButton="fnCancelButton" />
   </CRow>
 
   <CRow class="">
-    <CCol xs="4">
+    <CCol xs="6">
       <CFormInput v-model="titleSupport" type="text" placeholder="Title" aria-label="lg input example" />
     </CCol>
 
-    <CCol xs="4">
+    <CCol xs="3">
       <div class="select-wrapper">
         <select v-model="selectedPriority" class="custom-select">
           <option disabled value="">Select priority</option>
@@ -20,10 +20,10 @@
         </select>
       </div>
     </CCol>
-    <CCol xs="4">
+    <CCol xs="3">
       <div class="select-wrapper">
         <select v-model="selectedCommunity" class="custom-select">
-          <option disabled value="">All communities</option>
+          <option disabled value="">Select community</option>
           <option v-for="option in communityOptions" :key="option.name" :value="option.name">
             {{ option.name }}
           </option>
