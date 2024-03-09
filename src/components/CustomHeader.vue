@@ -8,6 +8,12 @@
                         {{ filter.name }}
                     </option>
                 </select>
+                <select class="form-control w-auto d-inline-block"  @change="emitChange($event.target.value)">
+                    <option value="">Filter</option>
+                    <option v-for="community in communities" :value="community.value" :key="community.value">
+                        {{ community.name }}
+                    </option>
+                </select>
             </div>
 
             <div class="ml-auto">
@@ -58,7 +64,7 @@ import { IconDeviceFloppy, IconFilePlus, IconX } from '@tabler/icons-vue';
 
 export default {
 
-    emits: ['filter-changed'],
+    emits: ['filter-changed', 'select-change'],
 
     components: {
         IconSortDescending2,
@@ -85,7 +91,10 @@ export default {
         },
         filters: Array,
         items: Array,
-
+        communities: {
+            type: Array,
+            required: false
+        },
         requiredCancelButton: {
             type: Boolean,
             default: false
@@ -159,7 +168,10 @@ export default {
             if (!isMobile) {
                 this.buttonSize = null;
             }
-        }
+        },
+        emitChange(value) {
+        this.$emit('select-change', value);
+    }
     }
 }
 
