@@ -8,7 +8,7 @@
                         {{ filter.name }}
                     </option>
                 </select>
-                <select class="form-control w-auto d-inline-block"  @change="emitChange($event.target.value)">
+                <select v-if="communities" class="form-control w-auto d-inline-block"  @change="emitChange($event.target.value)">
                     <option value="">Filter</option>
                     <option v-for="community in communities" :value="community.value" :key="community.value">
                         {{ community.name }}
