@@ -51,6 +51,7 @@ export default {
       filters: [
                 { name: 'By date', value: 'createdAt' }
             ],
+      valueFilter: '',
     }
   },
 
@@ -132,8 +133,14 @@ export default {
     },
     filterChanged(filteredData) {
       this.requests = filteredData;
+      if (this.valueFilter) {
+        this.requestsFilter = this.requests.filter(request => request.community === this.valueFilter);
+      }else{
+        this.requestsFilter = this.requests;
+      }
     },
-    handleSelectChange(value) {    
+    handleSelectChange(value) {
+      this.valueFilter = value;   
       if(value){
         this.requestsFilter = this.requests.filter(request => request.community === value);
       }else{
