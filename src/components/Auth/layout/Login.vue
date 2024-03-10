@@ -71,7 +71,7 @@ export default {
             localStorage.setItem('token', response.token);
             let userProfile = await CommonService.getUserProfile();
             this.$store.commit('setUserProfile', userProfile);
-            this.$router.push('/ViewMyPersonalDataPoints');
+            this.$router.push('/MiInfogain/LastActivity');
         },
         showSuccess(text) {
             this.$swal.fire({
