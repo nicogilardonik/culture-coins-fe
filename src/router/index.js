@@ -67,8 +67,8 @@ const routes = [
         component: AskYourCommunityList,
       },
       {
-        path: '/ask-your-community/AskAllCommunities',
-        name: 'Ask all community',
+        path: '/AskAllCommunities',
+        name: 'All community requests',
         component: AskAllCommunities,
       },
       {
