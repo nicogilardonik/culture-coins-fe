@@ -69,7 +69,6 @@ class Api {
 
     } catch (error) {
       if(error.response && error.response.data){
-        console.log(error.response.status, "hola");
         if (error.response.status == 401 || error.response.status == 403) {
           localStorage.removeItem('token');
           window.location.href = `${process.env.VUE_APP_URL}login`;
