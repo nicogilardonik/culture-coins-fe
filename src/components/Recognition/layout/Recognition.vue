@@ -11,7 +11,7 @@
         <select v-model="selectedEmail" class="custom-select">
           <option value="" disabled>Select user</option>
           <option v-for="user in users" :key="user.email" :value="user.email">
-            {{ user.email }}
+            {{ user.nickName }}
           </option>
         </select>
       </div>
