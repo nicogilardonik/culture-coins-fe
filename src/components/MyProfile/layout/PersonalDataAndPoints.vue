@@ -194,12 +194,9 @@ export default {
       try {
         let userProfileCopy = { ...this.userProfile };
         delete userProfileCopy.points;
-        await ProfileService.update(userProfileCopy).then(() => {
-          this.showSuccess('Your profile was updated successfully.');
-        })
-          .catch((error) => {
-            this.showError(error.error ?? error);
-          });
+        await ProfileService.update(userProfileCopy)
+        this.showSuccess('Your profile was updated successfully.');
+    
       } catch (error) {
         this.showError(error.error ?? error);
       }

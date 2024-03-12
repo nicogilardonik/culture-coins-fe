@@ -14,7 +14,6 @@
                             <div class="custom-display">
                                 <CustomEditor :value="data.message" :readOnly="true"></CustomEditor>
                             </div>
-                            <!-- <div class="" ref="requestMessage"></div> -->
                         </div>
                     </CCol>
 
