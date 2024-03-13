@@ -9,7 +9,7 @@
       <CRow>
         <CCol sm="6" lg="8" xl="10">
           <div>
-            <div class="custom-display">
+            <div>
               <p><strong>Members: {{ usersFilter.length }}</strong></p>
               <ul>
                 <li v-for="(user, index) in displayedUsers.slice(0, 3)" :key="index">{{ user.nickName }}</li>

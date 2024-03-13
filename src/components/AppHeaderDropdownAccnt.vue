@@ -1,18 +1,8 @@
 <template>
   <CDropdown variant="nav-item">
-    <CDropdownToggle
-      placement="bottom-end"
-      class="py-0"
-      :caret="false"
-      @click.prevent
-    >
+    <CDropdownToggle placement="bottom-end" class="py-0" :caret="false" @click.prevent>
       <div v-if="avatarText">
-        <img
-          v-if="avatarImg"
-          :src="avatarImg"
-          class="img-avatar"
-          alt="avatar"
-        />
+        <img v-if="avatarImg" :src="avatarImg" class="img-avatar" alt="avatar" />
         <CAvatar v-else size="md" class="avatar-text">{{ avatarText }}</CAvatar>
       </div>
     </CDropdownToggle>
@@ -22,6 +12,9 @@
       </CDropdownHeader>
       <CDropdownItem>
         <strong>{{ userName }}</strong>
+      </CDropdownItem>
+      <CDropdownItem class="logout">
+        <strong  @click="logOut">Log out</strong>
       </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
@@ -39,6 +32,11 @@ export default {
   methods: {
     getFirstChar(text) {
       return text && text.length > 0 ? text[0] : ''
+    },
+    logOut() {
+      localStorage.removeItem('token');
+      this.$store.commit('setUserProfile', null);
+      this.$router.push('/login');
     },
   },
   computed: {
@@ -77,6 +75,10 @@ export default {
 .avatar-text {
   background-color: #017481;
   font-weight: 600;
+}
+
+.logout {
+  cursor: pointer;
 }
 
 .img-avatar {

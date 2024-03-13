@@ -4,14 +4,16 @@
       :requiredCancelButton="false" :fnCancelButton="fnCancelButton" />
   </CRow>
 
-  <Multiselector ref="multiSelectorValues" :message="'Select Behaviour'" @selected-values="selectedValues" />
+  <Multiselector v-if="!isFeedback" ref="multiSelectorValues" :message="'Select Behaviour'"
+    @selected-values="selectedValues" />
   <CRow>
     <CCol xs="12" md="5">
       <div class="select-wrapper">
         <select v-model="selectedEmail" class="custom-select">
           <option value="" disabled>Select user</option>
-          <option v-for="user in users" :key="user.email" :value="user.email">
-            {{ user.nickName }}
+          <!-- utilizo el mismo componente para seleccionar usuarios y colaboradores -->
+          <option v-for="user in usersOrColaborators" :key="user.email" :value="user.email">
+            {{ isFeedback ? user : user.nickName }}
           </option>
         </select>
       </div>
@@ -28,13 +30,28 @@
 <script>
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import RecognitionService from '@/components/Recognition/services/recognitionService';
+import { Feedback } from '@/components/Recognition/model/Feedback';
 import { Recognition } from '@/components/Recognition/model/Recognition';
 import Multiselector from '@/components/Multiselector.vue';
 import CustomEditor from '@/components/CustomEditor.vue';
 import CustomHeader from '@/components/CustomHeader.vue';
 
 export default {
+
+  emits: ['feedback-created'],
+
   name: 'Recognition',
+
+  props: {
+    isFeedback: {
+      type: Boolean,
+      default: false,
+    },
+    colaborators: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
   components: {
     CustomEditor,
@@ -56,8 +73,16 @@ export default {
     window.addEventListener('resize', this.checkWindowSize);
     this.checkWindowSize();
     this.setTitle();
-    this.setUsers();
+    if (!this.isFeedback)
+      this.setUsers();
   },
+
+  computed: {
+    usersOrColaborators() {
+      return this.isFeedback ? this.colaborators : this.users;
+    }
+  },
+
   methods: {
     async setUsers() {
       try {
@@ -76,10 +101,10 @@ export default {
       if (this.message == '<p><br></p>') {
         throw 'Please enter a message';
       }
-      if (this.selectedValue.type == undefined || !this.selectedValue.values.length) {
+      if (!this.isFeedback && (this.selectedValue.type == undefined || !this.selectedValue.values.length)) {
         throw 'Please select a group and values';
       }
-      if (this.selectedEmail == null ||this.selectedEmail == '') {
+      if (this.selectedEmail == null || this.selectedEmail == '') {
         throw 'Please select user';
       }
     },
@@ -90,15 +115,24 @@ export default {
       try {
         this.getData();
         this.validate();
-        const model = new Recognition(this.message, this.selectedEmail, this.$store.state.userProfile.email, this.selectedValue.type, this.selectedValue.values);
-        RecognitionService.addRecognition(model);
-        this.showSuccess('Recognition created successfully');
+        if (this.isFeedback) {
+          const model = new Feedback(this.message, this.selectedEmail, this.$store.state.userProfile.email);
+          RecognitionService.addFeedback(model);
+          this.showSuccess('Feedback created successfully');
+          this.$emit('feedback-created');
+        } else {
+          const model = new Recognition(this.message, this.selectedEmail, this.$store.state.userProfile.email, this.selectedValue.type, this.selectedValue.values);
+          RecognitionService.addRecognition(model);
+          this.showSuccess('Recognition created successfully');
+        }
       } catch (error) {
         this.showError(error);
       }
     },
     getData() {
-      this.$refs.multiSelectorValues.emitSelectedValues();
+      if (!this.isFeedback) {
+        this.$refs.multiSelectorValues.emitSelectedValues();
+      }
       this.$refs.customEditor.getMessage();
     },
 
