@@ -42,12 +42,17 @@
                 @click="changeStatus(data._id)">
                 Change Status
               </CButton>
+              <CButton v-else color="primary" size="sm" class="kibana-font-weight mt-2"
+                @click="confirmDialogToApply(data.title, data._id)">
+                Apply to support
+              </CButton>
+
             </div>
           </CCol>
           <CCol sm="6" lg="8" xl="10">
             <div>
-              
-              <strong>Colaborators: </strong> {{data.colaborators.lenght ?? 0}}
+
+              <strong>Colaborators: </strong> {{ allColaborators.length }}
               <ul>
                 <li v-for="(colaborator, i) in displayedColaborators.slice(0, 3)" :key="i">
                   {{ colaborator.nickName }}
@@ -109,7 +114,7 @@ import AskYourCommunityService from '@/components/AskYourCommunity/services/askY
 export default {
   name: 'AskYourCommunityCard',
 
-  emits: ['template-deleted', 'edit-template', 'show-support-request'],
+  emits: ['template-deleted', 'edit-template', 'show-support-request', 'apply-support-request'],
 
   components: {
     IconPencil,
@@ -206,7 +211,7 @@ export default {
       }
     },
 
-    confirmDialog(id, status) {
+    confirmDialogToChangeStep(id, status) {
       this.$swal
         .fire({
           title: 'Are you sure you want to change the status?',
@@ -220,6 +225,24 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             this.nextStep(id)
+          }
+        })
+    },
+
+    confirmDialogToApply(title, id) {
+      this.$swal
+        .fire({
+          title: 'Are you sure you want to apply?',
+          text: `Do you want to apply to the ${title} request?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes',
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.$emit('apply-support-request', id)
           }
         })
     },
@@ -278,7 +301,7 @@ export default {
 
     async changeStatus(id) {
       try {
-        this.confirmDialog(id, this.data.status)
+        this.confirmDialogToChangeStep(id, this.data.status)
       } catch (error) {
         console.log(error)
         this.showError(error.error ?? error)

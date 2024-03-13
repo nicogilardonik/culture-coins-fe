@@ -13,7 +13,7 @@
           <option value="" disabled>Select user</option>
           <!-- utilizo el mismo componente para seleccionar usuarios y colaboradores -->
           <option v-for="user in usersOrColaborators" :key="user.email" :value="user.email">
-            {{ isFeedback ? user : user.nickName }}
+            {{ user.nickName }}
           </option>
         </select>
       </div>

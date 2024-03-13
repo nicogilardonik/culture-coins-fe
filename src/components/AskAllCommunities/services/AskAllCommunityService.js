@@ -22,6 +22,16 @@ class AskAllCommunityService {
             throw error
         }
     }
+
+    async applySupportRequest(user, id){
+        try {
+            const response = await Api.post(`supportRequest/apply/${id}`, {email:user});
+            return response;
+        } catch (error) {
+            console.error('Error al aplicar a la solicitud');
+            throw error
+        }
+    }
 }
 
 export default new AskAllCommunityService()

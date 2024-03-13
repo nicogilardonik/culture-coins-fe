@@ -1,30 +1,17 @@
 <template>
-  <CRow
-    class="d-flex justify-content-center align-items-center position-relative"
-  >
-    <CustomHeader
-        :filters="filters"
-        :requiredFilter="requests.length > 1"
-        :items="requests"
-        @filter-changed="filterChanged"
-        :communities="Communities"
-        @select-change="handleSelectChange"
-      />
+  <CRow class="d-flex justify-content-center align-items-center position-relative">
+    <CustomHeader :filters="filters" :requiredFilter="requests.length > 1" :items="requests"
+      @filter-changed="filterChanged" :communities="Communities" @select-change="handleSelectChange" />
 
     <div v-if="requests.length">
       <CRow>
-        <AskYourCommunityCard
-          v-for="request in requestsFilter"
-          :key="request.id"
-          :data="request"
-          :isModifiable="false"
-          @show-support-request="handleRequestShow"
-        />
+        <AskYourCommunityCard v-for="request in requestsFilter" :key="request.id" :data="request" :isModifiable="false"
+          @show-support-request="handleRequestShow" @apply-support-request="handleApplySupportRequest" />
       </CRow>
     </div>
 
     <div v-else class="d-flex justify-content-center">
-      <h2 class="image-text">You have no request created</h2>
+      <h2 class="image-text">No requests available at this moment</h2>
     </div>
   </CRow>
 </template>
@@ -49,8 +36,8 @@ export default {
       requestsFilter: [],
       Communities: [],
       filters: [
-                { name: 'By date', value: 'createdAt' }
-            ],
+        { name: 'By date', value: 'createdAt' }
+      ],
       valueFilter: '',
     }
   },
@@ -89,10 +76,10 @@ export default {
 
     async getRequests() {
       try {
-        let response = await AskAllCommunityService.getRequests()
+        let response = await AskAllCommunityService.getRequests();
         if (response) {
-          this.requests = response
-          this.requestsFilter = response
+          this.requests = response;
+          this.requestsFilter = response;
         }
       } catch (error) {
         console.log(error)
@@ -135,17 +122,29 @@ export default {
       this.requests = filteredData;
       if (this.valueFilter) {
         this.requestsFilter = this.requests.filter(request => request.community === this.valueFilter);
-      }else{
+      } else {
         this.requestsFilter = this.requests;
       }
     },
     handleSelectChange(value) {
-      this.valueFilter = value;   
-      if(value){
+      this.valueFilter = value;
+      if (value) {
         this.requestsFilter = this.requests.filter(request => request.community === value);
-      }else{
+      } else {
         this.requestsFilter = this.requests;
       }
+    },
+    async handleApplySupportRequest(id) {
+      try {
+        let userId = this.userProfile.email;
+        await AskAllCommunityService.applySupportRequest(userId, id);
+        await this.getRequests();
+        this.showSuccess('Request applied successfully');
+      } catch (error) {
+        console.log(error);
+        this.showError(error.error ?? error);
+      }
+
     }
   },
 }
