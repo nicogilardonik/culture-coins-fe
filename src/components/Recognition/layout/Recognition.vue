@@ -118,7 +118,7 @@ export default {
         if (this.isFeedback) {
           const model = new Feedback(this.message, this.selectedEmail, this.$store.state.userProfile.email);
           RecognitionService.addFeedback(model);
-          this.showSuccess('Feedback created successfully');
+          this.confirmDialogCreateRecogniton();
           this.$emit('feedback-created');
         } else {
           const model = new Recognition(this.message, this.selectedEmail, this.$store.state.userProfile.email, this.selectedValue.type, this.selectedValue.values);
@@ -154,6 +154,27 @@ export default {
         confirmButtonText: 'Ok',
       });
     },
+
+    confirmDialogCreateRecogniton() {
+      this.$swal
+        .fire({
+          title: 'Do you want to make a recognition?',
+          text: `Do you also want to make a recognition to ${this.selectedEmail}?`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes',
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.$router.push('/recognition/create');
+          } else{
+            this.showSuccess('Feedback created successfully');
+          }
+        })
+    },
+
     showError(text) {
       this.$swal.fire({
         title: 'Error!',
