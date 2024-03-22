@@ -9,10 +9,10 @@
   <CRow>
     <CCol xs="12" md="5">
       <div class="select-wrapper">
-        <select v-model="selectedEmail" class="custom-select">
+        <select v-model="userSelected" class="custom-select">
           <option value="" disabled>Select user</option>
           <!-- utilizo el mismo componente para seleccionar usuarios y colaboradores -->
-          <option v-for="user in usersOrColaborators" :key="user.email" :value="user.email">
+          <option v-for="user in usersOrColaborators" :key="user.email" :value="user">
             {{ user.nickName }}
           </option>
         </select>
@@ -66,7 +66,10 @@ export default {
       message: '',
       selectedValue: {},
       users: [],
-      selectedEmail: ''
+      userSelected:{
+        email:'',
+        nickName:''
+      }
     };
   },
   mounted() {
@@ -104,7 +107,7 @@ export default {
       if (!this.isFeedback && (this.selectedValue.type == undefined || !this.selectedValue.values.length)) {
         throw 'Please select a group and values';
       }
-      if (this.selectedEmail == null || this.selectedEmail == '') {
+      if (this.userSelected.email == null || this.userSelected.nickName == '') {
         throw 'Please select user';
       }
     },
@@ -116,12 +119,12 @@ export default {
         this.getData();
         this.validate();
         if (this.isFeedback) {
-          const model = new Feedback(this.message, this.selectedEmail, this.$store.state.userProfile.email);
+          const model = new Feedback(this.message, this.userSelected.email, this.$store.state.userProfile.email);
           RecognitionService.addFeedback(model);
           this.confirmDialogCreateRecogniton();
           this.$emit('feedback-created');
         } else {
-          const model = new Recognition(this.message, this.selectedEmail, this.$store.state.userProfile.email, this.selectedValue.type, this.selectedValue.values);
+          const model = new Recognition(this.message, this.userSelected.email, this.$store.state.userProfile.email, this.selectedValue.type, this.selectedValue.values);
           RecognitionService.addRecognition(model);
           this.showSuccess('Recognition created successfully');
         }
@@ -159,7 +162,7 @@ export default {
       this.$swal
         .fire({
           title: 'Do you want to make a recognition?',
-          text: `Do you also want to make a recognition to ${this.selectedEmail}?`,
+          text: `Do you also want to make a recognition to ${this.userSelected.nickName}?`,
           icon: 'question',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
